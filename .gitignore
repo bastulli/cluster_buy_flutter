@@ -30,7 +30,10 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
+
+# Keep the original ignore for build
+**/build/*
+!**/build/web
 
 # Symbolication related
 app.*.symbols
@@ -43,10 +46,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-
-# Keep the original ignore for build
-/build/
-
+# Node.js related
 **/node_modules
-**/build/*
-!**/build/web
