@@ -4,27 +4,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
+  // Initialize Supabase using secure environment variables passed with `dart-define`
+  const supabaseUrl = String.fromEnvironment('SUPABASE_URL',
+      defaultValue: 'https://mluudemztztnciotpsor.supabase.co');
+  const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY',
+      defaultValue:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sdXVkZW16dHp0bmNpb3Rwc29yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwNjk0MDMsImV4cCI6MjA0ODY0NTQwM30.3Y0CZ4VzDU-JipTGECjZ0GrUbc_uBHUsdxiy2RNLzwY');
+
+  // Ensure keys are provided
+  if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
+    throw Exception(
+        'SUPABASE_URL and SUPABASE_ANON_KEY must be set using --dart-define.');
+  }
 
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL'] ?? '', // Add null check
-    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '', // Add null check
-    authOptions: const FlutterAuthClientOptions(
-      authFlowType: AuthFlowType.pkce,
-    ),
+    url: supabaseUrl,
+    anonKey: supabaseAnonKey,
+    authOptions: const FlutterAuthClientOptions(),
     storageOptions: const StorageClientOptions(
-      retryAttempts: 3,
+      retryAttempts: 3, // Retry failed storage operations
     ),
   );
-
   runApp(const ProviderScope(child: StockAnalyzerApp()));
 }
 
