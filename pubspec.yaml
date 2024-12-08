@@ -1,0 +1,49 @@
+name: clusterbuy
+description: "ClusterBuy harnesses AI technology to monitor SEC Form 4 and Form 3 filings, analyzing insider trading patterns with a focus on cluster buying events that often precede significant market movements. By transforming complex insider trading data into actionable insights, the app helps investors identify promising investment opportunities through the lens of corporate insider behavior."
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  http: ^1.2.2
+  fl_chart: ^0.69.2
+  intl: ^0.20.1
+  animations: ^2.0.11
+  flutter_animate: ^4.5.2
+  shared_preferences: ^2.3.3
+  markdown_widget: ^2.3.2+6
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+  freezed_annotation: ^2.4.4
+  freezed: ^2.5.7
+  json_annotation: ^4.9.0
+  supabase: ^2.6.0
+  supabase_flutter: ^2.8.1
+  flex_color_scheme: ^8.0.2
+  url_launcher: ^6.3.1
+  flutter_dotenv: ^5.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  riverpod_generator: ^2.6.3
+  build_runner: ^2.4.13
+  custom_lint: ^0.7.0
+  riverpod_lint: ^2.6.3
+  json_serializable: ^6.9.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
