@@ -46,3 +46,7 @@ app.*.map.json
 
 # Keep the original ignore for build
 /build/
+
+**/node_modules
+**/build/*
+!**/build/web
