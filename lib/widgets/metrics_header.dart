@@ -1,217 +1,353 @@
-// lib/widgets/metrics_header.dart
+import 'package:clusterbuy/providers/all_trade_stats_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../models/insider_trade_models.dart';
 import '../providers/insider_trade_providers.dart';
 
-enum TimelinePeriod { daily, weekly, monthly }
-
-class MetricsHeader extends ConsumerStatefulWidget {
-  final TradeStats stats;
-
-  const MetricsHeader({
-    super.key,
-    required this.stats,
-  });
+class MetricsHeader extends ConsumerWidget {
+  const MetricsHeader({super.key});
 
   @override
-  ConsumerState<MetricsHeader> createState() => _MetricsHeaderState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsAsync = ref.watch(allTradeStatsProvider);
+    final selectedPeriod = ref.watch(selectedPeriodProvider);
 
-class _MetricsHeaderState extends ConsumerState<MetricsHeader> {
-  final currencyFormatter = NumberFormat.currency(
-    symbol: '\$',
-    decimalDigits: 0,
-    locale: 'en_US',
-  );
-  final compactFormatter = NumberFormat.compactCurrency(
-    symbol: '\$',
-    decimalDigits: 1,
-  );
-  final percentFormatter = NumberFormat.decimalPercentPattern(decimalDigits: 1);
+    return statsAsync.when(
+      data: (stats) {
+        if (!stats.containsKey(selectedPeriod)) {
+          return _buildNoPeriodDataCard(context, stats.keys.toList(), ref);
+        }
 
-  void _onPeriodChanged(Set<TimelinePeriod> selection) {
-    final period = switch (selection.first) {
-      TimelinePeriod.daily => 'daily',
-      TimelinePeriod.weekly => 'weekly',
-      TimelinePeriod.monthly => 'monthly'
-    };
-    ref.read(selectedPeriodProvider.notifier).setPeriod(period);
+        final currentStats = stats[selectedPeriod]!;
+        return Column(
+          children: [
+            _buildPeriodSelector(
+                context, stats.keys.toList(), selectedPeriod, ref),
+            const SizedBox(height: 16),
+            _buildMainMetrics(context, currentStats),
+            const SizedBox(height: 16),
+            _buildVolumeBreakdown(context, currentStats),
+            if (currentStats.topBuySymbols.isNotEmpty ||
+                currentStats.topSellSymbols.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              _buildTopActivities(context, currentStats),
+            ],
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => _buildErrorCard(context, error),
+    );
   }
 
-  TimelinePeriod _getCurrentPeriod() {
-    return switch (ref.watch(selectedPeriodProvider)) {
-      'daily' => TimelinePeriod.daily,
-      'weekly' => TimelinePeriod.weekly,
-      'monthly' => TimelinePeriod.monthly,
-      _ => TimelinePeriod.daily
-    };
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildPeriodSelector(
+    BuildContext context,
+    List<String> availablePeriods,
+    String selectedPeriod,
+    WidgetRef ref,
+  ) {
     final theme = Theme.of(context);
 
     return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTimelineHeader(context),
-            const SizedBox(height: 24),
-            _buildMainMetrics(theme),
-            const SizedBox(height: 16),
-            _buildVolumeMetrics(theme),
+            Row(
+              children: [
+                Icon(
+                  Icons.insights,
+                  color: theme.colorScheme.primary,
+                  size: 24,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Insider Trading Activity',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                IconButton.filledTonal(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: () => {},
+                  tooltip: 'Refresh Data',
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            SegmentedButton<String>(
+              segments: [
+                ButtonSegment(
+                  value: 'weekly',
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.view_week, size: 18),
+                      const SizedBox(width: 6),
+                      const Text('Weekly'),
+                    ],
+                  ),
+                  enabled: availablePeriods.contains('weekly'),
+                ),
+                ButtonSegment(
+                  value: 'monthly',
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.calendar_month, size: 18),
+                      const SizedBox(width: 6),
+                      const Text('Monthly'),
+                    ],
+                  ),
+                  enabled: availablePeriods.contains('monthly'),
+                ),
+              ],
+              selected: {selectedPeriod},
+              onSelectionChanged: (values) {
+                if (values.first != selectedPeriod) {
+                  ref
+                      .read(selectedPeriodProvider.notifier)
+                      .setPeriod(values.first);
+                }
+              },
+              style: ButtonStyle(
+                side: WidgetStateProperty.all(BorderSide(
+                  color: theme.colorScheme.primary.withOpacity(0.2),
+                )),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTimelineHeader(BuildContext context) {
+  Widget _buildMainMetrics(BuildContext context, TradeStats stats) {
     final theme = Theme.of(context);
+    final currencyFormatter = NumberFormat.compactCurrency(symbol: '\$');
+    final buyRatio = stats.buyCount / (stats.buyCount + stats.sellCount);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Text(
+              'Overview',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
               children: [
-                Text(
-                  _getHeaderTitle(),
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: _buildMetricTile(
+                    context,
+                    'Total Volume',
+                    currencyFormatter
+                        .format(stats.totalBuyValue + stats.totalSellValue),
+                    '${NumberFormat.compact().format(stats.totalTrades)} trades',
+                    Icons.analytics,
+                    theme.colorScheme.primary,
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  _getDateRangeText(),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildMetricTile(
+                    context,
+                    'Buy/Sell Ratio',
+                    '${(buyRatio * 100).toStringAsFixed(1)}%',
+                    _getBuySignalStrength(buyRatio),
+                    Icons.compare_arrows,
+                    _getBuySignalColor(buyRatio, theme),
                   ),
                 ),
               ],
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        SegmentedButton<TimelinePeriod>(
-          selected: {_getCurrentPeriod()},
-          onSelectionChanged: _onPeriodChanged,
-          segments: const [
-            ButtonSegment<TimelinePeriod>(
-              value: TimelinePeriod.daily,
-              label: Text('Daily'),
+      ),
+    );
+  }
+
+  Widget _buildVolumeBreakdown(BuildContext context, TradeStats stats) {
+    final theme = Theme.of(context);
+    final currencyFormatter = NumberFormat.compactCurrency(symbol: '\$');
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.show_chart,
+                  size: 20,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Volume Breakdown',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            ButtonSegment<TimelinePeriod>(
-              value: TimelinePeriod.weekly,
-              label: Text('Weekly'),
-            ),
-            ButtonSegment<TimelinePeriod>(
-              value: TimelinePeriod.monthly,
-              label: Text('Monthly'),
+            const SizedBox(height: 20),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: _buildVolumeCard(
+                      context,
+                      'Buy Volume',
+                      stats.totalBuyValue,
+                      stats.buyCount,
+                      theme.colorScheme.tertiary,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildVolumeCard(
+                      context,
+                      'Sell Volume',
+                      stats.totalSellValue,
+                      stats.sellCount,
+                      theme.colorScheme.error,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildMainMetrics(ThemeData theme) {
-    final buyRatio = widget.stats.totalTrades > 0
-        ? widget.stats.buyCount / widget.stats.totalTrades
-        : 0.0;
-
-    return Row(
-      children: [
-        Expanded(
-          child: _buildMetricCard(
-            context: context,
-            label: 'Buy Volume',
-            value: compactFormatter.format(widget.stats.totalBuyValue),
-            subtitle: '${widget.stats.buyCount} transactions',
-            icon: Icons.trending_up,
-            color: theme.colorScheme.tertiary,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildMetricCard(
-            context: context,
-            label: 'Sell Volume',
-            value: compactFormatter.format(widget.stats.totalSellValue),
-            subtitle: '${widget.stats.sellCount} transactions',
-            icon: Icons.trending_down,
-            color: theme.colorScheme.error,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildMetricCard(
-            context: context,
-            label: 'Buy/Sell Ratio',
-            value: percentFormatter.format(buyRatio),
-            subtitle: _getBuySignalStrength(buyRatio),
-            icon: Icons.compare_arrows,
-            color: _getBuySignalColor(buyRatio, theme),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildVolumeMetrics(ThemeData theme) {
-    final totalVolume =
-        widget.stats.totalBuyValue + widget.stats.totalSellValue;
-    final buyPercentage =
-        totalVolume > 0 ? (widget.stats.totalBuyValue / totalVolume) : 0.0;
-
-    return Tooltip(
-      message:
-          'Shows the distribution of insider trading volume between buys and sells. '
-          'A higher percentage of buys may indicate positive insider sentiment, while more sells '
-          'could suggest insiders taking profits or reducing positions.',
-      textStyle: TextStyle(
-        color: theme.colorScheme.onPrimary,
-        fontSize: 14,
       ),
+    );
+  }
+
+  Widget _buildTopActivities(BuildContext context, TradeStats stats) {
+    final theme = Theme.of(context);
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.trending_up,
+                  size: 20,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Top Activity',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (stats.topBuySymbols.isNotEmpty)
+                  Expanded(
+                    child: _buildSymbolList(
+                      context,
+                      'Top Buys',
+                      stats.topBuySymbols,
+                      theme.colorScheme.tertiary,
+                    ),
+                  ),
+                if (stats.topBuySymbols.isNotEmpty &&
+                    stats.topSellSymbols.isNotEmpty)
+                  const SizedBox(width: 20),
+                if (stats.topSellSymbols.isNotEmpty)
+                  Expanded(
+                    child: _buildSymbolList(
+                      context,
+                      'Top Sells',
+                      stats.topSellSymbols,
+                      theme.colorScheme.error,
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMetricTile(
+    BuildContext context,
+    String label,
+    String value,
+    String subtitle,
+    IconData icon,
+    Color color,
+  ) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(8),
+        color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+        ),
       ),
-      padding: const EdgeInsets.all(12),
-      preferBelow: true,
-      waitDuration: const Duration(milliseconds: 500),
-      showDuration: const Duration(seconds: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Volume Distribution',
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.info_outline,
-                    size: 14,
-                    color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
-                  ),
-                ],
-              ),
+              Icon(icon, size: 18, color: color),
+              const SizedBox(width: 8),
               Text(
-                '${widget.stats.uniqueSymbols} companies',
+                label,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -219,111 +355,215 @@ class _MetricsHeaderState extends ConsumerState<MetricsHeader> {
             ],
           ),
           const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: buyPercentage,
-              backgroundColor: theme.colorScheme.error.withOpacity(0.2),
-              valueColor: AlwaysStoppedAnimation<Color>(
-                theme.colorScheme.tertiary,
-              ),
-              minHeight: 8,
+          Text(
+            value,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: color,
             ),
           ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Buys ${(buyPercentage * 100).toStringAsFixed(1)}%',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.tertiary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Sells ${((1 - buyPercentage) * 100).toStringAsFixed(1)}%',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.error,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          Text(
+            subtitle,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMetricCard({
-    required BuildContext context,
-    required String label,
-    required String value,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
-  }) {
+  Widget _buildVolumeCard(
+    BuildContext context,
+    String label,
+    double value,
+    int count,
+    Color color,
+  ) {
     final theme = Theme.of(context);
-    final tooltipText = _getTooltipText(label);
+    final formatter = NumberFormat.compactCurrency(symbol: '\$');
 
-    return Tooltip(
-      message: tooltipText,
-      textStyle: TextStyle(
-        color: theme.colorScheme.onPrimary,
-        fontSize: 14,
-      ),
+    return Container(
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(8),
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: color.withOpacity(0.2),
+        ),
       ),
-      padding: const EdgeInsets.all(12),
-      preferBelow: true,
-      waitDuration: const Duration(milliseconds: 500),
-      showDuration: const Duration(seconds: 4),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            formatter.format(value),
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          Text(
+            '${NumberFormat.compact().format(count)} transactions',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: color.withOpacity(0.8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSymbolList(
+    BuildContext context,
+    String title,
+    List<Map<String, dynamic>> symbols,
+    Color color,
+  ) {
+    final theme = Theme.of(context);
+    final formatter = NumberFormat.compactCurrency(symbol: '\$');
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            fontWeight: FontWeight.w500,
           ),
         ),
+        const SizedBox(height: 12),
+        ...symbols.take(5).map((symbol) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      symbol['symbol'] ?? '',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      formatter.format(symbol['value'] ?? 0),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: color,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )),
+      ],
+    );
+  }
+
+  Widget _buildNoPeriodDataCard(
+    BuildContext context,
+    List<String> availablePeriods,
+    WidgetRef ref,
+  ) {
+    final theme = Theme.of(context);
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                Icon(icon, size: 16, color: color),
-                const SizedBox(width: 8),
-                Text(
-                  label,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Icon(
-                  Icons.info_outline,
-                  size: 14,
-                  color: theme.colorScheme.onSurfaceVariant.withOpacity(0.5),
-                ),
-              ],
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.info_outline,
+                size: 32,
+                color: theme.colorScheme.primary,
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             Text(
-              value,
+              'No Data Available',
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: color,
               ),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+            const SizedBox(height: 8),
+            if (availablePeriods.isNotEmpty) ...[
+              Text(
+                'Data is available for these periods:',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.center,
+                children: availablePeriods
+                    .map((period) => ActionChip(
+                          avatar: Icon(
+                            _getPeriodIcon(period),
+                            size: 18,
+                            color: theme.colorScheme.primary,
+                          ),
+                          label: Text(period.capitalize()),
+                          labelStyle: TextStyle(
+                            color: theme.colorScheme.primary,
+                          ),
+                          backgroundColor: theme.colorScheme.primaryContainer
+                              .withOpacity(0.3),
+                          onPressed: () {
+                            ref
+                                .read(selectedPeriodProvider.notifier)
+                                .setPeriod(period);
+                          },
+                        ))
+                    .toList(),
+              ),
+            ] else
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Text(
+                  'No trading statistics are available for any period at this time.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () => {},
+              label: const Text('Refresh Data'),
             ),
           ],
         ),
@@ -331,52 +571,68 @@ class _MetricsHeaderState extends ConsumerState<MetricsHeader> {
     );
   }
 
-  String _getTooltipText(String label) {
-    switch (label) {
-      case 'Buy Volume':
-        return 'Total value of insider purchase transactions in the selected period. '
-            'High buy volume may indicate strong insider confidence in the company\'s future.';
-      case 'Sell Volume':
-        return 'Total value of insider sell transactions in the selected period. '
-            'Selling can occur for various reasons including diversification or personal needs.';
-      case 'Buy/Sell Ratio':
-        return 'Percentage of total transactions that are buys. Values above 60% indicate moderate '
-            'buying pressure, while above 70% suggests strong buying activity from insiders.';
-      default:
-        return '';
-    }
-  }
+  Widget _buildErrorCard(BuildContext context, Object error) {
+    final theme = Theme.of(context);
 
-  String _getHeaderTitle() {
-    final currentPeriod = _getCurrentPeriod();
-    return switch (currentPeriod) {
-      TimelinePeriod.daily => "Today's Activity",
-      TimelinePeriod.weekly => "Weekly Activity",
-      TimelinePeriod.monthly => "Monthly Activity"
-    };
-  }
-
-  String _getDateRangeText() {
-    final now = widget.stats.date;
-    final currentPeriod = _getCurrentPeriod();
-
-    return switch (currentPeriod) {
-      TimelinePeriod.daily => DateFormat('EEEE, MMMM d').format(now),
-      TimelinePeriod.weekly => () {
-          final weekStart = now.subtract(Duration(days: now.weekday - 1));
-          final weekEnd = weekStart.add(const Duration(days: 6));
-          return '${DateFormat('MMM d').format(weekStart)} - ${DateFormat('MMM d').format(weekEnd)}';
-        }(),
-      TimelinePeriod.monthly => DateFormat('MMMM yyyy').format(now)
-    };
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: theme.colorScheme.error.withOpacity(0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.error.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.error_outline,
+                size: 32,
+                color: theme.colorScheme.error,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Unable to Load Trading Statistics',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error.toString(),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            OutlinedButton.icon(
+              onPressed: () => {},
+              icon: const Icon(Icons.refresh),
+              label: const Text('Try Again'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   String _getBuySignalStrength(double ratio) {
-    if (ratio >= 0.7) return 'Strong buying';
+    if (ratio >= 0.7) return 'Strong buying pressure';
     if (ratio >= 0.6) return 'Moderate buying';
-    if (ratio >= 0.4) return 'Neutral';
+    if (ratio >= 0.4) return 'Neutral activity';
     if (ratio >= 0.3) return 'Moderate selling';
-    return 'Strong selling';
+    return 'Strong selling pressure';
   }
 
   Color _getBuySignalColor(double ratio, ThemeData theme) {
@@ -385,5 +641,25 @@ class _MetricsHeaderState extends ConsumerState<MetricsHeader> {
     if (ratio >= 0.4) return theme.colorScheme.primary;
     if (ratio >= 0.3) return theme.colorScheme.error.withOpacity(0.7);
     return theme.colorScheme.error;
+  }
+
+  IconData _getPeriodIcon(String period) {
+    switch (period) {
+      case 'daily':
+        return Icons.today;
+      case 'weekly':
+        return Icons.view_week;
+      case 'monthly':
+        return Icons.calendar_month;
+      default:
+        return Icons.access_time;
+    }
+  }
+}
+
+extension StringExtension on String {
+  String capitalize() {
+    if (isEmpty) return this;
+    return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }

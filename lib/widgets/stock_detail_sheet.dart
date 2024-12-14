@@ -212,8 +212,8 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
 
     // Combine Key Insights and Analysis Text into one string for copying
     String getCombinedText() {
-      final keyInsights = widget.stock.keyFactors.isNotEmpty
-          ? widget.stock.keyFactors.map((insight) => '- $insight').join('\n')
+      final keyInsights = widget.stock.keyFactors!.isNotEmpty
+          ? widget.stock.keyFactors!.map((insight) => '- $insight').join('\n')
           : '';
       final analysis = widget.stock.analysisReasoning;
       return [
@@ -229,13 +229,13 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
             controller: scrollController,
             padding: const EdgeInsets.all(16),
             children: [
-              if (widget.stock.keyFactors.isNotEmpty) ...[
+              if (widget.stock.keyFactors!.isNotEmpty) ...[
                 Text(
                   'Key Insights',
                   style: theme.textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 8),
-                ...widget.stock.keyFactors.map((insight) => Text(
+                ...widget.stock.keyFactors!.map((insight) => Text(
                       '- $insight',
                       style: theme.textTheme.bodyLarge,
                     )),
@@ -249,7 +249,7 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
               ),
               const SizedBox(height: 16),
               Text(
-                widget.stock.analysisReasoning,
+                widget.stock.analysisReasoning ?? '',
                 style: theme.textTheme.bodyLarge?.copyWith(
                   height: 1.5,
                 ),
@@ -282,7 +282,7 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
     return ListView(
       controller: scrollController,
       padding: const EdgeInsets.all(16),
-      children: widget.stock.secFilingUrls
+      children: widget.stock.secFilingUrls!
           .map((url) => _buildSourceLink(url, 'SEC Filing'))
           .toList(),
     );
@@ -292,7 +292,7 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
     return ListView(
       controller: scrollController,
       padding: const EdgeInsets.all(16),
-      children: widget.stock.newsUrls
+      children: widget.stock.newsUrls!
           .map((url) => _buildSourceLink(url, 'News'))
           .toList(),
     );

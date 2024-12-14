@@ -83,22 +83,61 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       elevation: 8.0,
       floating: true,
       pinned: true,
-      expandedHeight: 140.0,
+      expandedHeight: 120.0, // Reduced from 140
       clipBehavior: Clip.antiAlias,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        titlePadding: const EdgeInsets.only(bottom: 16),
-        title: Text(
-          'CLUSTER BUY',
-          style: GoogleFonts.roboto(
-            textStyle: TextStyle(
-              color: theme.colorScheme.onPrimary,
-              fontSize: 42,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.5,
-              height: 1.2,
-            ),
-          ),
+        titlePadding: EdgeInsets.zero,
+        title: LayoutBuilder(
+          builder: (context, constraints) {
+            // Get the screen width
+            final width = MediaQuery.of(context).size.width;
+
+            // Calculate font size based on screen width
+            final fontSize = width < 360
+                ? 24.0
+                : // Small mobile
+                width < 600
+                    ? 32.0
+                    : // Regular mobile
+                    width < 900
+                        ? 38.0
+                        : // Tablet
+                        42.0; // Desktop
+
+            // Calculate container padding based on screen size
+            final verticalPadding = width < 600 ? 12.0 : 16.0;
+
+            return Container(
+              padding: EdgeInsets.symmetric(
+                vertical: verticalPadding,
+                horizontal: width < 600 ? 16.0 : 24.0,
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    theme.colorScheme.primary.withOpacity(0.0),
+                    theme.colorScheme.primary.withOpacity(0.8),
+                  ],
+                ),
+              ),
+              child: Text(
+                'CLUSTER BUY',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: theme.colorScheme.onPrimary,
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing:
+                        fontSize * 0.04, // Proportional letter spacing
+                    height: 1.2,
+                  ),
+                ),
+              ),
+            );
+          },
         ),
         background: Stack(
           children: [
@@ -126,26 +165,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             // Animation with higher opacity
             AnimatedFinanceBackground(
               isDarkMode: theme.brightness == Brightness.dark,
-              // Increased opacity to make lines more visible
               lineColor: theme.colorScheme.onPrimary.withOpacity(0.3),
             ),
           ],
         ),
       ),
       actions: [
-        IconButton(
-          icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-          color: theme.colorScheme.onPrimary,
-          onPressed: () => ref.read(myThemeProvider.notifier).toggle(),
+        // Responsive padding for actions
+        Padding(
+          padding: EdgeInsets.only(
+            right: MediaQuery.of(context).size.width < 600 ? 4.0 : 8.0,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+                color: theme.colorScheme.onPrimary,
+                onPressed: () => ref.read(myThemeProvider.notifier).toggle(),
+              ),
+              IconButton(
+                icon: const Icon(Icons.notifications_outlined),
+                color: theme.colorScheme.onPrimary,
+                onPressed: () {
+                  // TODO: Implement notifications
+                },
+              ),
+            ],
+          ),
         ),
-        IconButton(
-          icon: const Icon(Icons.notifications_outlined),
-          color: theme.colorScheme.onPrimary,
-          onPressed: () {
-            // TODO: Implement notifications
-          },
-        ),
-        const SizedBox(width: 8),
       ],
       backgroundColor:
           isDarkMode ? theme.colorScheme.primary : theme.colorScheme.primary,
@@ -153,34 +201,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildStatsHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      child: Consumer(
-        builder: (context, ref, child) {
-          final allStatsAsync = ref.watch(allTradeStatsProvider);
-          final selectedPeriod = ref.watch(selectedPeriodProvider);
-
-          return allStatsAsync.when(
-            data: (allStats) {
-              if (allStats.isEmpty) {
-                return const Center(child: Text('No data available.'));
-              }
-
-              final stats = allStats[selectedPeriod] ?? allStats['daily'];
-
-              if (stats == null) {
-                return const Center(
-                    child: Text('No stats available for selected period.'));
-              }
-
-              return MetricsHeader(stats: stats);
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => Center(child: Text('Error: $error')),
-          );
-        },
-      ),
-    );
+    return MetricsHeader();
   }
 
   Widget _buildNavigationBar() {
@@ -357,10 +378,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       margin: const EdgeInsets.only(bottom: 8),
       child: InkWell(
         onTap: () async {
-          if (transaction.link != null) {
+          if (transaction.link != null && transaction.link!.isNotEmpty) {
             final url = Uri.parse(transaction.link!);
             if (await canLaunchUrl(url)) {
               await launchUrl(url);
+            } else {
+              // Handle the error, perhaps show a message to the user
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Could not launch ${transaction.link}')),
+              );
             }
           }
         },
@@ -381,7 +407,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   _buildTransactionTypeBadge(transaction, theme),
                   const Spacer(),
                   Text(
-                    currencyFormatter.format(transaction.totalValue),
+                    transaction.totalValue != null
+                        ? currencyFormatter.format(transaction.totalValue)
+                        : 'N/A',
                     style: TextStyle(
                       color: isPurchase
                           ? theme.colorScheme.tertiary
@@ -403,7 +431,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           style: theme.textTheme.bodyMedium,
                         ),
                         Text(
-                          transaction.typeOfOwner,
+                          transaction.typeOfOwner ?? 'Unknown',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -415,11 +443,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '${NumberFormat("#,##0").format(transaction.securitiesTransacted)} shares',
+                        '${NumberFormat("#,##0").format(transaction.securitiesTransacted ?? 0)} shares',
                         style: theme.textTheme.bodyMedium,
                       ),
                       Text(
-                        '@${currencyFormatter.format(transaction.price)}/share',
+                        transaction.price != null
+                            ? '@${currencyFormatter.format(transaction.price)}/share'
+                            : 'Price Unavailable',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -438,7 +468,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
-                  if (transaction.link != null)
+                  if (transaction.link != null && transaction.link!.isNotEmpty)
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

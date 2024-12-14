@@ -6,82 +6,6 @@ part of 'insider_trade_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$activeWatchlistHash() => r'5525fb1de3774184c7aa073beccd508ee11fa14f';
-
-/// See also [activeWatchlist].
-@ProviderFor(activeWatchlist)
-final activeWatchlistProvider =
-    AutoDisposeFutureProvider<List<WatchlistStock>>.internal(
-  activeWatchlist,
-  name: r'activeWatchlistProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$activeWatchlistHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ActiveWatchlistRef = AutoDisposeFutureProviderRef<List<WatchlistStock>>;
-String _$profitableWatchlistHash() =>
-    r'153b049c77a9f42d09cec09a5d3b6cb5a558f7a3';
-
-/// See also [profitableWatchlist].
-@ProviderFor(profitableWatchlist)
-final profitableWatchlistProvider =
-    AutoDisposeFutureProvider<List<WatchlistStock>>.internal(
-  profitableWatchlist,
-  name: r'profitableWatchlistProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$profitableWatchlistHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef ProfitableWatchlistRef
-    = AutoDisposeFutureProviderRef<List<WatchlistStock>>;
-String _$watchlistStatisticsHash() =>
-    r'54e806d1993d880df8ead110284977931fd19615';
-
-/// See also [watchlistStatistics].
-@ProviderFor(watchlistStatistics)
-final watchlistStatisticsProvider =
-    AutoDisposeFutureProvider<Map<String, dynamic>>.internal(
-  watchlistStatistics,
-  name: r'watchlistStatisticsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$watchlistStatisticsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef WatchlistStatisticsRef
-    = AutoDisposeFutureProviderRef<Map<String, dynamic>>;
-String _$periodTradeStatsHash() => r'a8272f2ae28e38e5a605b4a03ee7053ce3b3b125';
-
-/// See also [periodTradeStats].
-@ProviderFor(periodTradeStats)
-final periodTradeStatsProvider =
-    AutoDisposeFutureProvider<TradeStats?>.internal(
-  periodTradeStats,
-  name: r'periodTradeStatsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$periodTradeStatsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef PeriodTradeStatsRef = AutoDisposeFutureProviderRef<TradeStats?>;
 String _$purchaseTransactionsHash() =>
     r'f09fe2f42ceea5a3553ad9bed095e6b8cd8b26f2';
 
@@ -142,7 +66,7 @@ final transactionStatisticsProvider =
 typedef TransactionStatisticsRef
     = AutoDisposeFutureProviderRef<Map<String, dynamic>>;
 String _$transactionsBySymbolHash() =>
-    r'15c3d2e9163456c8bd8137d8b22263255ca39885';
+    r'1455c70e8e0daf9a109c77675b5bfb78ffb06131';
 
 /// See also [transactionsBySymbol].
 @ProviderFor(transactionsBySymbol)
@@ -161,6 +85,24 @@ final transactionsBySymbolProvider =
 // ignore: unused_element
 typedef TransactionsBySymbolRef
     = AutoDisposeFutureProviderRef<Map<String, List<InsiderTransaction>>>;
+String _$periodTradeStatsHash() => r'a8272f2ae28e38e5a605b4a03ee7053ce3b3b125';
+
+/// See also [periodTradeStats].
+@ProviderFor(periodTradeStats)
+final periodTradeStatsProvider =
+    AutoDisposeFutureProvider<TradeStats?>.internal(
+  periodTradeStats,
+  name: r'periodTradeStatsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$periodTradeStatsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef PeriodTradeStatsRef = AutoDisposeFutureProviderRef<TradeStats?>;
 String _$selectedPeriodHash() => r'9a063816b3dccd866927b69d338d1d67dd6fc83a';
 
 /// See also [SelectedPeriod].
@@ -177,7 +119,7 @@ final selectedPeriodProvider =
 );
 
 typedef _$SelectedPeriod = Notifier<String>;
-String _$watchlistNotifierHash() => r'bf64f7bf295c8ffd22fe77378e7ca3f12ddde14e';
+String _$watchlistNotifierHash() => r'84739b5fc371a516f1659a9f5ad7bc60c9be4d2c';
 
 /// See also [WatchlistNotifier].
 @ProviderFor(WatchlistNotifier)
@@ -194,11 +136,11 @@ final watchlistNotifierProvider =
 
 typedef _$WatchlistNotifier = AsyncNotifier<List<WatchlistStock>>;
 String _$recentTransactionsNotifierHash() =>
-    r'2b98c8863d653f6f8d3e3c65f4ff3aa3e0e57f68';
+    r'8e8810b5bae4c19ccbfd3aebe40888d9760b3ab9';
 
 /// See also [RecentTransactionsNotifier].
 @ProviderFor(RecentTransactionsNotifier)
-final recentTransactionsNotifierProvider = AutoDisposeAsyncNotifierProvider<
+final recentTransactionsNotifierProvider = AsyncNotifierProvider<
     RecentTransactionsNotifier, List<InsiderTransaction>>.internal(
   RecentTransactionsNotifier.new,
   name: r'recentTransactionsNotifierProvider',
@@ -209,7 +151,6 @@ final recentTransactionsNotifierProvider = AutoDisposeAsyncNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$RecentTransactionsNotifier
-    = AutoDisposeAsyncNotifier<List<InsiderTransaction>>;
+typedef _$RecentTransactionsNotifier = AsyncNotifier<List<InsiderTransaction>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -42,15 +42,6 @@ class MetricsHeaderWrapper extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedPeriod = ref.watch(selectedPeriodProvider);
-
-    final stats = allTradeStats[selectedPeriod] ?? allTradeStats['daily'];
-
-    if (stats == null) {
-      return const Center(
-          child: Text('No stats available for the selected period.'));
-    }
-
-    return MetricsHeader(stats: stats);
+    return MetricsHeader();
   }
 }

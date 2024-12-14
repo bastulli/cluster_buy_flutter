@@ -40,153 +40,88 @@ Map<String, dynamic> _$$ClusterDetectionImplToJson(
       'createdAt': instance.createdAt?.toIso8601String(),
     };
 
-_$ClusterAnalysisImpl _$$ClusterAnalysisImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ClusterAnalysisImpl(
-      id: json['id'] as String,
-      clusterDetectionId: json['clusterDetectionId'] as String,
-      symbol: json['symbol'] as String,
-      analysisDate: DateTime.parse(json['analysisDate'] as String),
-      analysisType: json['analysisType'] as String,
-      analysisReasoning: json['analysisReasoning'] as String,
-      confidenceScore: (json['confidenceScore'] as num).toInt(),
-      keyFactors: (json['keyFactors'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      secFilingUrls: (json['secFilingUrls'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      newsUrls:
-          (json['newsUrls'] as List<dynamic>).map((e) => e as String).toList(),
-      priceAtAnalysis: (json['priceAtAnalysis'] as num).toDouble(),
-      insiderAvgPrice: (json['insiderAvgPrice'] as num).toDouble(),
-      addedToWatchlist: json['addedToWatchlist'] as bool? ?? false,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-    );
-
-Map<String, dynamic> _$$ClusterAnalysisImplToJson(
-        _$ClusterAnalysisImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'clusterDetectionId': instance.clusterDetectionId,
-      'symbol': instance.symbol,
-      'analysisDate': instance.analysisDate.toIso8601String(),
-      'analysisType': instance.analysisType,
-      'analysisReasoning': instance.analysisReasoning,
-      'confidenceScore': instance.confidenceScore,
-      'keyFactors': instance.keyFactors,
-      'secFilingUrls': instance.secFilingUrls,
-      'newsUrls': instance.newsUrls,
-      'priceAtAnalysis': instance.priceAtAnalysis,
-      'insiderAvgPrice': instance.insiderAvgPrice,
-      'addedToWatchlist': instance.addedToWatchlist,
-      'createdAt': instance.createdAt?.toIso8601String(),
-    };
-
-_$InsiderTransactionImpl _$$InsiderTransactionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$InsiderTransactionImpl(
-      id: (json['id'] as num).toInt(),
-      symbol: json['symbol'] as String,
-      filingDate: DateTime.parse(json['filingDate'] as String),
-      transactionDate: DateTime.parse(json['transactionDate'] as String),
-      reportingName: json['reportingName'] as String,
-      reportingCik: json['reportingCik'] as String,
-      companyCik: json['companyCik'] as String,
-      transactionType: json['transactionType'] as String,
-      securitiesTransacted: (json['securitiesTransacted'] as num).toDouble(),
-      price: (json['price'] as num).toDouble(),
-      totalValue: (json['totalValue'] as num).toDouble(),
-      typeOfOwner: json['typeOfOwner'] as String,
-      link: json['link'] as String?,
-      securityName: json['securityName'] as String?,
-      formType: json['formType'] as String?,
-      securitiesOwned: (json['securitiesOwned'] as num?)?.toDouble(),
-      acquisitionDisposition: json['acquisitionDisposition'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-    );
-
-Map<String, dynamic> _$$InsiderTransactionImplToJson(
-        _$InsiderTransactionImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'symbol': instance.symbol,
-      'filingDate': instance.filingDate.toIso8601String(),
-      'transactionDate': instance.transactionDate.toIso8601String(),
-      'reportingName': instance.reportingName,
-      'reportingCik': instance.reportingCik,
-      'companyCik': instance.companyCik,
-      'transactionType': instance.transactionType,
-      'securitiesTransacted': instance.securitiesTransacted,
-      'price': instance.price,
-      'totalValue': instance.totalValue,
-      'typeOfOwner': instance.typeOfOwner,
-      'link': instance.link,
-      'securityName': instance.securityName,
-      'formType': instance.formType,
-      'securitiesOwned': instance.securitiesOwned,
-      'acquisitionDisposition': instance.acquisitionDisposition,
-      'createdAt': instance.createdAt?.toIso8601String(),
-    };
-
 _$TradeStatsImpl _$$TradeStatsImplFromJson(Map<String, dynamic> json) =>
     _$TradeStatsImpl(
       id: json['id'] as String,
       date: DateTime.parse(json['date'] as String),
+      period: json['period'] as String,
       totalTrades: (json['totalTrades'] as num).toInt(),
       buyCount: (json['buyCount'] as num).toInt(),
       sellCount: (json['sellCount'] as num).toInt(),
       totalBuyValue: (json['totalBuyValue'] as num).toDouble(),
       totalSellValue: (json['totalSellValue'] as num).toDouble(),
+      buySecurities: (json['buySecurities'] as num).toDouble(),
+      sellSecurities: (json['sellSecurities'] as num).toDouble(),
+      uniqueBuyers: (json['uniqueBuyers'] as num).toInt(),
+      uniqueSellers: (json['uniqueSellers'] as num).toInt(),
       uniqueSymbols: (json['uniqueSymbols'] as num).toInt(),
-      period: json['period'] as String,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
+      buySymbols: (json['buySymbols'] as num).toInt(),
+      sellSymbols: (json['sellSymbols'] as num).toInt(),
+      buyRatio: (json['buyRatio'] as num).toDouble(),
+      sellRatio: (json['sellRatio'] as num).toDouble(),
+      avgBuyValue: (json['avgBuyValue'] as num).toDouble(),
+      avgSellValue: (json['avgSellValue'] as num).toDouble(),
+      topBuySymbols: (json['topBuySymbols'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      topSellSymbols: (json['topSellSymbols'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$TradeStatsImplToJson(_$TradeStatsImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'date': instance.date.toIso8601String(),
+      'period': instance.period,
       'totalTrades': instance.totalTrades,
       'buyCount': instance.buyCount,
       'sellCount': instance.sellCount,
       'totalBuyValue': instance.totalBuyValue,
       'totalSellValue': instance.totalSellValue,
+      'buySecurities': instance.buySecurities,
+      'sellSecurities': instance.sellSecurities,
+      'uniqueBuyers': instance.uniqueBuyers,
+      'uniqueSellers': instance.uniqueSellers,
       'uniqueSymbols': instance.uniqueSymbols,
-      'period': instance.period,
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'buySymbols': instance.buySymbols,
+      'sellSymbols': instance.sellSymbols,
+      'buyRatio': instance.buyRatio,
+      'sellRatio': instance.sellRatio,
+      'avgBuyValue': instance.avgBuyValue,
+      'avgSellValue': instance.avgSellValue,
+      'topBuySymbols': instance.topBuySymbols,
+      'topSellSymbols': instance.topSellSymbols,
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
 _$WatchlistStockImpl _$$WatchlistStockImplFromJson(Map<String, dynamic> json) =>
     _$WatchlistStockImpl(
       id: json['id'] as String,
       symbol: json['symbol'] as String,
-      clusterAnalysisId: json['clusterAnalysisId'] as String,
+      clusterAnalysisId: json['clusterAnalysisId'] as String?,
       entryDate: DateTime.parse(json['entryDate'] as String),
       insiderAvgPrice: (json['insiderAvgPrice'] as num).toDouble(),
       currentPrice: (json['currentPrice'] as num).toDouble(),
       priceChangePct: (json['priceChangePct'] as num).toDouble(),
       daysWatched: (json['daysWatched'] as num).toInt(),
-      analysisReasoning: json['analysisReasoning'] as String,
-      keyFactors: (json['keyFactors'] as List<dynamic>)
-          .map((e) => e as String)
+      analysisReasoning: json['analysisReasoning'] as String?,
+      keyFactors: (json['keyFactors'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      secFilingUrls: (json['secFilingUrls'] as List<dynamic>)
-          .map((e) => e as String)
+      secFilingUrls: (json['secFilingUrls'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      newsUrls:
-          (json['newsUrls'] as List<dynamic>).map((e) => e as String).toList(),
+      newsUrls: (json['newsUrls'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       status: json['status'] as String,
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
-      priceHistory: (json['priceHistory'] as List<dynamic>)
-          .map((e) => PricePoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      priceHistory: (json['priceHistory'] as List<dynamic>?)
+              ?.map((e) => PricePoint.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$WatchlistStockImplToJson(
@@ -211,21 +146,23 @@ Map<String, dynamic> _$$WatchlistStockImplToJson(
 
 _$PricePointImpl _$$PricePointImplFromJson(Map<String, dynamic> json) =>
     _$PricePointImpl(
-      date: json['date'] as String,
+      date: DateTime.parse(json['date'] as String),
       price: (json['price'] as num).toDouble(),
+      volume: (json['volume'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$PricePointImplToJson(_$PricePointImpl instance) =>
     <String, dynamic>{
-      'date': instance.date,
+      'date': instance.date.toIso8601String(),
       'price': instance.price,
+      'volume': instance.volume,
     };
 
 _$WatchlistHistoryImpl _$$WatchlistHistoryImplFromJson(
         Map<String, dynamic> json) =>
     _$WatchlistHistoryImpl(
       id: json['id'] as String,
-      watchListId: json['watchListId'] as String,
+      watchListId: json['watchListId'] as String?,
       symbol: json['symbol'] as String,
       entryDate: DateTime.parse(json['entryDate'] as String),
       exitDate: DateTime.parse(json['exitDate'] as String),
@@ -265,55 +202,48 @@ Map<String, dynamic> _$$WatchlistHistoryImplToJson(
       'createdAt': instance.createdAt?.toIso8601String(),
     };
 
-_$WatchlistSummaryImpl _$$WatchlistSummaryImplFromJson(
+_$InsiderTransactionImpl _$$InsiderTransactionImplFromJson(
         Map<String, dynamic> json) =>
-    _$WatchlistSummaryImpl(
-      totalStocks: (json['totalStocks'] as num).toInt(),
-      activeSignals: (json['activeSignals'] as num).toInt(),
-      averageReturn: (json['averageReturn'] as num).toDouble(),
-      profitablePositions: (json['profitablePositions'] as num).toInt(),
-      bestPerformer: (json['bestPerformer'] as num).toDouble(),
-      bestSymbol: json['bestSymbol'] as String,
-      totalValue: (json['totalValue'] as num).toDouble(),
-      realizedGain: (json['realizedGain'] as num?)?.toDouble() ?? 0.0,
-      unrealizedGain: (json['unrealizedGain'] as num?)?.toDouble() ?? 0.0,
-      sectorAllocation:
-          (json['sectorAllocation'] as Map<String, dynamic>?)?.map(
-                (k, e) => MapEntry(k, (e as num).toDouble()),
-              ) ??
-              const {},
-      totalTransactions: (json['totalTransactions'] as num?)?.toInt() ?? 0,
-      averageTransactionSize:
-          (json['averageTransactionSize'] as num?)?.toDouble() ?? 0.0,
-      lastUpdated: json['lastUpdated'] == null
-          ? null
-          : DateTime.parse(json['lastUpdated'] as String),
-      topPerformers: (json['topPerformers'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      recentlyAdded: (json['recentlyAdded'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
+    _$InsiderTransactionImpl(
+      id: json['id'] as String,
+      symbol: json['symbol'] as String,
+      filingDate: DateTime.parse(json['filingDate'] as String),
+      transactionDate: DateTime.parse(json['transactionDate'] as String),
+      reportingName: json['reportingName'] as String,
+      reportingCik: json['reportingCik'] as String,
+      companyCik: json['companyCik'] as String?,
+      transactionType: json['transactionType'] as String,
+      securitiesTransacted: (json['securitiesTransacted'] as num?)?.toDouble(),
+      price: (json['price'] as num?)?.toDouble(),
+      totalValue: (json['totalValue'] as num?)?.toDouble(),
+      typeOfOwner: json['typeOfOwner'] as String?,
+      link: json['link'] as String?,
+      securityName: json['securityName'] as String?,
+      formType: json['formType'] as String?,
+      securitiesOwned: (json['securitiesOwned'] as num?)?.toDouble(),
+      acquisitionDisposition: json['acquisitionDisposition'] as String?,
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
-Map<String, dynamic> _$$WatchlistSummaryImplToJson(
-        _$WatchlistSummaryImpl instance) =>
+Map<String, dynamic> _$$InsiderTransactionImplToJson(
+        _$InsiderTransactionImpl instance) =>
     <String, dynamic>{
-      'totalStocks': instance.totalStocks,
-      'activeSignals': instance.activeSignals,
-      'averageReturn': instance.averageReturn,
-      'profitablePositions': instance.profitablePositions,
-      'bestPerformer': instance.bestPerformer,
-      'bestSymbol': instance.bestSymbol,
+      'id': instance.id,
+      'symbol': instance.symbol,
+      'filingDate': instance.filingDate.toIso8601String(),
+      'transactionDate': instance.transactionDate.toIso8601String(),
+      'reportingName': instance.reportingName,
+      'reportingCik': instance.reportingCik,
+      'companyCik': instance.companyCik,
+      'transactionType': instance.transactionType,
+      'securitiesTransacted': instance.securitiesTransacted,
+      'price': instance.price,
       'totalValue': instance.totalValue,
-      'realizedGain': instance.realizedGain,
-      'unrealizedGain': instance.unrealizedGain,
-      'sectorAllocation': instance.sectorAllocation,
-      'totalTransactions': instance.totalTransactions,
-      'averageTransactionSize': instance.averageTransactionSize,
-      'lastUpdated': instance.lastUpdated?.toIso8601String(),
-      'topPerformers': instance.topPerformers,
-      'recentlyAdded': instance.recentlyAdded,
+      'typeOfOwner': instance.typeOfOwner,
+      'link': instance.link,
+      'securityName': instance.securityName,
+      'formType': instance.formType,
+      'securitiesOwned': instance.securitiesOwned,
+      'acquisitionDisposition': instance.acquisitionDisposition,
+      'createdAt': instance.createdAt.toIso8601String(),
     };

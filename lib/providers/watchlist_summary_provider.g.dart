@@ -6,12 +6,12 @@ part of 'watchlist_summary_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$watchlistSummaryHash() => r'185d582f32063ccc2097009b833706c72029d2fe';
+String _$watchlistSummaryHash() => r'bd4d0c370dc59e5c57c9eb7f282954ab8c84919f';
 
 /// See also [watchlistSummary].
 @ProviderFor(watchlistSummary)
 final watchlistSummaryProvider =
-    AutoDisposeFutureProvider<WatchlistSummary>.internal(
+    AutoDisposeFutureProvider<Map<String, dynamic>>.internal(
   watchlistSummary,
   name: r'watchlistSummaryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,8 +23,9 @@ final watchlistSummaryProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef WatchlistSummaryRef = AutoDisposeFutureProviderRef<WatchlistSummary>;
-String _$topPerformersHash() => r'61b2c38d85f8ad67d5e53010d00ecb20468e376c';
+typedef WatchlistSummaryRef
+    = AutoDisposeFutureProviderRef<Map<String, dynamic>>;
+String _$topPerformersHash() => r'8f66a579e2bb26fde1f5b011f49ad0b670f7e3bb';
 
 /// See also [topPerformers].
 @ProviderFor(topPerformers)
@@ -41,7 +42,7 @@ final topPerformersProvider = AutoDisposeFutureProvider<List<String>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TopPerformersRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$recentlyAddedHash() => r'12c78e26b9d0b0d9022e77a2aa4bd379a3b03395';
+String _$recentlyAddedHash() => r'12dc6c75270bb0565cd1ced0f5f2096549392f11';
 
 /// See also [recentlyAdded].
 @ProviderFor(recentlyAdded)
@@ -59,7 +60,7 @@ final recentlyAddedProvider = AutoDisposeFutureProvider<List<String>>.internal(
 // ignore: unused_element
 typedef RecentlyAddedRef = AutoDisposeFutureProviderRef<List<String>>;
 String _$performanceMetricsHash() =>
-    r'4a04053673829da46cd87b94a4a0cbbff145c3a0';
+    r'2424373a9db652f157471d77ff4a5c88570e5dd1';
 
 /// See also [performanceMetrics].
 @ProviderFor(performanceMetrics)
@@ -78,7 +79,7 @@ final performanceMetricsProvider =
 // ignore: unused_element
 typedef PerformanceMetricsRef
     = AutoDisposeFutureProviderRef<Map<String, double>>;
-String _$activityMetricsHash() => r'e9f80c6458fc5f60c6da960897aca7a4ccabbf4f';
+String _$activityMetricsHash() => r'8a954bf28ae5e2188e5a57631e925abaeba2eb41';
 
 /// See also [activityMetrics].
 @ProviderFor(activityMetrics)

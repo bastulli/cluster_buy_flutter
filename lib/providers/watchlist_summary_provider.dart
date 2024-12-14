@@ -3,50 +3,36 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 import '../models/insider_trade_models.dart';
 import 'insider_trade_providers.dart';
+
 part 'watchlist_summary_provider.g.dart';
 
 @riverpod
-Future<WatchlistSummary> watchlistSummary(WatchlistSummaryRef ref) async {
+Future<Map<String, dynamic>> watchlistSummary(WatchlistSummaryRef ref) async {
   final watchlist = await ref.watch(watchlistNotifierProvider.future);
   final activeStocks =
       watchlist.where((stock) => stock.status == 'ACTIVE').toList();
 
   if (activeStocks.isEmpty) {
-    return WatchlistSummary(
-      totalStocks: watchlist.length,
-      activeSignals: 0,
-      averageReturn: 0,
-      profitablePositions: 0,
-      bestPerformer: 0,
-      bestSymbol: '',
-      totalValue: 0,
-      sectorAllocation: {},
-      lastUpdated: DateTime.now(),
-    );
+    return {
+      'totalStocks': watchlist.length,
+      'activeSignals': 0,
+      'averageReturn': 0.0,
+      'profitablePositions': 0,
+      'bestPerformer': 0.0,
+      'bestSymbol': '',
+      'totalValue': 0.0,
+      'sectorAllocation': <String, double>{},
+      'lastUpdated': DateTime.now(),
+      'topPerformers': <String>[],
+      'recentlyAdded': <String>[],
+    };
   }
 
   // Calculate statistics
   final profitablePositions =
       activeStocks.where((stock) => stock.priceChangePct > 0).length;
-
   final bestStock = activeStocks.reduce(
       (curr, next) => curr.priceChangePct > next.priceChangePct ? curr : next);
-
-  final averageReturn =
-      activeStocks.map((s) => s.priceChangePct).reduce((a, b) => a + b) /
-          activeStocks.length;
-
-  final totalValue =
-      activeStocks.fold(0.0, (sum, stock) => sum + stock.currentPrice);
-
-  // Calculate unrealized gains
-  final unrealizedGain = activeStocks.fold(
-    0.0,
-    (sum, stock) =>
-        sum +
-        (stock.currentPrice - stock.insiderAvgPrice) *
-            1, // Multiply by position size if available
-  );
 
   // Get recently added stocks (last 7 days)
   final sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
@@ -62,38 +48,36 @@ Future<WatchlistSummary> watchlistSummary(WatchlistSummaryRef ref) async {
       .take(5)
       .map((stock) => stock.symbol));
 
-  return WatchlistSummary(
-    totalStocks: watchlist.length,
-    activeSignals: activeStocks.length,
-    averageReturn: averageReturn,
-    profitablePositions: profitablePositions,
-    bestPerformer: bestStock.priceChangePct,
-    bestSymbol: bestStock.symbol,
-    totalValue: totalValue,
-    realizedGain: 0, // This would come from transaction history if available
-    unrealizedGain: unrealizedGain,
-    sectorAllocation: {}, // This would come from sector data if available
-    totalTransactions: activeStocks
-        .map((s) => s.secFilingUrls?.length ?? 0)
-        .fold(0, (a, b) => a + b),
-    averageTransactionSize: totalValue / activeStocks.length,
-    lastUpdated: DateTime.now(),
-    topPerformers: topPerformers,
-    recentlyAdded: recentlyAdded,
-  );
+  return {
+    'totalStocks': watchlist.length,
+    'activeSignals': activeStocks.length,
+    'averageReturn': activeStocks.isEmpty
+        ? 0.0
+        : activeStocks.map((s) => s.priceChangePct).reduce((a, b) => a + b) /
+            activeStocks.length,
+    'profitablePositions': profitablePositions,
+    'bestPerformer': bestStock.priceChangePct,
+    'bestSymbol': bestStock.symbol,
+    'totalValue':
+        activeStocks.fold(0.0, (sum, stock) => sum + stock.currentPrice),
+    'sectorAllocation': <String, double>{}, // Add sector data if available
+    'lastUpdated': DateTime.now(),
+    'topPerformers': topPerformers,
+    'recentlyAdded': recentlyAdded,
+  };
 }
 
 // Helper providers for specific summary data
 @riverpod
 Future<List<String>> topPerformers(TopPerformersRef ref) async {
   final summary = await ref.watch(watchlistSummaryProvider.future);
-  return summary.topPerformers;
+  return List<String>.from(summary['topPerformers'] ?? []);
 }
 
 @riverpod
 Future<List<String>> recentlyAdded(RecentlyAddedRef ref) async {
   final summary = await ref.watch(watchlistSummaryProvider.future);
-  return summary.recentlyAdded;
+  return List<String>.from(summary['recentlyAdded'] ?? []);
 }
 
 @riverpod
@@ -102,10 +86,8 @@ Future<Map<String, double>> performanceMetrics(
   final summary = await ref.watch(watchlistSummaryProvider.future);
 
   return {
-    'averageReturn': summary.averageReturn,
-    'bestPerformance': summary.bestPerformer,
-    'realizedGain': summary.realizedGain,
-    'unrealizedGain': summary.unrealizedGain,
+    'averageReturn': summary['averageReturn'] ?? 0.0,
+    'bestPerformance': summary['bestPerformer'] ?? 0.0,
   };
 }
 
@@ -114,9 +96,8 @@ Future<Map<String, int>> activityMetrics(ActivityMetricsRef ref) async {
   final summary = await ref.watch(watchlistSummaryProvider.future);
 
   return {
-    'totalStocks': summary.totalStocks,
-    'activeSignals': summary.activeSignals,
-    'profitablePositions': summary.profitablePositions,
-    'totalTransactions': summary.totalTransactions,
+    'totalStocks': summary['totalStocks'] ?? 0,
+    'activeSignals': summary['activeSignals'] ?? 0,
+    'profitablePositions': summary['profitablePositions'] ?? 0,
   };
 }

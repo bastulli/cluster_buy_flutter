@@ -28,6 +28,8 @@ final class WatchlistMetrics {
     required this.winRate,
   });
 
+  // ... continue from watchlist_summary_card.dart
+
   factory WatchlistMetrics.fromWatchlist(List<WatchlistStock> stocks) {
     if (stocks.isEmpty) {
       return WatchlistMetrics(
@@ -45,8 +47,8 @@ final class WatchlistMetrics {
 
     final activeStocks = stocks.where((s) => s.status == 'ACTIVE').toList();
     final profitable = activeStocks.where((s) => s.priceChangePct > 0).length;
-    final bestStock = activeStocks
-        .reduce((a, b) => a.priceChangePct > b.priceChangePct ? a : b);
+    final bestStock = activeStocks.reduce((curr, next) =>
+        curr.priceChangePct > next.priceChangePct ? curr : next);
 
     return WatchlistMetrics(
       totalStocks: stocks.length,

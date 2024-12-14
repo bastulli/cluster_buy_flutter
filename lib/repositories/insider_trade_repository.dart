@@ -1,4 +1,6 @@
 // lib/repositories/insider_trade_repository.dart
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/insider_trade_models.dart';
@@ -12,47 +14,63 @@ InsiderTradeRepository insiderTradeRepository(InsiderTradeRepositoryRef ref) {
 }
 
 class InsiderTradeRepository {
-  // Get watchlist stocks with insider trading activity
   Future<List<WatchlistStock>> getWatchlist() async {
     try {
+      // Get watchlist data - note we're not joining with cluster_analysis anymore
       final response = await supabase
           .from('watch_list')
           .select()
           .order('entry_date', ascending: false);
 
-      return response.map<WatchlistStock>((data) {
-        return WatchlistStock(
+      final List<WatchlistStock> stocks = [];
+      for (final data in response) {
+        // Get price history for this stock
+        final priceHistoryResponse = await supabase
+            .from('price_history')
+            .select()
+            .eq('symbol', data['symbol'])
+            .order('date', ascending: true);
+
+        final priceHistory = (priceHistoryResponse as List)
+            .map((item) => PricePoint(
+                  date: DateTime.parse(item['date']),
+                  price: (item['price'] as num).toDouble(),
+                  volume: item['volume'] != null
+                      ? (item['volume'] as num).toInt()
+                      : null,
+                ))
+            .toList();
+
+        stocks.add(WatchlistStock(
           id: data['id'],
           symbol: data['symbol'],
           clusterAnalysisId: data['cluster_analysis_id'],
           entryDate: DateTime.parse(data['entry_date']),
-          insiderAvgPrice: (data['insider_avg_price'] ?? 0).toDouble(),
-          currentPrice: (data['current_price'] ?? 0).toDouble(),
-          priceChangePct: (data['price_change_pct'] ?? 0).toDouble(),
-          daysWatched: data['days_watched'] ?? 0,
+          insiderAvgPrice: (data['insider_avg_price'] as num).toDouble(),
+          currentPrice: (data['current_price'] as num).toDouble(),
+          priceChangePct: (data['price_change_pct'] as num).toDouble(),
+          daysWatched: data['days_watched'],
           analysisReasoning: data['analysis_reasoning'],
-          keyFactors: List<String>.from(data['key_factors'] ?? []),
-          secFilingUrls: List<String>.from(data['sec_filing_urls'] ?? []),
-          newsUrls: List<String>.from(data['news_urls'] ?? []),
+          // Arrays are directly on watch_list table
+          keyFactors: (data['key_factors'] as List?)?.cast<String>() ?? [],
+          secFilingUrls:
+              (data['sec_filing_urls'] as List?)?.cast<String>() ?? [],
+          newsUrls: (data['news_urls'] as List?)?.cast<String>() ?? [],
           status: data['status'] ?? 'ACTIVE',
-          lastUpdated: data['last_updated'] != null
-              ? DateTime.parse(data['last_updated'])
-              : DateTime(1970, 1, 1),
-          priceHistory: List<PricePoint>.from([
-            for (var point in data['price_history'] ?? [])
-              PricePoint.fromJson(point)
-          ]),
-        );
-      }).toList();
+          lastUpdated: DateTime.parse(data['last_updated']),
+          priceHistory: priceHistory,
+        ));
+      }
+
+      return stocks;
     } catch (e) {
       debugPrint('Error fetching watchlist stocks: $e');
-      return [];
+      rethrow; // Rethrow to let caller handle specific errors
     }
   }
 
-  // Get recent insider transactions
   Future<List<InsiderTransaction>> getRecentTransactions(
-      {int limit = 20}) async {
+      {int limit = 100}) async {
     try {
       final response = await supabase
           .from('insider_trades')
@@ -61,28 +79,34 @@ class InsiderTradeRepository {
           .limit(limit);
 
       return response
-          .map((data) => InsiderTransaction(
+          .map<InsiderTransaction>((data) => InsiderTransaction(
                 id: data['id'],
                 symbol: data['symbol'],
                 filingDate: DateTime.parse(data['filing_date']),
                 transactionDate: DateTime.parse(data['transaction_date']),
                 reportingName: data['reporting_name'],
                 reportingCik: data['reporting_cik'],
-                companyCik: data['company_cik'],
+                companyCik: data['company_cik'], // Nullable
                 transactionType: data['transaction_type'],
-                securitiesTransacted:
-                    (data['securities_transacted'] ?? 0).toDouble(),
-                price: (data['price'] ?? 0).toDouble(),
-                totalValue: (data['total_value'] ?? 0).toDouble(),
-                typeOfOwner: data['type_of_owner'],
-                link: data['link'],
-                securityName: data['security_name'],
-                formType: data['form_type'],
-                securitiesOwned: (data['securities_owned'] ?? 0).toDouble(),
-                acquisitionDisposition: data['acquisition_disposition'],
-                createdAt: data['created_at'] != null
-                    ? DateTime.parse(data['created_at'])
+                securitiesTransacted: data['securities_transacted'] != null
+                    ? (data['securities_transacted'] as num).toDouble()
                     : null,
+                price: data['price'] != null
+                    ? (data['price'] as num).toDouble()
+                    : null,
+                totalValue: data['total_value'] != null
+                    ? (data['total_value'] as num).toDouble()
+                    : null,
+                typeOfOwner: data['type_of_owner'] ?? '', // Nullable
+                link: data['link'], // Nullable
+                securityName: data['security_name'], // Nullable
+                formType: data['form_type'], // Nullable
+                securitiesOwned: data['securities_owned'] != null
+                    ? (data['securities_owned'] as num).toDouble()
+                    : null,
+                acquisitionDisposition:
+                    data['acquisition_disposition'], // Nullable
+                createdAt: DateTime.parse(data['created_at']),
               ))
           .toList();
     } catch (e) {
@@ -91,7 +115,6 @@ class InsiderTradeRepository {
     }
   }
 
-  // Get trade statistics
   Future<TradeStats?> getTradeStats(
       {String? date, String period = 'daily'}) async {
     try {
@@ -102,44 +125,113 @@ class InsiderTradeRepository {
           .select()
           .eq('date', today)
           .eq('period', period)
-          .single();
+          .maybeSingle();
 
+      if (response == null) {
+        debugPrint('No trade stats found for $period on $today');
+        return null;
+      }
+
+      // All fields are non-nullable according to schema
       return TradeStats(
         id: response['id'],
         date: DateTime.parse(response['date']),
+        period: response['period'],
         totalTrades: response['total_trades'],
         buyCount: response['buy_count'],
         sellCount: response['sell_count'],
-        totalBuyValue: (response['total_buy_value'] ?? 0).toDouble(),
-        totalSellValue: (response['total_sell_value'] ?? 0).toDouble(),
+        totalBuyValue: (response['total_buy_value'] as num).toDouble(),
+        totalSellValue: (response['total_sell_value'] as num).toDouble(),
+        buySecurities: (response['buy_securities'] as num).toDouble(),
+        sellSecurities: (response['sell_securities'] as num).toDouble(),
+        uniqueBuyers: response['unique_buyers'],
+        uniqueSellers: response['unique_sellers'],
         uniqueSymbols: response['unique_symbols'],
-        period: response['period'],
-        createdAt: response['created_at'] != null
-            ? DateTime.parse(response['created_at'])
-            : null,
+        buySymbols: response['buy_symbols'],
+        sellSymbols: response['sell_symbols'],
+        buyRatio: (response['buy_ratio'] as num).toDouble(),
+        sellRatio: (response['sell_ratio'] as num).toDouble(),
+        avgBuyValue: (response['avg_buy_value'] as num).toDouble(),
+        avgSellValue: (response['avg_sell_value'] as num).toDouble(),
+        // Handle JSONB arrays properly
+        topBuySymbols: (response['top_buy_symbols'] as List<dynamic>)
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList(),
+        topSellSymbols: (response['top_sell_symbols'] as List<dynamic>)
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList(),
+        createdAt: DateTime.parse(response['created_at']),
       );
     } catch (e) {
-      debugPrint('Error fetching trade stats: $e');
-      return null;
+      debugPrint('Error fetching trade stats for period $period: $e');
+      rethrow;
     }
   }
 
-  // Get all trade statistics for different periods
   Future<Map<String, TradeStats>> getAllTradeStats({String? date}) async {
     try {
       final today = date ?? DateTime.now().toIso8601String().split('T')[0];
-      final periods = ['daily', 'weekly', 'monthly'];
 
-      final futures = periods.map((period) =>
-          getTradeStats(date: today, period: period)
-              .then((stats) => MapEntry(period, stats)));
+      final response =
+          await supabase.from('trade_stats').select().eq('date', today);
 
-      final entries = await Future.wait(futures);
-      final allStats = <String, TradeStats>{};
+      final Map<String, TradeStats> allStats = {};
 
-      for (var entry in entries) {
-        if (entry.value != null) {
-          allStats[entry.key] = entry.value!;
+      for (final statData in response) {
+        try {
+          // Safely parse JSONB arrays
+          List<Map<String, dynamic>> parseJsonbArray(dynamic value) {
+            if (value == null) return [];
+            if (value is String) {
+              // If it's a string, try to parse it as JSON
+              try {
+                final parsed = json.decode(value);
+                if (parsed is List) {
+                  return parsed
+                      .map((item) => Map<String, dynamic>.from(item))
+                      .toList();
+                }
+              } catch (_) {}
+              return [];
+            }
+            if (value is List) {
+              return value
+                  .map((item) => Map<String, dynamic>.from(item))
+                  .toList();
+            }
+            return [];
+          }
+
+          final stats = TradeStats(
+            id: statData['id'],
+            date: DateTime.parse(statData['date']),
+            period: statData['period'],
+            totalTrades: statData['total_trades'],
+            buyCount: statData['buy_count'],
+            sellCount: statData['sell_count'],
+            totalBuyValue: (statData['total_buy_value'] as num).toDouble(),
+            totalSellValue: (statData['total_sell_value'] as num).toDouble(),
+            buySecurities: (statData['buy_securities'] as num).toDouble(),
+            sellSecurities: (statData['sell_securities'] as num).toDouble(),
+            uniqueBuyers: statData['unique_buyers'],
+            uniqueSellers: statData['unique_sellers'],
+            uniqueSymbols: statData['unique_symbols'],
+            buySymbols: statData['buy_symbols'],
+            sellSymbols: statData['sell_symbols'],
+            buyRatio: (statData['buy_ratio'] as num).toDouble(),
+            sellRatio: (statData['sell_ratio'] as num).toDouble(),
+            avgBuyValue: (statData['avg_buy_value'] as num).toDouble(),
+            avgSellValue: (statData['avg_sell_value'] as num).toDouble(),
+            topBuySymbols: parseJsonbArray(statData['top_buy_symbols']),
+            topSellSymbols: parseJsonbArray(statData['top_sell_symbols']),
+            createdAt: DateTime.parse(statData['created_at']),
+          );
+          allStats[statData['period']] = stats;
+        } catch (e, stackTrace) {
+          debugPrint(
+              'Error parsing stats for period ${statData['period']}: $e');
+          debugPrint(stackTrace.toString());
+          continue;
         }
       }
 
@@ -147,105 +239,6 @@ class InsiderTradeRepository {
     } catch (e) {
       debugPrint('Error fetching all trade stats: $e');
       return {};
-    }
-  }
-
-  // Get cluster detections
-  Future<List<ClusterDetection>> getClusterDetections() async {
-    try {
-      final response = await supabase
-          .from('cluster_detection')
-          .select()
-          .order('detected_at', ascending: false);
-
-      return response
-          .map((data) => ClusterDetection(
-                id: data['id'],
-                symbol: data['symbol'],
-                clusterStartDate: DateTime.parse(data['cluster_start_date']),
-                clusterEndDate: DateTime.parse(data['cluster_end_date']),
-                totalValue: (data['total_value'] ?? 0).toDouble(),
-                buyerCount: data['buyer_count'] ?? 0,
-                transactionCount: data['transaction_count'] ?? 0,
-                insiderAvgPrice: (data['insider_avg_price'] ?? 0).toDouble(),
-                detectedAt: DateTime.parse(data['detected_at']),
-                scannedByAi: data['scanned_by_ai'] ?? false,
-                createdAt: data['created_at'] != null
-                    ? DateTime.parse(data['created_at'])
-                    : null,
-              ))
-          .toList();
-    } catch (e) {
-      debugPrint('Error fetching cluster detections: $e');
-      rethrow;
-    }
-  }
-
-  // Get cluster analysis
-  Future<List<ClusterAnalysis>> getClusterAnalysis() async {
-    try {
-      final response = await supabase
-          .from('cluster_analysis')
-          .select()
-          .order('analysis_date', ascending: false);
-
-      return response
-          .map((data) => ClusterAnalysis(
-                id: data['id'],
-                clusterDetectionId: data['cluster_detection_id'],
-                symbol: data['symbol'],
-                analysisDate: DateTime.parse(data['analysis_date']),
-                analysisType: data['analysis_type'],
-                analysisReasoning: data['analysis_reasoning'],
-                confidenceScore: data['confidence_score'],
-                keyFactors: List<String>.from(data['key_factors'] ?? []),
-                secFilingUrls: List<String>.from(data['sec_filing_urls'] ?? []),
-                newsUrls: List<String>.from(data['news_urls'] ?? []),
-                priceAtAnalysis: (data['price_at_analysis'] ?? 0).toDouble(),
-                insiderAvgPrice: (data['insider_avg_price'] ?? 0).toDouble(),
-                addedToWatchlist: data['added_to_watchlist'] ?? false,
-                createdAt: data['created_at'] != null
-                    ? DateTime.parse(data['created_at'])
-                    : null,
-              ))
-          .toList();
-    } catch (e) {
-      debugPrint('Error fetching cluster analysis: $e');
-      rethrow;
-    }
-  }
-
-  // Get watchlist history
-  Future<List<WatchlistHistory>> getWatchlistHistory() async {
-    try {
-      final response = await supabase
-          .from('watch_list_history')
-          .select()
-          .order('exit_date', ascending: false);
-
-      return response
-          .map((data) => WatchlistHistory(
-                id: data['id'],
-                watchListId: data['watch_list_id'],
-                symbol: data['symbol'],
-                entryDate: DateTime.parse(data['entry_date']),
-                exitDate: DateTime.parse(data['exit_date']),
-                insiderAvgPrice: (data['insider_avg_price'] ?? 0).toDouble(),
-                exitPrice: (data['exit_price'] ?? 0).toDouble(),
-                totalReturnPct: (data['total_return_pct'] ?? 0).toDouble(),
-                daysWatched: data['days_watched'] ?? 0,
-                originalAnalysis: data['original_analysis'],
-                exitReason: data['exit_reason'],
-                secFilingUrls: List<String>.from(data['sec_filing_urls'] ?? []),
-                newsUrls: List<String>.from(data['news_urls'] ?? []),
-                createdAt: data['created_at'] != null
-                    ? DateTime.parse(data['created_at'])
-                    : null,
-              ))
-          .toList();
-    } catch (e) {
-      debugPrint('Error fetching watchlist history: $e');
-      rethrow;
     }
   }
 }

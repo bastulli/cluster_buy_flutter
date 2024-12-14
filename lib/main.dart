@@ -10,27 +10,12 @@ import 'screens/home_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Supabase using secure environment variables passed with `dart-define`
-  const supabaseUrl = String.fromEnvironment('SUPABASE_URL',
-      defaultValue: 'https://mluudemztztnciotpsor.supabase.co');
-  const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY',
-      defaultValue:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sdXVkZW16dHp0bmNpb3Rwc29yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwNjk0MDMsImV4cCI6MjA0ODY0NTQwM30.3Y0CZ4VzDU-JipTGECjZ0GrUbc_uBHUsdxiy2RNLzwY');
-
-  // Ensure keys are provided
-  if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
-    throw Exception(
-        'SUPABASE_URL and SUPABASE_ANON_KEY must be set using --dart-define.');
-  }
-
   await Supabase.initialize(
-    url: supabaseUrl,
-    anonKey: supabaseAnonKey,
-    authOptions: const FlutterAuthClientOptions(),
-    storageOptions: const StorageClientOptions(
-      retryAttempts: 3, // Retry failed storage operations
-    ),
+    url: 'https://mluudemztztnciotpsor.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sdXVkZW16dHp0bmNpb3Rwc29yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwNjk0MDMsImV4cCI6MjA0ODY0NTQwM30.3Y0CZ4VzDU-JipTGECjZ0GrUbc_uBHUsdxiy2RNLzwY',
   );
+
   runApp(const ProviderScope(child: StockAnalyzerApp()));
 }
 

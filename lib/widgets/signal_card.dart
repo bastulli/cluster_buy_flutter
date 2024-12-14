@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/insider_trade_models.dart';
 import 'stock_detail_sheet.dart';
 
@@ -43,7 +44,7 @@ class SignalCard extends ConsumerWidget {
               _buildHeader(context, theme, isPositive, priceSpots),
               _buildAnalysis(context, theme),
               _buildMetrics(context, theme),
-              if (stock.newsUrls.isNotEmpty ?? false)
+              if (stock.newsUrls?.isNotEmpty ?? false)
                 _buildNewsSection(context, theme),
               _buildFooter(context, theme),
             ],
@@ -75,6 +76,8 @@ class SignalCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Column(
+                    // ... (continue from previous code in signal_card.dart)
+
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
@@ -88,7 +91,7 @@ class SignalCard extends ConsumerWidget {
                           ),
                           const SizedBox(width: 8),
                           _buildStatusChip(theme),
-                          if (stock.keyFactors.isNotEmpty ?? false) ...[
+                          if (stock.keyFactors?.isNotEmpty ?? false) ...[
                             const SizedBox(width: 8),
                             _buildConfidenceChip(theme),
                           ],
@@ -216,7 +219,7 @@ class SignalCard extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            stock.analysisReasoning,
+            stock.analysisReasoning ?? 'N/A',
             style: theme.textTheme.bodyMedium,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
@@ -310,11 +313,11 @@ class SignalCard extends ConsumerWidget {
                   onPressed: () => _launchURL(context, url),
                 );
               }),
-              if ((stock.secFilingUrls.length ?? 0) > 0)
+              if (stock.secFilingUrls?.isNotEmpty ?? false)
                 ActionChip(
                   avatar: const Icon(Icons.description, size: 16),
                   label: Text(
-                    '${stock.secFilingUrls.length} SEC ${stock.secFilingUrls.length == 1 ? 'Filing' : 'Filings'}',
+                    '${stock.secFilingUrls!.length} SEC ${stock.secFilingUrls!.length == 1 ? 'Filing' : 'Filings'}',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onTertiaryContainer,
                     ),
@@ -333,8 +336,8 @@ class SignalCard extends ConsumerWidget {
   }
 
   Widget _buildFooter(BuildContext context, ThemeData theme) {
-    if ((stock.keyFactors.isEmpty ?? true) &&
-        (stock.secFilingUrls.isEmpty ?? true)) {
+    if ((stock.keyFactors?.isEmpty ?? true) &&
+        (stock.secFilingUrls?.isEmpty ?? true)) {
       return const SizedBox.shrink();
     }
 
@@ -467,14 +470,14 @@ class SignalCard extends ConsumerWidget {
   }
 
   void _launchURL(BuildContext context, String url) async {
-    // Implement URL launching logic using url_launcher or similar package
-    // Example:
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text('Could not launch $url')),
-    //   );
-    // }
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $url')),
+      );
+    }
   }
 }

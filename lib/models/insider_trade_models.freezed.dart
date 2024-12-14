@@ -390,997 +390,6 @@ abstract class _ClusterDetection implements ClusterDetection {
       throw _privateConstructorUsedError;
 }
 
-ClusterAnalysis _$ClusterAnalysisFromJson(Map<String, dynamic> json) {
-  return _ClusterAnalysis.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ClusterAnalysis {
-  String get id => throw _privateConstructorUsedError;
-  String get clusterDetectionId => throw _privateConstructorUsedError;
-  String get symbol => throw _privateConstructorUsedError;
-  DateTime get analysisDate => throw _privateConstructorUsedError;
-  String get analysisType => throw _privateConstructorUsedError;
-  String get analysisReasoning => throw _privateConstructorUsedError;
-  int get confidenceScore => throw _privateConstructorUsedError;
-  List<String> get keyFactors => throw _privateConstructorUsedError;
-  List<String> get secFilingUrls => throw _privateConstructorUsedError;
-  List<String> get newsUrls => throw _privateConstructorUsedError;
-  double get priceAtAnalysis => throw _privateConstructorUsedError;
-  double get insiderAvgPrice => throw _privateConstructorUsedError;
-  bool get addedToWatchlist => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-
-  /// Serializes this ClusterAnalysis to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ClusterAnalysis
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ClusterAnalysisCopyWith<ClusterAnalysis> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ClusterAnalysisCopyWith<$Res> {
-  factory $ClusterAnalysisCopyWith(
-          ClusterAnalysis value, $Res Function(ClusterAnalysis) then) =
-      _$ClusterAnalysisCopyWithImpl<$Res, ClusterAnalysis>;
-  @useResult
-  $Res call(
-      {String id,
-      String clusterDetectionId,
-      String symbol,
-      DateTime analysisDate,
-      String analysisType,
-      String analysisReasoning,
-      int confidenceScore,
-      List<String> keyFactors,
-      List<String> secFilingUrls,
-      List<String> newsUrls,
-      double priceAtAnalysis,
-      double insiderAvgPrice,
-      bool addedToWatchlist,
-      DateTime? createdAt});
-}
-
-/// @nodoc
-class _$ClusterAnalysisCopyWithImpl<$Res, $Val extends ClusterAnalysis>
-    implements $ClusterAnalysisCopyWith<$Res> {
-  _$ClusterAnalysisCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ClusterAnalysis
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? clusterDetectionId = null,
-    Object? symbol = null,
-    Object? analysisDate = null,
-    Object? analysisType = null,
-    Object? analysisReasoning = null,
-    Object? confidenceScore = null,
-    Object? keyFactors = null,
-    Object? secFilingUrls = null,
-    Object? newsUrls = null,
-    Object? priceAtAnalysis = null,
-    Object? insiderAvgPrice = null,
-    Object? addedToWatchlist = null,
-    Object? createdAt = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      clusterDetectionId: null == clusterDetectionId
-          ? _value.clusterDetectionId
-          : clusterDetectionId // ignore: cast_nullable_to_non_nullable
-              as String,
-      symbol: null == symbol
-          ? _value.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      analysisDate: null == analysisDate
-          ? _value.analysisDate
-          : analysisDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      analysisType: null == analysisType
-          ? _value.analysisType
-          : analysisType // ignore: cast_nullable_to_non_nullable
-              as String,
-      analysisReasoning: null == analysisReasoning
-          ? _value.analysisReasoning
-          : analysisReasoning // ignore: cast_nullable_to_non_nullable
-              as String,
-      confidenceScore: null == confidenceScore
-          ? _value.confidenceScore
-          : confidenceScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      keyFactors: null == keyFactors
-          ? _value.keyFactors
-          : keyFactors // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      secFilingUrls: null == secFilingUrls
-          ? _value.secFilingUrls
-          : secFilingUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      newsUrls: null == newsUrls
-          ? _value.newsUrls
-          : newsUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      priceAtAnalysis: null == priceAtAnalysis
-          ? _value.priceAtAnalysis
-          : priceAtAnalysis // ignore: cast_nullable_to_non_nullable
-              as double,
-      insiderAvgPrice: null == insiderAvgPrice
-          ? _value.insiderAvgPrice
-          : insiderAvgPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      addedToWatchlist: null == addedToWatchlist
-          ? _value.addedToWatchlist
-          : addedToWatchlist // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ClusterAnalysisImplCopyWith<$Res>
-    implements $ClusterAnalysisCopyWith<$Res> {
-  factory _$$ClusterAnalysisImplCopyWith(_$ClusterAnalysisImpl value,
-          $Res Function(_$ClusterAnalysisImpl) then) =
-      __$$ClusterAnalysisImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String clusterDetectionId,
-      String symbol,
-      DateTime analysisDate,
-      String analysisType,
-      String analysisReasoning,
-      int confidenceScore,
-      List<String> keyFactors,
-      List<String> secFilingUrls,
-      List<String> newsUrls,
-      double priceAtAnalysis,
-      double insiderAvgPrice,
-      bool addedToWatchlist,
-      DateTime? createdAt});
-}
-
-/// @nodoc
-class __$$ClusterAnalysisImplCopyWithImpl<$Res>
-    extends _$ClusterAnalysisCopyWithImpl<$Res, _$ClusterAnalysisImpl>
-    implements _$$ClusterAnalysisImplCopyWith<$Res> {
-  __$$ClusterAnalysisImplCopyWithImpl(
-      _$ClusterAnalysisImpl _value, $Res Function(_$ClusterAnalysisImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ClusterAnalysis
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? clusterDetectionId = null,
-    Object? symbol = null,
-    Object? analysisDate = null,
-    Object? analysisType = null,
-    Object? analysisReasoning = null,
-    Object? confidenceScore = null,
-    Object? keyFactors = null,
-    Object? secFilingUrls = null,
-    Object? newsUrls = null,
-    Object? priceAtAnalysis = null,
-    Object? insiderAvgPrice = null,
-    Object? addedToWatchlist = null,
-    Object? createdAt = freezed,
-  }) {
-    return _then(_$ClusterAnalysisImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      clusterDetectionId: null == clusterDetectionId
-          ? _value.clusterDetectionId
-          : clusterDetectionId // ignore: cast_nullable_to_non_nullable
-              as String,
-      symbol: null == symbol
-          ? _value.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      analysisDate: null == analysisDate
-          ? _value.analysisDate
-          : analysisDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      analysisType: null == analysisType
-          ? _value.analysisType
-          : analysisType // ignore: cast_nullable_to_non_nullable
-              as String,
-      analysisReasoning: null == analysisReasoning
-          ? _value.analysisReasoning
-          : analysisReasoning // ignore: cast_nullable_to_non_nullable
-              as String,
-      confidenceScore: null == confidenceScore
-          ? _value.confidenceScore
-          : confidenceScore // ignore: cast_nullable_to_non_nullable
-              as int,
-      keyFactors: null == keyFactors
-          ? _value._keyFactors
-          : keyFactors // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      secFilingUrls: null == secFilingUrls
-          ? _value._secFilingUrls
-          : secFilingUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      newsUrls: null == newsUrls
-          ? _value._newsUrls
-          : newsUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      priceAtAnalysis: null == priceAtAnalysis
-          ? _value.priceAtAnalysis
-          : priceAtAnalysis // ignore: cast_nullable_to_non_nullable
-              as double,
-      insiderAvgPrice: null == insiderAvgPrice
-          ? _value.insiderAvgPrice
-          : insiderAvgPrice // ignore: cast_nullable_to_non_nullable
-              as double,
-      addedToWatchlist: null == addedToWatchlist
-          ? _value.addedToWatchlist
-          : addedToWatchlist // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ClusterAnalysisImpl implements _ClusterAnalysis {
-  const _$ClusterAnalysisImpl(
-      {required this.id,
-      required this.clusterDetectionId,
-      required this.symbol,
-      required this.analysisDate,
-      required this.analysisType,
-      required this.analysisReasoning,
-      required this.confidenceScore,
-      required final List<String> keyFactors,
-      required final List<String> secFilingUrls,
-      required final List<String> newsUrls,
-      required this.priceAtAnalysis,
-      required this.insiderAvgPrice,
-      this.addedToWatchlist = false,
-      this.createdAt})
-      : _keyFactors = keyFactors,
-        _secFilingUrls = secFilingUrls,
-        _newsUrls = newsUrls;
-
-  factory _$ClusterAnalysisImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ClusterAnalysisImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final String clusterDetectionId;
-  @override
-  final String symbol;
-  @override
-  final DateTime analysisDate;
-  @override
-  final String analysisType;
-  @override
-  final String analysisReasoning;
-  @override
-  final int confidenceScore;
-  final List<String> _keyFactors;
-  @override
-  List<String> get keyFactors {
-    if (_keyFactors is EqualUnmodifiableListView) return _keyFactors;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_keyFactors);
-  }
-
-  final List<String> _secFilingUrls;
-  @override
-  List<String> get secFilingUrls {
-    if (_secFilingUrls is EqualUnmodifiableListView) return _secFilingUrls;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_secFilingUrls);
-  }
-
-  final List<String> _newsUrls;
-  @override
-  List<String> get newsUrls {
-    if (_newsUrls is EqualUnmodifiableListView) return _newsUrls;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_newsUrls);
-  }
-
-  @override
-  final double priceAtAnalysis;
-  @override
-  final double insiderAvgPrice;
-  @override
-  @JsonKey()
-  final bool addedToWatchlist;
-  @override
-  final DateTime? createdAt;
-
-  @override
-  String toString() {
-    return 'ClusterAnalysis(id: $id, clusterDetectionId: $clusterDetectionId, symbol: $symbol, analysisDate: $analysisDate, analysisType: $analysisType, analysisReasoning: $analysisReasoning, confidenceScore: $confidenceScore, keyFactors: $keyFactors, secFilingUrls: $secFilingUrls, newsUrls: $newsUrls, priceAtAnalysis: $priceAtAnalysis, insiderAvgPrice: $insiderAvgPrice, addedToWatchlist: $addedToWatchlist, createdAt: $createdAt)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ClusterAnalysisImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.clusterDetectionId, clusterDetectionId) ||
-                other.clusterDetectionId == clusterDetectionId) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol) &&
-            (identical(other.analysisDate, analysisDate) ||
-                other.analysisDate == analysisDate) &&
-            (identical(other.analysisType, analysisType) ||
-                other.analysisType == analysisType) &&
-            (identical(other.analysisReasoning, analysisReasoning) ||
-                other.analysisReasoning == analysisReasoning) &&
-            (identical(other.confidenceScore, confidenceScore) ||
-                other.confidenceScore == confidenceScore) &&
-            const DeepCollectionEquality()
-                .equals(other._keyFactors, _keyFactors) &&
-            const DeepCollectionEquality()
-                .equals(other._secFilingUrls, _secFilingUrls) &&
-            const DeepCollectionEquality().equals(other._newsUrls, _newsUrls) &&
-            (identical(other.priceAtAnalysis, priceAtAnalysis) ||
-                other.priceAtAnalysis == priceAtAnalysis) &&
-            (identical(other.insiderAvgPrice, insiderAvgPrice) ||
-                other.insiderAvgPrice == insiderAvgPrice) &&
-            (identical(other.addedToWatchlist, addedToWatchlist) ||
-                other.addedToWatchlist == addedToWatchlist) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      clusterDetectionId,
-      symbol,
-      analysisDate,
-      analysisType,
-      analysisReasoning,
-      confidenceScore,
-      const DeepCollectionEquality().hash(_keyFactors),
-      const DeepCollectionEquality().hash(_secFilingUrls),
-      const DeepCollectionEquality().hash(_newsUrls),
-      priceAtAnalysis,
-      insiderAvgPrice,
-      addedToWatchlist,
-      createdAt);
-
-  /// Create a copy of ClusterAnalysis
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ClusterAnalysisImplCopyWith<_$ClusterAnalysisImpl> get copyWith =>
-      __$$ClusterAnalysisImplCopyWithImpl<_$ClusterAnalysisImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ClusterAnalysisImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ClusterAnalysis implements ClusterAnalysis {
-  const factory _ClusterAnalysis(
-      {required final String id,
-      required final String clusterDetectionId,
-      required final String symbol,
-      required final DateTime analysisDate,
-      required final String analysisType,
-      required final String analysisReasoning,
-      required final int confidenceScore,
-      required final List<String> keyFactors,
-      required final List<String> secFilingUrls,
-      required final List<String> newsUrls,
-      required final double priceAtAnalysis,
-      required final double insiderAvgPrice,
-      final bool addedToWatchlist,
-      final DateTime? createdAt}) = _$ClusterAnalysisImpl;
-
-  factory _ClusterAnalysis.fromJson(Map<String, dynamic> json) =
-      _$ClusterAnalysisImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  String get clusterDetectionId;
-  @override
-  String get symbol;
-  @override
-  DateTime get analysisDate;
-  @override
-  String get analysisType;
-  @override
-  String get analysisReasoning;
-  @override
-  int get confidenceScore;
-  @override
-  List<String> get keyFactors;
-  @override
-  List<String> get secFilingUrls;
-  @override
-  List<String> get newsUrls;
-  @override
-  double get priceAtAnalysis;
-  @override
-  double get insiderAvgPrice;
-  @override
-  bool get addedToWatchlist;
-  @override
-  DateTime? get createdAt;
-
-  /// Create a copy of ClusterAnalysis
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ClusterAnalysisImplCopyWith<_$ClusterAnalysisImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-InsiderTransaction _$InsiderTransactionFromJson(Map<String, dynamic> json) {
-  return _InsiderTransaction.fromJson(json);
-}
-
-/// @nodoc
-mixin _$InsiderTransaction {
-  int get id =>
-      throw _privateConstructorUsedError; // Changed from String to int
-  String get symbol => throw _privateConstructorUsedError;
-  DateTime get filingDate => throw _privateConstructorUsedError;
-  DateTime get transactionDate => throw _privateConstructorUsedError;
-  String get reportingName => throw _privateConstructorUsedError;
-  String get reportingCik => throw _privateConstructorUsedError;
-  String get companyCik => throw _privateConstructorUsedError;
-  String get transactionType => throw _privateConstructorUsedError;
-  double get securitiesTransacted => throw _privateConstructorUsedError;
-  double get price => throw _privateConstructorUsedError;
-  double get totalValue => throw _privateConstructorUsedError;
-  String get typeOfOwner => throw _privateConstructorUsedError;
-  String? get link => throw _privateConstructorUsedError;
-  String? get securityName => throw _privateConstructorUsedError;
-  String? get formType => throw _privateConstructorUsedError;
-  double? get securitiesOwned => throw _privateConstructorUsedError;
-  String? get acquisitionDisposition => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-
-  /// Serializes this InsiderTransaction to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of InsiderTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $InsiderTransactionCopyWith<InsiderTransaction> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $InsiderTransactionCopyWith<$Res> {
-  factory $InsiderTransactionCopyWith(
-          InsiderTransaction value, $Res Function(InsiderTransaction) then) =
-      _$InsiderTransactionCopyWithImpl<$Res, InsiderTransaction>;
-  @useResult
-  $Res call(
-      {int id,
-      String symbol,
-      DateTime filingDate,
-      DateTime transactionDate,
-      String reportingName,
-      String reportingCik,
-      String companyCik,
-      String transactionType,
-      double securitiesTransacted,
-      double price,
-      double totalValue,
-      String typeOfOwner,
-      String? link,
-      String? securityName,
-      String? formType,
-      double? securitiesOwned,
-      String? acquisitionDisposition,
-      DateTime? createdAt});
-}
-
-/// @nodoc
-class _$InsiderTransactionCopyWithImpl<$Res, $Val extends InsiderTransaction>
-    implements $InsiderTransactionCopyWith<$Res> {
-  _$InsiderTransactionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of InsiderTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? symbol = null,
-    Object? filingDate = null,
-    Object? transactionDate = null,
-    Object? reportingName = null,
-    Object? reportingCik = null,
-    Object? companyCik = null,
-    Object? transactionType = null,
-    Object? securitiesTransacted = null,
-    Object? price = null,
-    Object? totalValue = null,
-    Object? typeOfOwner = null,
-    Object? link = freezed,
-    Object? securityName = freezed,
-    Object? formType = freezed,
-    Object? securitiesOwned = freezed,
-    Object? acquisitionDisposition = freezed,
-    Object? createdAt = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      symbol: null == symbol
-          ? _value.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      filingDate: null == filingDate
-          ? _value.filingDate
-          : filingDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      transactionDate: null == transactionDate
-          ? _value.transactionDate
-          : transactionDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      reportingName: null == reportingName
-          ? _value.reportingName
-          : reportingName // ignore: cast_nullable_to_non_nullable
-              as String,
-      reportingCik: null == reportingCik
-          ? _value.reportingCik
-          : reportingCik // ignore: cast_nullable_to_non_nullable
-              as String,
-      companyCik: null == companyCik
-          ? _value.companyCik
-          : companyCik // ignore: cast_nullable_to_non_nullable
-              as String,
-      transactionType: null == transactionType
-          ? _value.transactionType
-          : transactionType // ignore: cast_nullable_to_non_nullable
-              as String,
-      securitiesTransacted: null == securitiesTransacted
-          ? _value.securitiesTransacted
-          : securitiesTransacted // ignore: cast_nullable_to_non_nullable
-              as double,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalValue: null == totalValue
-          ? _value.totalValue
-          : totalValue // ignore: cast_nullable_to_non_nullable
-              as double,
-      typeOfOwner: null == typeOfOwner
-          ? _value.typeOfOwner
-          : typeOfOwner // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-      securityName: freezed == securityName
-          ? _value.securityName
-          : securityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      formType: freezed == formType
-          ? _value.formType
-          : formType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      securitiesOwned: freezed == securitiesOwned
-          ? _value.securitiesOwned
-          : securitiesOwned // ignore: cast_nullable_to_non_nullable
-              as double?,
-      acquisitionDisposition: freezed == acquisitionDisposition
-          ? _value.acquisitionDisposition
-          : acquisitionDisposition // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$InsiderTransactionImplCopyWith<$Res>
-    implements $InsiderTransactionCopyWith<$Res> {
-  factory _$$InsiderTransactionImplCopyWith(_$InsiderTransactionImpl value,
-          $Res Function(_$InsiderTransactionImpl) then) =
-      __$$InsiderTransactionImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int id,
-      String symbol,
-      DateTime filingDate,
-      DateTime transactionDate,
-      String reportingName,
-      String reportingCik,
-      String companyCik,
-      String transactionType,
-      double securitiesTransacted,
-      double price,
-      double totalValue,
-      String typeOfOwner,
-      String? link,
-      String? securityName,
-      String? formType,
-      double? securitiesOwned,
-      String? acquisitionDisposition,
-      DateTime? createdAt});
-}
-
-/// @nodoc
-class __$$InsiderTransactionImplCopyWithImpl<$Res>
-    extends _$InsiderTransactionCopyWithImpl<$Res, _$InsiderTransactionImpl>
-    implements _$$InsiderTransactionImplCopyWith<$Res> {
-  __$$InsiderTransactionImplCopyWithImpl(_$InsiderTransactionImpl _value,
-      $Res Function(_$InsiderTransactionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of InsiderTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? symbol = null,
-    Object? filingDate = null,
-    Object? transactionDate = null,
-    Object? reportingName = null,
-    Object? reportingCik = null,
-    Object? companyCik = null,
-    Object? transactionType = null,
-    Object? securitiesTransacted = null,
-    Object? price = null,
-    Object? totalValue = null,
-    Object? typeOfOwner = null,
-    Object? link = freezed,
-    Object? securityName = freezed,
-    Object? formType = freezed,
-    Object? securitiesOwned = freezed,
-    Object? acquisitionDisposition = freezed,
-    Object? createdAt = freezed,
-  }) {
-    return _then(_$InsiderTransactionImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      symbol: null == symbol
-          ? _value.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      filingDate: null == filingDate
-          ? _value.filingDate
-          : filingDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      transactionDate: null == transactionDate
-          ? _value.transactionDate
-          : transactionDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      reportingName: null == reportingName
-          ? _value.reportingName
-          : reportingName // ignore: cast_nullable_to_non_nullable
-              as String,
-      reportingCik: null == reportingCik
-          ? _value.reportingCik
-          : reportingCik // ignore: cast_nullable_to_non_nullable
-              as String,
-      companyCik: null == companyCik
-          ? _value.companyCik
-          : companyCik // ignore: cast_nullable_to_non_nullable
-              as String,
-      transactionType: null == transactionType
-          ? _value.transactionType
-          : transactionType // ignore: cast_nullable_to_non_nullable
-              as String,
-      securitiesTransacted: null == securitiesTransacted
-          ? _value.securitiesTransacted
-          : securitiesTransacted // ignore: cast_nullable_to_non_nullable
-              as double,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalValue: null == totalValue
-          ? _value.totalValue
-          : totalValue // ignore: cast_nullable_to_non_nullable
-              as double,
-      typeOfOwner: null == typeOfOwner
-          ? _value.typeOfOwner
-          : typeOfOwner // ignore: cast_nullable_to_non_nullable
-              as String,
-      link: freezed == link
-          ? _value.link
-          : link // ignore: cast_nullable_to_non_nullable
-              as String?,
-      securityName: freezed == securityName
-          ? _value.securityName
-          : securityName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      formType: freezed == formType
-          ? _value.formType
-          : formType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      securitiesOwned: freezed == securitiesOwned
-          ? _value.securitiesOwned
-          : securitiesOwned // ignore: cast_nullable_to_non_nullable
-              as double?,
-      acquisitionDisposition: freezed == acquisitionDisposition
-          ? _value.acquisitionDisposition
-          : acquisitionDisposition // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$InsiderTransactionImpl implements _InsiderTransaction {
-  const _$InsiderTransactionImpl(
-      {required this.id,
-      required this.symbol,
-      required this.filingDate,
-      required this.transactionDate,
-      required this.reportingName,
-      required this.reportingCik,
-      required this.companyCik,
-      required this.transactionType,
-      required this.securitiesTransacted,
-      required this.price,
-      required this.totalValue,
-      required this.typeOfOwner,
-      this.link,
-      this.securityName,
-      this.formType,
-      this.securitiesOwned,
-      this.acquisitionDisposition,
-      this.createdAt});
-
-  factory _$InsiderTransactionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$InsiderTransactionImplFromJson(json);
-
-  @override
-  final int id;
-// Changed from String to int
-  @override
-  final String symbol;
-  @override
-  final DateTime filingDate;
-  @override
-  final DateTime transactionDate;
-  @override
-  final String reportingName;
-  @override
-  final String reportingCik;
-  @override
-  final String companyCik;
-  @override
-  final String transactionType;
-  @override
-  final double securitiesTransacted;
-  @override
-  final double price;
-  @override
-  final double totalValue;
-  @override
-  final String typeOfOwner;
-  @override
-  final String? link;
-  @override
-  final String? securityName;
-  @override
-  final String? formType;
-  @override
-  final double? securitiesOwned;
-  @override
-  final String? acquisitionDisposition;
-  @override
-  final DateTime? createdAt;
-
-  @override
-  String toString() {
-    return 'InsiderTransaction(id: $id, symbol: $symbol, filingDate: $filingDate, transactionDate: $transactionDate, reportingName: $reportingName, reportingCik: $reportingCik, companyCik: $companyCik, transactionType: $transactionType, securitiesTransacted: $securitiesTransacted, price: $price, totalValue: $totalValue, typeOfOwner: $typeOfOwner, link: $link, securityName: $securityName, formType: $formType, securitiesOwned: $securitiesOwned, acquisitionDisposition: $acquisitionDisposition, createdAt: $createdAt)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$InsiderTransactionImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol) &&
-            (identical(other.filingDate, filingDate) ||
-                other.filingDate == filingDate) &&
-            (identical(other.transactionDate, transactionDate) ||
-                other.transactionDate == transactionDate) &&
-            (identical(other.reportingName, reportingName) ||
-                other.reportingName == reportingName) &&
-            (identical(other.reportingCik, reportingCik) ||
-                other.reportingCik == reportingCik) &&
-            (identical(other.companyCik, companyCik) ||
-                other.companyCik == companyCik) &&
-            (identical(other.transactionType, transactionType) ||
-                other.transactionType == transactionType) &&
-            (identical(other.securitiesTransacted, securitiesTransacted) ||
-                other.securitiesTransacted == securitiesTransacted) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.totalValue, totalValue) ||
-                other.totalValue == totalValue) &&
-            (identical(other.typeOfOwner, typeOfOwner) ||
-                other.typeOfOwner == typeOfOwner) &&
-            (identical(other.link, link) || other.link == link) &&
-            (identical(other.securityName, securityName) ||
-                other.securityName == securityName) &&
-            (identical(other.formType, formType) ||
-                other.formType == formType) &&
-            (identical(other.securitiesOwned, securitiesOwned) ||
-                other.securitiesOwned == securitiesOwned) &&
-            (identical(other.acquisitionDisposition, acquisitionDisposition) ||
-                other.acquisitionDisposition == acquisitionDisposition) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      symbol,
-      filingDate,
-      transactionDate,
-      reportingName,
-      reportingCik,
-      companyCik,
-      transactionType,
-      securitiesTransacted,
-      price,
-      totalValue,
-      typeOfOwner,
-      link,
-      securityName,
-      formType,
-      securitiesOwned,
-      acquisitionDisposition,
-      createdAt);
-
-  /// Create a copy of InsiderTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$InsiderTransactionImplCopyWith<_$InsiderTransactionImpl> get copyWith =>
-      __$$InsiderTransactionImplCopyWithImpl<_$InsiderTransactionImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$InsiderTransactionImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _InsiderTransaction implements InsiderTransaction {
-  const factory _InsiderTransaction(
-      {required final int id,
-      required final String symbol,
-      required final DateTime filingDate,
-      required final DateTime transactionDate,
-      required final String reportingName,
-      required final String reportingCik,
-      required final String companyCik,
-      required final String transactionType,
-      required final double securitiesTransacted,
-      required final double price,
-      required final double totalValue,
-      required final String typeOfOwner,
-      final String? link,
-      final String? securityName,
-      final String? formType,
-      final double? securitiesOwned,
-      final String? acquisitionDisposition,
-      final DateTime? createdAt}) = _$InsiderTransactionImpl;
-
-  factory _InsiderTransaction.fromJson(Map<String, dynamic> json) =
-      _$InsiderTransactionImpl.fromJson;
-
-  @override
-  int get id; // Changed from String to int
-  @override
-  String get symbol;
-  @override
-  DateTime get filingDate;
-  @override
-  DateTime get transactionDate;
-  @override
-  String get reportingName;
-  @override
-  String get reportingCik;
-  @override
-  String get companyCik;
-  @override
-  String get transactionType;
-  @override
-  double get securitiesTransacted;
-  @override
-  double get price;
-  @override
-  double get totalValue;
-  @override
-  String get typeOfOwner;
-  @override
-  String? get link;
-  @override
-  String? get securityName;
-  @override
-  String? get formType;
-  @override
-  double? get securitiesOwned;
-  @override
-  String? get acquisitionDisposition;
-  @override
-  DateTime? get createdAt;
-
-  /// Create a copy of InsiderTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$InsiderTransactionImplCopyWith<_$InsiderTransactionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
 TradeStats _$TradeStatsFromJson(Map<String, dynamic> json) {
   return _TradeStats.fromJson(json);
 }
@@ -1389,14 +398,28 @@ TradeStats _$TradeStatsFromJson(Map<String, dynamic> json) {
 mixin _$TradeStats {
   String get id => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
+  String get period => throw _privateConstructorUsedError;
   int get totalTrades => throw _privateConstructorUsedError;
   int get buyCount => throw _privateConstructorUsedError;
   int get sellCount => throw _privateConstructorUsedError;
   double get totalBuyValue => throw _privateConstructorUsedError;
   double get totalSellValue => throw _privateConstructorUsedError;
+  double get buySecurities => throw _privateConstructorUsedError;
+  double get sellSecurities => throw _privateConstructorUsedError;
+  int get uniqueBuyers => throw _privateConstructorUsedError;
+  int get uniqueSellers => throw _privateConstructorUsedError;
   int get uniqueSymbols => throw _privateConstructorUsedError;
-  String get period => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
+  int get buySymbols => throw _privateConstructorUsedError;
+  int get sellSymbols => throw _privateConstructorUsedError;
+  double get buyRatio => throw _privateConstructorUsedError;
+  double get sellRatio => throw _privateConstructorUsedError;
+  double get avgBuyValue => throw _privateConstructorUsedError;
+  double get avgSellValue => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get topBuySymbols =>
+      throw _privateConstructorUsedError;
+  List<Map<String, dynamic>> get topSellSymbols =>
+      throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this TradeStats to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1417,14 +440,26 @@ abstract class $TradeStatsCopyWith<$Res> {
   $Res call(
       {String id,
       DateTime date,
+      String period,
       int totalTrades,
       int buyCount,
       int sellCount,
       double totalBuyValue,
       double totalSellValue,
+      double buySecurities,
+      double sellSecurities,
+      int uniqueBuyers,
+      int uniqueSellers,
       int uniqueSymbols,
-      String period,
-      DateTime? createdAt});
+      int buySymbols,
+      int sellSymbols,
+      double buyRatio,
+      double sellRatio,
+      double avgBuyValue,
+      double avgSellValue,
+      List<Map<String, dynamic>> topBuySymbols,
+      List<Map<String, dynamic>> topSellSymbols,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -1444,14 +479,26 @@ class _$TradeStatsCopyWithImpl<$Res, $Val extends TradeStats>
   $Res call({
     Object? id = null,
     Object? date = null,
+    Object? period = null,
     Object? totalTrades = null,
     Object? buyCount = null,
     Object? sellCount = null,
     Object? totalBuyValue = null,
     Object? totalSellValue = null,
+    Object? buySecurities = null,
+    Object? sellSecurities = null,
+    Object? uniqueBuyers = null,
+    Object? uniqueSellers = null,
     Object? uniqueSymbols = null,
-    Object? period = null,
-    Object? createdAt = freezed,
+    Object? buySymbols = null,
+    Object? sellSymbols = null,
+    Object? buyRatio = null,
+    Object? sellRatio = null,
+    Object? avgBuyValue = null,
+    Object? avgSellValue = null,
+    Object? topBuySymbols = null,
+    Object? topSellSymbols = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1462,6 +509,10 @@ class _$TradeStatsCopyWithImpl<$Res, $Val extends TradeStats>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as String,
       totalTrades: null == totalTrades
           ? _value.totalTrades
           : totalTrades // ignore: cast_nullable_to_non_nullable
@@ -1482,18 +533,62 @@ class _$TradeStatsCopyWithImpl<$Res, $Val extends TradeStats>
           ? _value.totalSellValue
           : totalSellValue // ignore: cast_nullable_to_non_nullable
               as double,
+      buySecurities: null == buySecurities
+          ? _value.buySecurities
+          : buySecurities // ignore: cast_nullable_to_non_nullable
+              as double,
+      sellSecurities: null == sellSecurities
+          ? _value.sellSecurities
+          : sellSecurities // ignore: cast_nullable_to_non_nullable
+              as double,
+      uniqueBuyers: null == uniqueBuyers
+          ? _value.uniqueBuyers
+          : uniqueBuyers // ignore: cast_nullable_to_non_nullable
+              as int,
+      uniqueSellers: null == uniqueSellers
+          ? _value.uniqueSellers
+          : uniqueSellers // ignore: cast_nullable_to_non_nullable
+              as int,
       uniqueSymbols: null == uniqueSymbols
           ? _value.uniqueSymbols
           : uniqueSymbols // ignore: cast_nullable_to_non_nullable
               as int,
-      period: null == period
-          ? _value.period
-          : period // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: freezed == createdAt
+      buySymbols: null == buySymbols
+          ? _value.buySymbols
+          : buySymbols // ignore: cast_nullable_to_non_nullable
+              as int,
+      sellSymbols: null == sellSymbols
+          ? _value.sellSymbols
+          : sellSymbols // ignore: cast_nullable_to_non_nullable
+              as int,
+      buyRatio: null == buyRatio
+          ? _value.buyRatio
+          : buyRatio // ignore: cast_nullable_to_non_nullable
+              as double,
+      sellRatio: null == sellRatio
+          ? _value.sellRatio
+          : sellRatio // ignore: cast_nullable_to_non_nullable
+              as double,
+      avgBuyValue: null == avgBuyValue
+          ? _value.avgBuyValue
+          : avgBuyValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      avgSellValue: null == avgSellValue
+          ? _value.avgSellValue
+          : avgSellValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      topBuySymbols: null == topBuySymbols
+          ? _value.topBuySymbols
+          : topBuySymbols // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
+      topSellSymbols: null == topSellSymbols
+          ? _value.topSellSymbols
+          : topSellSymbols // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ) as $Val);
   }
 }
@@ -1509,14 +604,26 @@ abstract class _$$TradeStatsImplCopyWith<$Res>
   $Res call(
       {String id,
       DateTime date,
+      String period,
       int totalTrades,
       int buyCount,
       int sellCount,
       double totalBuyValue,
       double totalSellValue,
+      double buySecurities,
+      double sellSecurities,
+      int uniqueBuyers,
+      int uniqueSellers,
       int uniqueSymbols,
-      String period,
-      DateTime? createdAt});
+      int buySymbols,
+      int sellSymbols,
+      double buyRatio,
+      double sellRatio,
+      double avgBuyValue,
+      double avgSellValue,
+      List<Map<String, dynamic>> topBuySymbols,
+      List<Map<String, dynamic>> topSellSymbols,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -1534,14 +641,26 @@ class __$$TradeStatsImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? date = null,
+    Object? period = null,
     Object? totalTrades = null,
     Object? buyCount = null,
     Object? sellCount = null,
     Object? totalBuyValue = null,
     Object? totalSellValue = null,
+    Object? buySecurities = null,
+    Object? sellSecurities = null,
+    Object? uniqueBuyers = null,
+    Object? uniqueSellers = null,
     Object? uniqueSymbols = null,
-    Object? period = null,
-    Object? createdAt = freezed,
+    Object? buySymbols = null,
+    Object? sellSymbols = null,
+    Object? buyRatio = null,
+    Object? sellRatio = null,
+    Object? avgBuyValue = null,
+    Object? avgSellValue = null,
+    Object? topBuySymbols = null,
+    Object? topSellSymbols = null,
+    Object? createdAt = null,
   }) {
     return _then(_$TradeStatsImpl(
       id: null == id
@@ -1552,6 +671,10 @@ class __$$TradeStatsImplCopyWithImpl<$Res>
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as String,
       totalTrades: null == totalTrades
           ? _value.totalTrades
           : totalTrades // ignore: cast_nullable_to_non_nullable
@@ -1572,18 +695,62 @@ class __$$TradeStatsImplCopyWithImpl<$Res>
           ? _value.totalSellValue
           : totalSellValue // ignore: cast_nullable_to_non_nullable
               as double,
+      buySecurities: null == buySecurities
+          ? _value.buySecurities
+          : buySecurities // ignore: cast_nullable_to_non_nullable
+              as double,
+      sellSecurities: null == sellSecurities
+          ? _value.sellSecurities
+          : sellSecurities // ignore: cast_nullable_to_non_nullable
+              as double,
+      uniqueBuyers: null == uniqueBuyers
+          ? _value.uniqueBuyers
+          : uniqueBuyers // ignore: cast_nullable_to_non_nullable
+              as int,
+      uniqueSellers: null == uniqueSellers
+          ? _value.uniqueSellers
+          : uniqueSellers // ignore: cast_nullable_to_non_nullable
+              as int,
       uniqueSymbols: null == uniqueSymbols
           ? _value.uniqueSymbols
           : uniqueSymbols // ignore: cast_nullable_to_non_nullable
               as int,
-      period: null == period
-          ? _value.period
-          : period // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: freezed == createdAt
+      buySymbols: null == buySymbols
+          ? _value.buySymbols
+          : buySymbols // ignore: cast_nullable_to_non_nullable
+              as int,
+      sellSymbols: null == sellSymbols
+          ? _value.sellSymbols
+          : sellSymbols // ignore: cast_nullable_to_non_nullable
+              as int,
+      buyRatio: null == buyRatio
+          ? _value.buyRatio
+          : buyRatio // ignore: cast_nullable_to_non_nullable
+              as double,
+      sellRatio: null == sellRatio
+          ? _value.sellRatio
+          : sellRatio // ignore: cast_nullable_to_non_nullable
+              as double,
+      avgBuyValue: null == avgBuyValue
+          ? _value.avgBuyValue
+          : avgBuyValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      avgSellValue: null == avgSellValue
+          ? _value.avgSellValue
+          : avgSellValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      topBuySymbols: null == topBuySymbols
+          ? _value._topBuySymbols
+          : topBuySymbols // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
+      topSellSymbols: null == topSellSymbols
+          ? _value._topSellSymbols
+          : topSellSymbols // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ));
   }
 }
@@ -1594,14 +761,28 @@ class _$TradeStatsImpl implements _TradeStats {
   const _$TradeStatsImpl(
       {required this.id,
       required this.date,
+      required this.period,
       required this.totalTrades,
       required this.buyCount,
       required this.sellCount,
       required this.totalBuyValue,
       required this.totalSellValue,
+      required this.buySecurities,
+      required this.sellSecurities,
+      required this.uniqueBuyers,
+      required this.uniqueSellers,
       required this.uniqueSymbols,
-      required this.period,
-      this.createdAt});
+      required this.buySymbols,
+      required this.sellSymbols,
+      required this.buyRatio,
+      required this.sellRatio,
+      required this.avgBuyValue,
+      required this.avgSellValue,
+      required final List<Map<String, dynamic>> topBuySymbols,
+      required final List<Map<String, dynamic>> topSellSymbols,
+      required this.createdAt})
+      : _topBuySymbols = topBuySymbols,
+        _topSellSymbols = topSellSymbols;
 
   factory _$TradeStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$TradeStatsImplFromJson(json);
@@ -1610,6 +791,8 @@ class _$TradeStatsImpl implements _TradeStats {
   final String id;
   @override
   final DateTime date;
+  @override
+  final String period;
   @override
   final int totalTrades;
   @override
@@ -1621,15 +804,49 @@ class _$TradeStatsImpl implements _TradeStats {
   @override
   final double totalSellValue;
   @override
+  final double buySecurities;
+  @override
+  final double sellSecurities;
+  @override
+  final int uniqueBuyers;
+  @override
+  final int uniqueSellers;
+  @override
   final int uniqueSymbols;
   @override
-  final String period;
+  final int buySymbols;
   @override
-  final DateTime? createdAt;
+  final int sellSymbols;
+  @override
+  final double buyRatio;
+  @override
+  final double sellRatio;
+  @override
+  final double avgBuyValue;
+  @override
+  final double avgSellValue;
+  final List<Map<String, dynamic>> _topBuySymbols;
+  @override
+  List<Map<String, dynamic>> get topBuySymbols {
+    if (_topBuySymbols is EqualUnmodifiableListView) return _topBuySymbols;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topBuySymbols);
+  }
+
+  final List<Map<String, dynamic>> _topSellSymbols;
+  @override
+  List<Map<String, dynamic>> get topSellSymbols {
+    if (_topSellSymbols is EqualUnmodifiableListView) return _topSellSymbols;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topSellSymbols);
+  }
+
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'TradeStats(id: $id, date: $date, totalTrades: $totalTrades, buyCount: $buyCount, sellCount: $sellCount, totalBuyValue: $totalBuyValue, totalSellValue: $totalSellValue, uniqueSymbols: $uniqueSymbols, period: $period, createdAt: $createdAt)';
+    return 'TradeStats(id: $id, date: $date, period: $period, totalTrades: $totalTrades, buyCount: $buyCount, sellCount: $sellCount, totalBuyValue: $totalBuyValue, totalSellValue: $totalSellValue, buySecurities: $buySecurities, sellSecurities: $sellSecurities, uniqueBuyers: $uniqueBuyers, uniqueSellers: $uniqueSellers, uniqueSymbols: $uniqueSymbols, buySymbols: $buySymbols, sellSymbols: $sellSymbols, buyRatio: $buyRatio, sellRatio: $sellRatio, avgBuyValue: $avgBuyValue, avgSellValue: $avgSellValue, topBuySymbols: $topBuySymbols, topSellSymbols: $topSellSymbols, createdAt: $createdAt)';
   }
 
   @override
@@ -1639,6 +856,7 @@ class _$TradeStatsImpl implements _TradeStats {
             other is _$TradeStatsImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.date, date) || other.date == date) &&
+            (identical(other.period, period) || other.period == period) &&
             (identical(other.totalTrades, totalTrades) ||
                 other.totalTrades == totalTrades) &&
             (identical(other.buyCount, buyCount) ||
@@ -1649,27 +867,63 @@ class _$TradeStatsImpl implements _TradeStats {
                 other.totalBuyValue == totalBuyValue) &&
             (identical(other.totalSellValue, totalSellValue) ||
                 other.totalSellValue == totalSellValue) &&
+            (identical(other.buySecurities, buySecurities) ||
+                other.buySecurities == buySecurities) &&
+            (identical(other.sellSecurities, sellSecurities) ||
+                other.sellSecurities == sellSecurities) &&
+            (identical(other.uniqueBuyers, uniqueBuyers) ||
+                other.uniqueBuyers == uniqueBuyers) &&
+            (identical(other.uniqueSellers, uniqueSellers) ||
+                other.uniqueSellers == uniqueSellers) &&
             (identical(other.uniqueSymbols, uniqueSymbols) ||
                 other.uniqueSymbols == uniqueSymbols) &&
-            (identical(other.period, period) || other.period == period) &&
+            (identical(other.buySymbols, buySymbols) ||
+                other.buySymbols == buySymbols) &&
+            (identical(other.sellSymbols, sellSymbols) ||
+                other.sellSymbols == sellSymbols) &&
+            (identical(other.buyRatio, buyRatio) ||
+                other.buyRatio == buyRatio) &&
+            (identical(other.sellRatio, sellRatio) ||
+                other.sellRatio == sellRatio) &&
+            (identical(other.avgBuyValue, avgBuyValue) ||
+                other.avgBuyValue == avgBuyValue) &&
+            (identical(other.avgSellValue, avgSellValue) ||
+                other.avgSellValue == avgSellValue) &&
+            const DeepCollectionEquality()
+                .equals(other._topBuySymbols, _topBuySymbols) &&
+            const DeepCollectionEquality()
+                .equals(other._topSellSymbols, _topSellSymbols) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      date,
-      totalTrades,
-      buyCount,
-      sellCount,
-      totalBuyValue,
-      totalSellValue,
-      uniqueSymbols,
-      period,
-      createdAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        date,
+        period,
+        totalTrades,
+        buyCount,
+        sellCount,
+        totalBuyValue,
+        totalSellValue,
+        buySecurities,
+        sellSecurities,
+        uniqueBuyers,
+        uniqueSellers,
+        uniqueSymbols,
+        buySymbols,
+        sellSymbols,
+        buyRatio,
+        sellRatio,
+        avgBuyValue,
+        avgSellValue,
+        const DeepCollectionEquality().hash(_topBuySymbols),
+        const DeepCollectionEquality().hash(_topSellSymbols),
+        createdAt
+      ]);
 
   /// Create a copy of TradeStats
   /// with the given fields replaced by the non-null parameter values.
@@ -1691,14 +945,26 @@ abstract class _TradeStats implements TradeStats {
   const factory _TradeStats(
       {required final String id,
       required final DateTime date,
+      required final String period,
       required final int totalTrades,
       required final int buyCount,
       required final int sellCount,
       required final double totalBuyValue,
       required final double totalSellValue,
+      required final double buySecurities,
+      required final double sellSecurities,
+      required final int uniqueBuyers,
+      required final int uniqueSellers,
       required final int uniqueSymbols,
-      required final String period,
-      final DateTime? createdAt}) = _$TradeStatsImpl;
+      required final int buySymbols,
+      required final int sellSymbols,
+      required final double buyRatio,
+      required final double sellRatio,
+      required final double avgBuyValue,
+      required final double avgSellValue,
+      required final List<Map<String, dynamic>> topBuySymbols,
+      required final List<Map<String, dynamic>> topSellSymbols,
+      required final DateTime createdAt}) = _$TradeStatsImpl;
 
   factory _TradeStats.fromJson(Map<String, dynamic> json) =
       _$TradeStatsImpl.fromJson;
@@ -1707,6 +973,8 @@ abstract class _TradeStats implements TradeStats {
   String get id;
   @override
   DateTime get date;
+  @override
+  String get period;
   @override
   int get totalTrades;
   @override
@@ -1718,11 +986,33 @@ abstract class _TradeStats implements TradeStats {
   @override
   double get totalSellValue;
   @override
+  double get buySecurities;
+  @override
+  double get sellSecurities;
+  @override
+  int get uniqueBuyers;
+  @override
+  int get uniqueSellers;
+  @override
   int get uniqueSymbols;
   @override
-  String get period;
+  int get buySymbols;
   @override
-  DateTime? get createdAt;
+  int get sellSymbols;
+  @override
+  double get buyRatio;
+  @override
+  double get sellRatio;
+  @override
+  double get avgBuyValue;
+  @override
+  double get avgSellValue;
+  @override
+  List<Map<String, dynamic>> get topBuySymbols;
+  @override
+  List<Map<String, dynamic>> get topSellSymbols;
+  @override
+  DateTime get createdAt;
 
   /// Create a copy of TradeStats
   /// with the given fields replaced by the non-null parameter values.
@@ -1740,16 +1030,16 @@ WatchlistStock _$WatchlistStockFromJson(Map<String, dynamic> json) {
 mixin _$WatchlistStock {
   String get id => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
-  String get clusterAnalysisId => throw _privateConstructorUsedError;
+  String? get clusterAnalysisId => throw _privateConstructorUsedError;
   DateTime get entryDate => throw _privateConstructorUsedError;
   double get insiderAvgPrice => throw _privateConstructorUsedError;
   double get currentPrice => throw _privateConstructorUsedError;
   double get priceChangePct => throw _privateConstructorUsedError;
   int get daysWatched => throw _privateConstructorUsedError;
-  String get analysisReasoning => throw _privateConstructorUsedError;
-  List<String> get keyFactors => throw _privateConstructorUsedError;
-  List<String> get secFilingUrls => throw _privateConstructorUsedError;
-  List<String> get newsUrls => throw _privateConstructorUsedError;
+  String? get analysisReasoning => throw _privateConstructorUsedError;
+  List<String>? get keyFactors => throw _privateConstructorUsedError;
+  List<String>? get secFilingUrls => throw _privateConstructorUsedError;
+  List<String>? get newsUrls => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   DateTime get lastUpdated => throw _privateConstructorUsedError;
   List<PricePoint> get priceHistory => throw _privateConstructorUsedError;
@@ -1773,16 +1063,16 @@ abstract class $WatchlistStockCopyWith<$Res> {
   $Res call(
       {String id,
       String symbol,
-      String clusterAnalysisId,
+      String? clusterAnalysisId,
       DateTime entryDate,
       double insiderAvgPrice,
       double currentPrice,
       double priceChangePct,
       int daysWatched,
-      String analysisReasoning,
-      List<String> keyFactors,
-      List<String> secFilingUrls,
-      List<String> newsUrls,
+      String? analysisReasoning,
+      List<String>? keyFactors,
+      List<String>? secFilingUrls,
+      List<String>? newsUrls,
       String status,
       DateTime lastUpdated,
       List<PricePoint> priceHistory});
@@ -1805,16 +1095,16 @@ class _$WatchlistStockCopyWithImpl<$Res, $Val extends WatchlistStock>
   $Res call({
     Object? id = null,
     Object? symbol = null,
-    Object? clusterAnalysisId = null,
+    Object? clusterAnalysisId = freezed,
     Object? entryDate = null,
     Object? insiderAvgPrice = null,
     Object? currentPrice = null,
     Object? priceChangePct = null,
     Object? daysWatched = null,
-    Object? analysisReasoning = null,
-    Object? keyFactors = null,
-    Object? secFilingUrls = null,
-    Object? newsUrls = null,
+    Object? analysisReasoning = freezed,
+    Object? keyFactors = freezed,
+    Object? secFilingUrls = freezed,
+    Object? newsUrls = freezed,
     Object? status = null,
     Object? lastUpdated = null,
     Object? priceHistory = null,
@@ -1828,10 +1118,10 @@ class _$WatchlistStockCopyWithImpl<$Res, $Val extends WatchlistStock>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
-      clusterAnalysisId: null == clusterAnalysisId
+      clusterAnalysisId: freezed == clusterAnalysisId
           ? _value.clusterAnalysisId
           : clusterAnalysisId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       entryDate: null == entryDate
           ? _value.entryDate
           : entryDate // ignore: cast_nullable_to_non_nullable
@@ -1852,22 +1142,22 @@ class _$WatchlistStockCopyWithImpl<$Res, $Val extends WatchlistStock>
           ? _value.daysWatched
           : daysWatched // ignore: cast_nullable_to_non_nullable
               as int,
-      analysisReasoning: null == analysisReasoning
+      analysisReasoning: freezed == analysisReasoning
           ? _value.analysisReasoning
           : analysisReasoning // ignore: cast_nullable_to_non_nullable
-              as String,
-      keyFactors: null == keyFactors
+              as String?,
+      keyFactors: freezed == keyFactors
           ? _value.keyFactors
           : keyFactors // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      secFilingUrls: null == secFilingUrls
+              as List<String>?,
+      secFilingUrls: freezed == secFilingUrls
           ? _value.secFilingUrls
           : secFilingUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      newsUrls: null == newsUrls
+              as List<String>?,
+      newsUrls: freezed == newsUrls
           ? _value.newsUrls
           : newsUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1895,16 +1185,16 @@ abstract class _$$WatchlistStockImplCopyWith<$Res>
   $Res call(
       {String id,
       String symbol,
-      String clusterAnalysisId,
+      String? clusterAnalysisId,
       DateTime entryDate,
       double insiderAvgPrice,
       double currentPrice,
       double priceChangePct,
       int daysWatched,
-      String analysisReasoning,
-      List<String> keyFactors,
-      List<String> secFilingUrls,
-      List<String> newsUrls,
+      String? analysisReasoning,
+      List<String>? keyFactors,
+      List<String>? secFilingUrls,
+      List<String>? newsUrls,
       String status,
       DateTime lastUpdated,
       List<PricePoint> priceHistory});
@@ -1925,16 +1215,16 @@ class __$$WatchlistStockImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? symbol = null,
-    Object? clusterAnalysisId = null,
+    Object? clusterAnalysisId = freezed,
     Object? entryDate = null,
     Object? insiderAvgPrice = null,
     Object? currentPrice = null,
     Object? priceChangePct = null,
     Object? daysWatched = null,
-    Object? analysisReasoning = null,
-    Object? keyFactors = null,
-    Object? secFilingUrls = null,
-    Object? newsUrls = null,
+    Object? analysisReasoning = freezed,
+    Object? keyFactors = freezed,
+    Object? secFilingUrls = freezed,
+    Object? newsUrls = freezed,
     Object? status = null,
     Object? lastUpdated = null,
     Object? priceHistory = null,
@@ -1948,10 +1238,10 @@ class __$$WatchlistStockImplCopyWithImpl<$Res>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
-      clusterAnalysisId: null == clusterAnalysisId
+      clusterAnalysisId: freezed == clusterAnalysisId
           ? _value.clusterAnalysisId
           : clusterAnalysisId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       entryDate: null == entryDate
           ? _value.entryDate
           : entryDate // ignore: cast_nullable_to_non_nullable
@@ -1972,22 +1262,22 @@ class __$$WatchlistStockImplCopyWithImpl<$Res>
           ? _value.daysWatched
           : daysWatched // ignore: cast_nullable_to_non_nullable
               as int,
-      analysisReasoning: null == analysisReasoning
+      analysisReasoning: freezed == analysisReasoning
           ? _value.analysisReasoning
           : analysisReasoning // ignore: cast_nullable_to_non_nullable
-              as String,
-      keyFactors: null == keyFactors
+              as String?,
+      keyFactors: freezed == keyFactors
           ? _value._keyFactors
           : keyFactors // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      secFilingUrls: null == secFilingUrls
+              as List<String>?,
+      secFilingUrls: freezed == secFilingUrls
           ? _value._secFilingUrls
           : secFilingUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      newsUrls: null == newsUrls
+              as List<String>?,
+      newsUrls: freezed == newsUrls
           ? _value._newsUrls
           : newsUrls // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -2010,19 +1300,19 @@ class _$WatchlistStockImpl implements _WatchlistStock {
   const _$WatchlistStockImpl(
       {required this.id,
       required this.symbol,
-      required this.clusterAnalysisId,
+      this.clusterAnalysisId,
       required this.entryDate,
       required this.insiderAvgPrice,
       required this.currentPrice,
       required this.priceChangePct,
       required this.daysWatched,
-      required this.analysisReasoning,
-      required final List<String> keyFactors,
-      required final List<String> secFilingUrls,
-      required final List<String> newsUrls,
+      this.analysisReasoning,
+      final List<String>? keyFactors,
+      final List<String>? secFilingUrls,
+      final List<String>? newsUrls,
       required this.status,
       required this.lastUpdated,
-      required final List<PricePoint> priceHistory})
+      final List<PricePoint> priceHistory = const []})
       : _keyFactors = keyFactors,
         _secFilingUrls = secFilingUrls,
         _newsUrls = newsUrls,
@@ -2036,7 +1326,7 @@ class _$WatchlistStockImpl implements _WatchlistStock {
   @override
   final String symbol;
   @override
-  final String clusterAnalysisId;
+  final String? clusterAnalysisId;
   @override
   final DateTime entryDate;
   @override
@@ -2048,29 +1338,35 @@ class _$WatchlistStockImpl implements _WatchlistStock {
   @override
   final int daysWatched;
   @override
-  final String analysisReasoning;
-  final List<String> _keyFactors;
+  final String? analysisReasoning;
+  final List<String>? _keyFactors;
   @override
-  List<String> get keyFactors {
+  List<String>? get keyFactors {
+    final value = _keyFactors;
+    if (value == null) return null;
     if (_keyFactors is EqualUnmodifiableListView) return _keyFactors;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_keyFactors);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _secFilingUrls;
+  final List<String>? _secFilingUrls;
   @override
-  List<String> get secFilingUrls {
+  List<String>? get secFilingUrls {
+    final value = _secFilingUrls;
+    if (value == null) return null;
     if (_secFilingUrls is EqualUnmodifiableListView) return _secFilingUrls;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_secFilingUrls);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _newsUrls;
+  final List<String>? _newsUrls;
   @override
-  List<String> get newsUrls {
+  List<String>? get newsUrls {
+    final value = _newsUrls;
+    if (value == null) return null;
     if (_newsUrls is EqualUnmodifiableListView) return _newsUrls;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_newsUrls);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -2079,6 +1375,7 @@ class _$WatchlistStockImpl implements _WatchlistStock {
   final DateTime lastUpdated;
   final List<PricePoint> _priceHistory;
   @override
+  @JsonKey()
   List<PricePoint> get priceHistory {
     if (_priceHistory is EqualUnmodifiableListView) return _priceHistory;
     // ignore: implicit_dynamic_type
@@ -2164,19 +1461,19 @@ abstract class _WatchlistStock implements WatchlistStock {
   const factory _WatchlistStock(
       {required final String id,
       required final String symbol,
-      required final String clusterAnalysisId,
+      final String? clusterAnalysisId,
       required final DateTime entryDate,
       required final double insiderAvgPrice,
       required final double currentPrice,
       required final double priceChangePct,
       required final int daysWatched,
-      required final String analysisReasoning,
-      required final List<String> keyFactors,
-      required final List<String> secFilingUrls,
-      required final List<String> newsUrls,
+      final String? analysisReasoning,
+      final List<String>? keyFactors,
+      final List<String>? secFilingUrls,
+      final List<String>? newsUrls,
       required final String status,
       required final DateTime lastUpdated,
-      required final List<PricePoint> priceHistory}) = _$WatchlistStockImpl;
+      final List<PricePoint> priceHistory}) = _$WatchlistStockImpl;
 
   factory _WatchlistStock.fromJson(Map<String, dynamic> json) =
       _$WatchlistStockImpl.fromJson;
@@ -2186,7 +1483,7 @@ abstract class _WatchlistStock implements WatchlistStock {
   @override
   String get symbol;
   @override
-  String get clusterAnalysisId;
+  String? get clusterAnalysisId;
   @override
   DateTime get entryDate;
   @override
@@ -2198,13 +1495,13 @@ abstract class _WatchlistStock implements WatchlistStock {
   @override
   int get daysWatched;
   @override
-  String get analysisReasoning;
+  String? get analysisReasoning;
   @override
-  List<String> get keyFactors;
+  List<String>? get keyFactors;
   @override
-  List<String> get secFilingUrls;
+  List<String>? get secFilingUrls;
   @override
-  List<String> get newsUrls;
+  List<String>? get newsUrls;
   @override
   String get status;
   @override
@@ -2226,8 +1523,9 @@ PricePoint _$PricePointFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PricePoint {
-  String get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
+  int? get volume => throw _privateConstructorUsedError;
 
   /// Serializes this PricePoint to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2245,7 +1543,7 @@ abstract class $PricePointCopyWith<$Res> {
           PricePoint value, $Res Function(PricePoint) then) =
       _$PricePointCopyWithImpl<$Res, PricePoint>;
   @useResult
-  $Res call({String date, double price});
+  $Res call({DateTime date, double price, int? volume});
 }
 
 /// @nodoc
@@ -2265,16 +1563,21 @@ class _$PricePointCopyWithImpl<$Res, $Val extends PricePoint>
   $Res call({
     Object? date = null,
     Object? price = null,
+    Object? volume = freezed,
   }) {
     return _then(_value.copyWith(
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      volume: freezed == volume
+          ? _value.volume
+          : volume // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -2287,7 +1590,7 @@ abstract class _$$PricePointImplCopyWith<$Res>
       __$$PricePointImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String date, double price});
+  $Res call({DateTime date, double price, int? volume});
 }
 
 /// @nodoc
@@ -2305,16 +1608,21 @@ class __$$PricePointImplCopyWithImpl<$Res>
   $Res call({
     Object? date = null,
     Object? price = null,
+    Object? volume = freezed,
   }) {
     return _then(_$PricePointImpl(
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
+      volume: freezed == volume
+          ? _value.volume
+          : volume // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -2322,19 +1630,22 @@ class __$$PricePointImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PricePointImpl implements _PricePoint {
-  const _$PricePointImpl({required this.date, required this.price});
+  const _$PricePointImpl(
+      {required this.date, required this.price, this.volume});
 
   factory _$PricePointImpl.fromJson(Map<String, dynamic> json) =>
       _$$PricePointImplFromJson(json);
 
   @override
-  final String date;
+  final DateTime date;
   @override
   final double price;
+  @override
+  final int? volume;
 
   @override
   String toString() {
-    return 'PricePoint(date: $date, price: $price)';
+    return 'PricePoint(date: $date, price: $price, volume: $volume)';
   }
 
   @override
@@ -2343,12 +1654,13 @@ class _$PricePointImpl implements _PricePoint {
         (other.runtimeType == runtimeType &&
             other is _$PricePointImpl &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.price, price) || other.price == price));
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.volume, volume) || other.volume == volume));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, date, price);
+  int get hashCode => Object.hash(runtimeType, date, price, volume);
 
   /// Create a copy of PricePoint
   /// with the given fields replaced by the non-null parameter values.
@@ -2368,16 +1680,19 @@ class _$PricePointImpl implements _PricePoint {
 
 abstract class _PricePoint implements PricePoint {
   const factory _PricePoint(
-      {required final String date,
-      required final double price}) = _$PricePointImpl;
+      {required final DateTime date,
+      required final double price,
+      final int? volume}) = _$PricePointImpl;
 
   factory _PricePoint.fromJson(Map<String, dynamic> json) =
       _$PricePointImpl.fromJson;
 
   @override
-  String get date;
+  DateTime get date;
   @override
   double get price;
+  @override
+  int? get volume;
 
   /// Create a copy of PricePoint
   /// with the given fields replaced by the non-null parameter values.
@@ -2394,7 +1709,7 @@ WatchlistHistory _$WatchlistHistoryFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WatchlistHistory {
   String get id => throw _privateConstructorUsedError;
-  String get watchListId => throw _privateConstructorUsedError;
+  String? get watchListId => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
   DateTime get entryDate => throw _privateConstructorUsedError;
   DateTime get exitDate => throw _privateConstructorUsedError;
@@ -2426,7 +1741,7 @@ abstract class $WatchlistHistoryCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String watchListId,
+      String? watchListId,
       String symbol,
       DateTime entryDate,
       DateTime exitDate,
@@ -2457,7 +1772,7 @@ class _$WatchlistHistoryCopyWithImpl<$Res, $Val extends WatchlistHistory>
   @override
   $Res call({
     Object? id = null,
-    Object? watchListId = null,
+    Object? watchListId = freezed,
     Object? symbol = null,
     Object? entryDate = null,
     Object? exitDate = null,
@@ -2476,10 +1791,10 @@ class _$WatchlistHistoryCopyWithImpl<$Res, $Val extends WatchlistHistory>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      watchListId: null == watchListId
+      watchListId: freezed == watchListId
           ? _value.watchListId
           : watchListId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
@@ -2542,7 +1857,7 @@ abstract class _$$WatchlistHistoryImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String watchListId,
+      String? watchListId,
       String symbol,
       DateTime entryDate,
       DateTime exitDate,
@@ -2571,7 +1886,7 @@ class __$$WatchlistHistoryImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? watchListId = null,
+    Object? watchListId = freezed,
     Object? symbol = null,
     Object? entryDate = null,
     Object? exitDate = null,
@@ -2590,10 +1905,10 @@ class __$$WatchlistHistoryImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      watchListId: null == watchListId
+      watchListId: freezed == watchListId
           ? _value.watchListId
           : watchListId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
@@ -2651,7 +1966,7 @@ class __$$WatchlistHistoryImplCopyWithImpl<$Res>
 class _$WatchlistHistoryImpl implements _WatchlistHistory {
   const _$WatchlistHistoryImpl(
       {required this.id,
-      required this.watchListId,
+      this.watchListId,
       required this.symbol,
       required this.entryDate,
       required this.exitDate,
@@ -2673,7 +1988,7 @@ class _$WatchlistHistoryImpl implements _WatchlistHistory {
   @override
   final String id;
   @override
-  final String watchListId;
+  final String? watchListId;
   @override
   final String symbol;
   @override
@@ -2791,7 +2106,7 @@ class _$WatchlistHistoryImpl implements _WatchlistHistory {
 abstract class _WatchlistHistory implements WatchlistHistory {
   const factory _WatchlistHistory(
       {required final String id,
-      required final String watchListId,
+      final String? watchListId,
       required final String symbol,
       required final DateTime entryDate,
       required final DateTime exitDate,
@@ -2811,7 +2126,7 @@ abstract class _WatchlistHistory implements WatchlistHistory {
   @override
   String get id;
   @override
-  String get watchListId;
+  String? get watchListId;
   @override
   String get symbol;
   @override
@@ -2845,495 +2160,529 @@ abstract class _WatchlistHistory implements WatchlistHistory {
       throw _privateConstructorUsedError;
 }
 
-WatchlistSummary _$WatchlistSummaryFromJson(Map<String, dynamic> json) {
-  return _WatchlistSummary.fromJson(json);
+InsiderTransaction _$InsiderTransactionFromJson(Map<String, dynamic> json) {
+  return _InsiderTransaction.fromJson(json);
 }
 
 /// @nodoc
-mixin _$WatchlistSummary {
-  int get totalStocks => throw _privateConstructorUsedError;
-  int get activeSignals => throw _privateConstructorUsedError;
-  double get averageReturn => throw _privateConstructorUsedError;
-  int get profitablePositions => throw _privateConstructorUsedError;
-  double get bestPerformer => throw _privateConstructorUsedError;
-  String get bestSymbol => throw _privateConstructorUsedError;
-  double get totalValue => throw _privateConstructorUsedError;
-  double get realizedGain => throw _privateConstructorUsedError;
-  double get unrealizedGain => throw _privateConstructorUsedError;
-  Map<String, double> get sectorAllocation =>
-      throw _privateConstructorUsedError;
-  int get totalTransactions => throw _privateConstructorUsedError;
-  double get averageTransactionSize => throw _privateConstructorUsedError;
-  DateTime? get lastUpdated => throw _privateConstructorUsedError;
-  List<String> get topPerformers => throw _privateConstructorUsedError;
-  List<String> get recentlyAdded => throw _privateConstructorUsedError;
+mixin _$InsiderTransaction {
+  String get id => throw _privateConstructorUsedError;
+  String get symbol => throw _privateConstructorUsedError;
+  DateTime get filingDate => throw _privateConstructorUsedError;
+  DateTime get transactionDate => throw _privateConstructorUsedError;
+  String get reportingName => throw _privateConstructorUsedError;
+  String get reportingCik => throw _privateConstructorUsedError;
+  String? get companyCik => throw _privateConstructorUsedError;
+  String get transactionType => throw _privateConstructorUsedError;
+  double? get securitiesTransacted => throw _privateConstructorUsedError;
+  double? get price => throw _privateConstructorUsedError;
+  double? get totalValue => throw _privateConstructorUsedError;
+  String? get typeOfOwner => throw _privateConstructorUsedError;
+  String? get link => throw _privateConstructorUsedError;
+  String? get securityName => throw _privateConstructorUsedError;
+  String? get formType => throw _privateConstructorUsedError;
+  double? get securitiesOwned => throw _privateConstructorUsedError;
+  String? get acquisitionDisposition => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
-  /// Serializes this WatchlistSummary to a JSON map.
+  /// Serializes this InsiderTransaction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of WatchlistSummary
+  /// Create a copy of InsiderTransaction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $WatchlistSummaryCopyWith<WatchlistSummary> get copyWith =>
+  $InsiderTransactionCopyWith<InsiderTransaction> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $WatchlistSummaryCopyWith<$Res> {
-  factory $WatchlistSummaryCopyWith(
-          WatchlistSummary value, $Res Function(WatchlistSummary) then) =
-      _$WatchlistSummaryCopyWithImpl<$Res, WatchlistSummary>;
+abstract class $InsiderTransactionCopyWith<$Res> {
+  factory $InsiderTransactionCopyWith(
+          InsiderTransaction value, $Res Function(InsiderTransaction) then) =
+      _$InsiderTransactionCopyWithImpl<$Res, InsiderTransaction>;
   @useResult
   $Res call(
-      {int totalStocks,
-      int activeSignals,
-      double averageReturn,
-      int profitablePositions,
-      double bestPerformer,
-      String bestSymbol,
-      double totalValue,
-      double realizedGain,
-      double unrealizedGain,
-      Map<String, double> sectorAllocation,
-      int totalTransactions,
-      double averageTransactionSize,
-      DateTime? lastUpdated,
-      List<String> topPerformers,
-      List<String> recentlyAdded});
+      {String id,
+      String symbol,
+      DateTime filingDate,
+      DateTime transactionDate,
+      String reportingName,
+      String reportingCik,
+      String? companyCik,
+      String transactionType,
+      double? securitiesTransacted,
+      double? price,
+      double? totalValue,
+      String? typeOfOwner,
+      String? link,
+      String? securityName,
+      String? formType,
+      double? securitiesOwned,
+      String? acquisitionDisposition,
+      DateTime createdAt});
 }
 
 /// @nodoc
-class _$WatchlistSummaryCopyWithImpl<$Res, $Val extends WatchlistSummary>
-    implements $WatchlistSummaryCopyWith<$Res> {
-  _$WatchlistSummaryCopyWithImpl(this._value, this._then);
+class _$InsiderTransactionCopyWithImpl<$Res, $Val extends InsiderTransaction>
+    implements $InsiderTransactionCopyWith<$Res> {
+  _$InsiderTransactionCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WatchlistSummary
+  /// Create a copy of InsiderTransaction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? totalStocks = null,
-    Object? activeSignals = null,
-    Object? averageReturn = null,
-    Object? profitablePositions = null,
-    Object? bestPerformer = null,
-    Object? bestSymbol = null,
-    Object? totalValue = null,
-    Object? realizedGain = null,
-    Object? unrealizedGain = null,
-    Object? sectorAllocation = null,
-    Object? totalTransactions = null,
-    Object? averageTransactionSize = null,
-    Object? lastUpdated = freezed,
-    Object? topPerformers = null,
-    Object? recentlyAdded = null,
+    Object? id = null,
+    Object? symbol = null,
+    Object? filingDate = null,
+    Object? transactionDate = null,
+    Object? reportingName = null,
+    Object? reportingCik = null,
+    Object? companyCik = freezed,
+    Object? transactionType = null,
+    Object? securitiesTransacted = freezed,
+    Object? price = freezed,
+    Object? totalValue = freezed,
+    Object? typeOfOwner = freezed,
+    Object? link = freezed,
+    Object? securityName = freezed,
+    Object? formType = freezed,
+    Object? securitiesOwned = freezed,
+    Object? acquisitionDisposition = freezed,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      totalStocks: null == totalStocks
-          ? _value.totalStocks
-          : totalStocks // ignore: cast_nullable_to_non_nullable
-              as int,
-      activeSignals: null == activeSignals
-          ? _value.activeSignals
-          : activeSignals // ignore: cast_nullable_to_non_nullable
-              as int,
-      averageReturn: null == averageReturn
-          ? _value.averageReturn
-          : averageReturn // ignore: cast_nullable_to_non_nullable
-              as double,
-      profitablePositions: null == profitablePositions
-          ? _value.profitablePositions
-          : profitablePositions // ignore: cast_nullable_to_non_nullable
-              as int,
-      bestPerformer: null == bestPerformer
-          ? _value.bestPerformer
-          : bestPerformer // ignore: cast_nullable_to_non_nullable
-              as double,
-      bestSymbol: null == bestSymbol
-          ? _value.bestSymbol
-          : bestSymbol // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      totalValue: null == totalValue
+      symbol: null == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      filingDate: null == filingDate
+          ? _value.filingDate
+          : filingDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      transactionDate: null == transactionDate
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      reportingName: null == reportingName
+          ? _value.reportingName
+          : reportingName // ignore: cast_nullable_to_non_nullable
+              as String,
+      reportingCik: null == reportingCik
+          ? _value.reportingCik
+          : reportingCik // ignore: cast_nullable_to_non_nullable
+              as String,
+      companyCik: freezed == companyCik
+          ? _value.companyCik
+          : companyCik // ignore: cast_nullable_to_non_nullable
+              as String?,
+      transactionType: null == transactionType
+          ? _value.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as String,
+      securitiesTransacted: freezed == securitiesTransacted
+          ? _value.securitiesTransacted
+          : securitiesTransacted // ignore: cast_nullable_to_non_nullable
+              as double?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double?,
+      totalValue: freezed == totalValue
           ? _value.totalValue
           : totalValue // ignore: cast_nullable_to_non_nullable
-              as double,
-      realizedGain: null == realizedGain
-          ? _value.realizedGain
-          : realizedGain // ignore: cast_nullable_to_non_nullable
-              as double,
-      unrealizedGain: null == unrealizedGain
-          ? _value.unrealizedGain
-          : unrealizedGain // ignore: cast_nullable_to_non_nullable
-              as double,
-      sectorAllocation: null == sectorAllocation
-          ? _value.sectorAllocation
-          : sectorAllocation // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
-      totalTransactions: null == totalTransactions
-          ? _value.totalTransactions
-          : totalTransactions // ignore: cast_nullable_to_non_nullable
-              as int,
-      averageTransactionSize: null == averageTransactionSize
-          ? _value.averageTransactionSize
-          : averageTransactionSize // ignore: cast_nullable_to_non_nullable
-              as double,
-      lastUpdated: freezed == lastUpdated
-          ? _value.lastUpdated
-          : lastUpdated // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      topPerformers: null == topPerformers
-          ? _value.topPerformers
-          : topPerformers // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      recentlyAdded: null == recentlyAdded
-          ? _value.recentlyAdded
-          : recentlyAdded // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as double?,
+      typeOfOwner: freezed == typeOfOwner
+          ? _value.typeOfOwner
+          : typeOfOwner // ignore: cast_nullable_to_non_nullable
+              as String?,
+      link: freezed == link
+          ? _value.link
+          : link // ignore: cast_nullable_to_non_nullable
+              as String?,
+      securityName: freezed == securityName
+          ? _value.securityName
+          : securityName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      formType: freezed == formType
+          ? _value.formType
+          : formType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      securitiesOwned: freezed == securitiesOwned
+          ? _value.securitiesOwned
+          : securitiesOwned // ignore: cast_nullable_to_non_nullable
+              as double?,
+      acquisitionDisposition: freezed == acquisitionDisposition
+          ? _value.acquisitionDisposition
+          : acquisitionDisposition // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$WatchlistSummaryImplCopyWith<$Res>
-    implements $WatchlistSummaryCopyWith<$Res> {
-  factory _$$WatchlistSummaryImplCopyWith(_$WatchlistSummaryImpl value,
-          $Res Function(_$WatchlistSummaryImpl) then) =
-      __$$WatchlistSummaryImplCopyWithImpl<$Res>;
+abstract class _$$InsiderTransactionImplCopyWith<$Res>
+    implements $InsiderTransactionCopyWith<$Res> {
+  factory _$$InsiderTransactionImplCopyWith(_$InsiderTransactionImpl value,
+          $Res Function(_$InsiderTransactionImpl) then) =
+      __$$InsiderTransactionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {int totalStocks,
-      int activeSignals,
-      double averageReturn,
-      int profitablePositions,
-      double bestPerformer,
-      String bestSymbol,
-      double totalValue,
-      double realizedGain,
-      double unrealizedGain,
-      Map<String, double> sectorAllocation,
-      int totalTransactions,
-      double averageTransactionSize,
-      DateTime? lastUpdated,
-      List<String> topPerformers,
-      List<String> recentlyAdded});
+      {String id,
+      String symbol,
+      DateTime filingDate,
+      DateTime transactionDate,
+      String reportingName,
+      String reportingCik,
+      String? companyCik,
+      String transactionType,
+      double? securitiesTransacted,
+      double? price,
+      double? totalValue,
+      String? typeOfOwner,
+      String? link,
+      String? securityName,
+      String? formType,
+      double? securitiesOwned,
+      String? acquisitionDisposition,
+      DateTime createdAt});
 }
 
 /// @nodoc
-class __$$WatchlistSummaryImplCopyWithImpl<$Res>
-    extends _$WatchlistSummaryCopyWithImpl<$Res, _$WatchlistSummaryImpl>
-    implements _$$WatchlistSummaryImplCopyWith<$Res> {
-  __$$WatchlistSummaryImplCopyWithImpl(_$WatchlistSummaryImpl _value,
-      $Res Function(_$WatchlistSummaryImpl) _then)
+class __$$InsiderTransactionImplCopyWithImpl<$Res>
+    extends _$InsiderTransactionCopyWithImpl<$Res, _$InsiderTransactionImpl>
+    implements _$$InsiderTransactionImplCopyWith<$Res> {
+  __$$InsiderTransactionImplCopyWithImpl(_$InsiderTransactionImpl _value,
+      $Res Function(_$InsiderTransactionImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WatchlistSummary
+  /// Create a copy of InsiderTransaction
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? totalStocks = null,
-    Object? activeSignals = null,
-    Object? averageReturn = null,
-    Object? profitablePositions = null,
-    Object? bestPerformer = null,
-    Object? bestSymbol = null,
-    Object? totalValue = null,
-    Object? realizedGain = null,
-    Object? unrealizedGain = null,
-    Object? sectorAllocation = null,
-    Object? totalTransactions = null,
-    Object? averageTransactionSize = null,
-    Object? lastUpdated = freezed,
-    Object? topPerformers = null,
-    Object? recentlyAdded = null,
+    Object? id = null,
+    Object? symbol = null,
+    Object? filingDate = null,
+    Object? transactionDate = null,
+    Object? reportingName = null,
+    Object? reportingCik = null,
+    Object? companyCik = freezed,
+    Object? transactionType = null,
+    Object? securitiesTransacted = freezed,
+    Object? price = freezed,
+    Object? totalValue = freezed,
+    Object? typeOfOwner = freezed,
+    Object? link = freezed,
+    Object? securityName = freezed,
+    Object? formType = freezed,
+    Object? securitiesOwned = freezed,
+    Object? acquisitionDisposition = freezed,
+    Object? createdAt = null,
   }) {
-    return _then(_$WatchlistSummaryImpl(
-      totalStocks: null == totalStocks
-          ? _value.totalStocks
-          : totalStocks // ignore: cast_nullable_to_non_nullable
-              as int,
-      activeSignals: null == activeSignals
-          ? _value.activeSignals
-          : activeSignals // ignore: cast_nullable_to_non_nullable
-              as int,
-      averageReturn: null == averageReturn
-          ? _value.averageReturn
-          : averageReturn // ignore: cast_nullable_to_non_nullable
-              as double,
-      profitablePositions: null == profitablePositions
-          ? _value.profitablePositions
-          : profitablePositions // ignore: cast_nullable_to_non_nullable
-              as int,
-      bestPerformer: null == bestPerformer
-          ? _value.bestPerformer
-          : bestPerformer // ignore: cast_nullable_to_non_nullable
-              as double,
-      bestSymbol: null == bestSymbol
-          ? _value.bestSymbol
-          : bestSymbol // ignore: cast_nullable_to_non_nullable
+    return _then(_$InsiderTransactionImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      totalValue: null == totalValue
+      symbol: null == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      filingDate: null == filingDate
+          ? _value.filingDate
+          : filingDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      transactionDate: null == transactionDate
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      reportingName: null == reportingName
+          ? _value.reportingName
+          : reportingName // ignore: cast_nullable_to_non_nullable
+              as String,
+      reportingCik: null == reportingCik
+          ? _value.reportingCik
+          : reportingCik // ignore: cast_nullable_to_non_nullable
+              as String,
+      companyCik: freezed == companyCik
+          ? _value.companyCik
+          : companyCik // ignore: cast_nullable_to_non_nullable
+              as String?,
+      transactionType: null == transactionType
+          ? _value.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as String,
+      securitiesTransacted: freezed == securitiesTransacted
+          ? _value.securitiesTransacted
+          : securitiesTransacted // ignore: cast_nullable_to_non_nullable
+              as double?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double?,
+      totalValue: freezed == totalValue
           ? _value.totalValue
           : totalValue // ignore: cast_nullable_to_non_nullable
-              as double,
-      realizedGain: null == realizedGain
-          ? _value.realizedGain
-          : realizedGain // ignore: cast_nullable_to_non_nullable
-              as double,
-      unrealizedGain: null == unrealizedGain
-          ? _value.unrealizedGain
-          : unrealizedGain // ignore: cast_nullable_to_non_nullable
-              as double,
-      sectorAllocation: null == sectorAllocation
-          ? _value._sectorAllocation
-          : sectorAllocation // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
-      totalTransactions: null == totalTransactions
-          ? _value.totalTransactions
-          : totalTransactions // ignore: cast_nullable_to_non_nullable
-              as int,
-      averageTransactionSize: null == averageTransactionSize
-          ? _value.averageTransactionSize
-          : averageTransactionSize // ignore: cast_nullable_to_non_nullable
-              as double,
-      lastUpdated: freezed == lastUpdated
-          ? _value.lastUpdated
-          : lastUpdated // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      topPerformers: null == topPerformers
-          ? _value._topPerformers
-          : topPerformers // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      recentlyAdded: null == recentlyAdded
-          ? _value._recentlyAdded
-          : recentlyAdded // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as double?,
+      typeOfOwner: freezed == typeOfOwner
+          ? _value.typeOfOwner
+          : typeOfOwner // ignore: cast_nullable_to_non_nullable
+              as String?,
+      link: freezed == link
+          ? _value.link
+          : link // ignore: cast_nullable_to_non_nullable
+              as String?,
+      securityName: freezed == securityName
+          ? _value.securityName
+          : securityName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      formType: freezed == formType
+          ? _value.formType
+          : formType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      securitiesOwned: freezed == securitiesOwned
+          ? _value.securitiesOwned
+          : securitiesOwned // ignore: cast_nullable_to_non_nullable
+              as double?,
+      acquisitionDisposition: freezed == acquisitionDisposition
+          ? _value.acquisitionDisposition
+          : acquisitionDisposition // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$WatchlistSummaryImpl implements _WatchlistSummary {
-  const _$WatchlistSummaryImpl(
-      {required this.totalStocks,
-      required this.activeSignals,
-      required this.averageReturn,
-      required this.profitablePositions,
-      required this.bestPerformer,
-      required this.bestSymbol,
-      required this.totalValue,
-      this.realizedGain = 0.0,
-      this.unrealizedGain = 0.0,
-      final Map<String, double> sectorAllocation = const {},
-      this.totalTransactions = 0,
-      this.averageTransactionSize = 0.0,
-      this.lastUpdated,
-      final List<String> topPerformers = const [],
-      final List<String> recentlyAdded = const []})
-      : _sectorAllocation = sectorAllocation,
-        _topPerformers = topPerformers,
-        _recentlyAdded = recentlyAdded;
+class _$InsiderTransactionImpl implements _InsiderTransaction {
+  const _$InsiderTransactionImpl(
+      {required this.id,
+      required this.symbol,
+      required this.filingDate,
+      required this.transactionDate,
+      required this.reportingName,
+      required this.reportingCik,
+      this.companyCik,
+      required this.transactionType,
+      this.securitiesTransacted,
+      this.price,
+      this.totalValue,
+      this.typeOfOwner,
+      this.link,
+      this.securityName,
+      this.formType,
+      this.securitiesOwned,
+      this.acquisitionDisposition,
+      required this.createdAt});
 
-  factory _$WatchlistSummaryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WatchlistSummaryImplFromJson(json);
-
-  @override
-  final int totalStocks;
-  @override
-  final int activeSignals;
-  @override
-  final double averageReturn;
-  @override
-  final int profitablePositions;
-  @override
-  final double bestPerformer;
-  @override
-  final String bestSymbol;
-  @override
-  final double totalValue;
-  @override
-  @JsonKey()
-  final double realizedGain;
-  @override
-  @JsonKey()
-  final double unrealizedGain;
-  final Map<String, double> _sectorAllocation;
-  @override
-  @JsonKey()
-  Map<String, double> get sectorAllocation {
-    if (_sectorAllocation is EqualUnmodifiableMapView) return _sectorAllocation;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_sectorAllocation);
-  }
+  factory _$InsiderTransactionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InsiderTransactionImplFromJson(json);
 
   @override
-  @JsonKey()
-  final int totalTransactions;
+  final String id;
   @override
-  @JsonKey()
-  final double averageTransactionSize;
+  final String symbol;
   @override
-  final DateTime? lastUpdated;
-  final List<String> _topPerformers;
+  final DateTime filingDate;
   @override
-  @JsonKey()
-  List<String> get topPerformers {
-    if (_topPerformers is EqualUnmodifiableListView) return _topPerformers;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_topPerformers);
-  }
-
-  final List<String> _recentlyAdded;
+  final DateTime transactionDate;
   @override
-  @JsonKey()
-  List<String> get recentlyAdded {
-    if (_recentlyAdded is EqualUnmodifiableListView) return _recentlyAdded;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_recentlyAdded);
-  }
+  final String reportingName;
+  @override
+  final String reportingCik;
+  @override
+  final String? companyCik;
+  @override
+  final String transactionType;
+  @override
+  final double? securitiesTransacted;
+  @override
+  final double? price;
+  @override
+  final double? totalValue;
+  @override
+  final String? typeOfOwner;
+  @override
+  final String? link;
+  @override
+  final String? securityName;
+  @override
+  final String? formType;
+  @override
+  final double? securitiesOwned;
+  @override
+  final String? acquisitionDisposition;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'WatchlistSummary(totalStocks: $totalStocks, activeSignals: $activeSignals, averageReturn: $averageReturn, profitablePositions: $profitablePositions, bestPerformer: $bestPerformer, bestSymbol: $bestSymbol, totalValue: $totalValue, realizedGain: $realizedGain, unrealizedGain: $unrealizedGain, sectorAllocation: $sectorAllocation, totalTransactions: $totalTransactions, averageTransactionSize: $averageTransactionSize, lastUpdated: $lastUpdated, topPerformers: $topPerformers, recentlyAdded: $recentlyAdded)';
+    return 'InsiderTransaction(id: $id, symbol: $symbol, filingDate: $filingDate, transactionDate: $transactionDate, reportingName: $reportingName, reportingCik: $reportingCik, companyCik: $companyCik, transactionType: $transactionType, securitiesTransacted: $securitiesTransacted, price: $price, totalValue: $totalValue, typeOfOwner: $typeOfOwner, link: $link, securityName: $securityName, formType: $formType, securitiesOwned: $securitiesOwned, acquisitionDisposition: $acquisitionDisposition, createdAt: $createdAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WatchlistSummaryImpl &&
-            (identical(other.totalStocks, totalStocks) ||
-                other.totalStocks == totalStocks) &&
-            (identical(other.activeSignals, activeSignals) ||
-                other.activeSignals == activeSignals) &&
-            (identical(other.averageReturn, averageReturn) ||
-                other.averageReturn == averageReturn) &&
-            (identical(other.profitablePositions, profitablePositions) ||
-                other.profitablePositions == profitablePositions) &&
-            (identical(other.bestPerformer, bestPerformer) ||
-                other.bestPerformer == bestPerformer) &&
-            (identical(other.bestSymbol, bestSymbol) ||
-                other.bestSymbol == bestSymbol) &&
+            other is _$InsiderTransactionImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.filingDate, filingDate) ||
+                other.filingDate == filingDate) &&
+            (identical(other.transactionDate, transactionDate) ||
+                other.transactionDate == transactionDate) &&
+            (identical(other.reportingName, reportingName) ||
+                other.reportingName == reportingName) &&
+            (identical(other.reportingCik, reportingCik) ||
+                other.reportingCik == reportingCik) &&
+            (identical(other.companyCik, companyCik) ||
+                other.companyCik == companyCik) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType) &&
+            (identical(other.securitiesTransacted, securitiesTransacted) ||
+                other.securitiesTransacted == securitiesTransacted) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.totalValue, totalValue) ||
                 other.totalValue == totalValue) &&
-            (identical(other.realizedGain, realizedGain) ||
-                other.realizedGain == realizedGain) &&
-            (identical(other.unrealizedGain, unrealizedGain) ||
-                other.unrealizedGain == unrealizedGain) &&
-            const DeepCollectionEquality()
-                .equals(other._sectorAllocation, _sectorAllocation) &&
-            (identical(other.totalTransactions, totalTransactions) ||
-                other.totalTransactions == totalTransactions) &&
-            (identical(other.averageTransactionSize, averageTransactionSize) ||
-                other.averageTransactionSize == averageTransactionSize) &&
-            (identical(other.lastUpdated, lastUpdated) ||
-                other.lastUpdated == lastUpdated) &&
-            const DeepCollectionEquality()
-                .equals(other._topPerformers, _topPerformers) &&
-            const DeepCollectionEquality()
-                .equals(other._recentlyAdded, _recentlyAdded));
+            (identical(other.typeOfOwner, typeOfOwner) ||
+                other.typeOfOwner == typeOfOwner) &&
+            (identical(other.link, link) || other.link == link) &&
+            (identical(other.securityName, securityName) ||
+                other.securityName == securityName) &&
+            (identical(other.formType, formType) ||
+                other.formType == formType) &&
+            (identical(other.securitiesOwned, securitiesOwned) ||
+                other.securitiesOwned == securitiesOwned) &&
+            (identical(other.acquisitionDisposition, acquisitionDisposition) ||
+                other.acquisitionDisposition == acquisitionDisposition) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      totalStocks,
-      activeSignals,
-      averageReturn,
-      profitablePositions,
-      bestPerformer,
-      bestSymbol,
+      id,
+      symbol,
+      filingDate,
+      transactionDate,
+      reportingName,
+      reportingCik,
+      companyCik,
+      transactionType,
+      securitiesTransacted,
+      price,
       totalValue,
-      realizedGain,
-      unrealizedGain,
-      const DeepCollectionEquality().hash(_sectorAllocation),
-      totalTransactions,
-      averageTransactionSize,
-      lastUpdated,
-      const DeepCollectionEquality().hash(_topPerformers),
-      const DeepCollectionEquality().hash(_recentlyAdded));
+      typeOfOwner,
+      link,
+      securityName,
+      formType,
+      securitiesOwned,
+      acquisitionDisposition,
+      createdAt);
 
-  /// Create a copy of WatchlistSummary
+  /// Create a copy of InsiderTransaction
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$WatchlistSummaryImplCopyWith<_$WatchlistSummaryImpl> get copyWith =>
-      __$$WatchlistSummaryImplCopyWithImpl<_$WatchlistSummaryImpl>(
+  _$$InsiderTransactionImplCopyWith<_$InsiderTransactionImpl> get copyWith =>
+      __$$InsiderTransactionImplCopyWithImpl<_$InsiderTransactionImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$WatchlistSummaryImplToJson(
+    return _$$InsiderTransactionImplToJson(
       this,
     );
   }
 }
 
-abstract class _WatchlistSummary implements WatchlistSummary {
-  const factory _WatchlistSummary(
-      {required final int totalStocks,
-      required final int activeSignals,
-      required final double averageReturn,
-      required final int profitablePositions,
-      required final double bestPerformer,
-      required final String bestSymbol,
-      required final double totalValue,
-      final double realizedGain,
-      final double unrealizedGain,
-      final Map<String, double> sectorAllocation,
-      final int totalTransactions,
-      final double averageTransactionSize,
-      final DateTime? lastUpdated,
-      final List<String> topPerformers,
-      final List<String> recentlyAdded}) = _$WatchlistSummaryImpl;
+abstract class _InsiderTransaction implements InsiderTransaction {
+  const factory _InsiderTransaction(
+      {required final String id,
+      required final String symbol,
+      required final DateTime filingDate,
+      required final DateTime transactionDate,
+      required final String reportingName,
+      required final String reportingCik,
+      final String? companyCik,
+      required final String transactionType,
+      final double? securitiesTransacted,
+      final double? price,
+      final double? totalValue,
+      final String? typeOfOwner,
+      final String? link,
+      final String? securityName,
+      final String? formType,
+      final double? securitiesOwned,
+      final String? acquisitionDisposition,
+      required final DateTime createdAt}) = _$InsiderTransactionImpl;
 
-  factory _WatchlistSummary.fromJson(Map<String, dynamic> json) =
-      _$WatchlistSummaryImpl.fromJson;
+  factory _InsiderTransaction.fromJson(Map<String, dynamic> json) =
+      _$InsiderTransactionImpl.fromJson;
 
   @override
-  int get totalStocks;
+  String get id;
   @override
-  int get activeSignals;
+  String get symbol;
   @override
-  double get averageReturn;
+  DateTime get filingDate;
   @override
-  int get profitablePositions;
+  DateTime get transactionDate;
   @override
-  double get bestPerformer;
+  String get reportingName;
   @override
-  String get bestSymbol;
+  String get reportingCik;
   @override
-  double get totalValue;
+  String? get companyCik;
   @override
-  double get realizedGain;
+  String get transactionType;
   @override
-  double get unrealizedGain;
+  double? get securitiesTransacted;
   @override
-  Map<String, double> get sectorAllocation;
+  double? get price;
   @override
-  int get totalTransactions;
+  double? get totalValue;
   @override
-  double get averageTransactionSize;
+  String? get typeOfOwner;
   @override
-  DateTime? get lastUpdated;
+  String? get link;
   @override
-  List<String> get topPerformers;
+  String? get securityName;
   @override
-  List<String> get recentlyAdded;
+  String? get formType;
+  @override
+  double? get securitiesOwned;
+  @override
+  String? get acquisitionDisposition;
+  @override
+  DateTime get createdAt;
 
-  /// Create a copy of WatchlistSummary
+  /// Create a copy of InsiderTransaction
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WatchlistSummaryImplCopyWith<_$WatchlistSummaryImpl> get copyWith =>
+  _$$InsiderTransactionImplCopyWith<_$InsiderTransactionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
