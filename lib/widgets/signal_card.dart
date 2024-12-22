@@ -1,12 +1,12 @@
 // lib/widgets/signal_card.dart
-
-import 'package:clusterbuy/providers/price_history_provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../models/insider_trade_models.dart';
+import '../providers/price_history_provider.dart';
 import 'stock_detail_sheet.dart';
 
 class SignalCard extends ConsumerWidget {
@@ -76,8 +76,6 @@ class SignalCard extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Column(
-                    // ... (continue from previous code in signal_card.dart)
-
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
@@ -162,7 +160,47 @@ class SignalCard extends ConsumerWidget {
         isPositive ? theme.colorScheme.tertiary : theme.colorScheme.error;
 
     if (priceHistory.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(child: Text("No Data"));
+    }
+
+    // Normalize x-values to start from 0
+    double minX = priceHistory.map((spot) => spot.x).reduce(
+        (value, element) => value < element ? value : element); // Find minX
+    List<FlSpot> normalizedSpots = priceHistory.map((spot) {
+      return FlSpot(spot.x - minX, spot.y);
+    }).toList();
+
+    // Determine min and max Y for scaling
+    double minY =
+        normalizedSpots.map((spot) => spot.y).reduce((a, b) => a < b ? a : b) *
+            0.95;
+    double maxY =
+        normalizedSpots.map((spot) => spot.y).reduce((a, b) => a > b ? a : b) *
+            1.05;
+
+    // Find insider purchase spots based on dates from tradeDates
+    List<FlSpot> insiderPurchaseSpots = [];
+    if (stock.tradeDates != null && stock.tradeDates!.isNotEmpty) {
+      for (var tradeDateString in stock.tradeDates!) {
+        DateTime tradeDate = DateTime.parse(tradeDateString);
+
+        // Find the corresponding price point for the trade's transaction date
+        var pricePointIndex = stock.priceHistory.indexWhere((p) =>
+            p.date.year == tradeDate.year &&
+            p.date.month == tradeDate.month &&
+            p.date.day == tradeDate.day);
+
+        if (pricePointIndex != -1) {
+          var pricePoint = stock.priceHistory[pricePointIndex];
+
+          // Normalize the x-value of the insider purchase spot
+          insiderPurchaseSpots.add(
+            FlSpot(
+                priceHistory[pricePointIndex].x - minX, // Normalize x-value
+                pricePoint.price),
+          );
+        }
+      }
     }
 
     return LineChart(
@@ -171,19 +209,42 @@ class SignalCard extends ConsumerWidget {
         titlesData: const FlTitlesData(show: false),
         borderData: FlBorderData(show: false),
         minX: 0,
-        maxX: priceHistory.length.toDouble() - 1,
-        minY:
-            priceHistory.map((spot) => spot.y).reduce((a, b) => a < b ? a : b),
-        maxY:
-            priceHistory.map((spot) => spot.y).reduce((a, b) => a > b ? a : b),
+        maxX: normalizedSpots.isNotEmpty
+            ? normalizedSpots
+                    .map((spot) => spot.x)
+                    .reduce((a, b) => a > b ? a : b) +
+                1
+            : 1,
+        minY: minY,
+        maxY: maxY,
         lineBarsData: [
           LineChartBarData(
-            spots: priceHistory,
+            spots: normalizedSpots,
             isCurved: true,
             color: color,
             barWidth: 2,
             isStrokeCapRound: true,
-            dotData: const FlDotData(show: false),
+            dotData: FlDotData(
+              show: true,
+              getDotPainter: (spot, percent, barData, index) {
+                // Highlight insider purchase spots
+                if (insiderPurchaseSpots.any(
+                    (s) => s.x.toInt() == spot.x.toInt() && s.y == spot.y)) {
+                  return FlDotCirclePainter(
+                    radius: 6,
+                    color: theme.colorScheme.primary,
+                    strokeColor: Colors.white,
+                    strokeWidth: 2,
+                  );
+                } else {
+                  return FlDotCirclePainter(
+                    radius: 0,
+                    color: Colors.transparent,
+                    strokeColor: Colors.transparent,
+                  );
+                }
+              },
+            ),
             belowBarData: BarAreaData(
               show: true,
               color: color.withOpacity(0.1),
@@ -254,8 +315,8 @@ class SignalCard extends ConsumerWidget {
               _buildMetricItem(
                 context,
                 icon: Icons.calendar_today,
-                label: 'Days Tracked',
-                value: stock.daysWatched.toString(),
+                label: 'Days Since Purchase',
+                value: stock.avgDaysSinceLastBuy.toString(),
               ),
             ],
           ),
@@ -324,8 +385,8 @@ class SignalCard extends ConsumerWidget {
                   ),
                   backgroundColor: theme.colorScheme.tertiaryContainer,
                   onPressed: () {
-                    // Handle SEC filings action
-                    // You can navigate to a detailed view or open URLs
+                    // Directly open the SEC Filings tab in the bottom sheet
+                    _showDetails(context, initialTabIndex: 2);
                   },
                 ),
             ],
@@ -460,12 +521,15 @@ class SignalCard extends ConsumerWidget {
     );
   }
 
-  void _showDetails(BuildContext context) {
+  void _showDetails(BuildContext context, {int initialTabIndex = 0}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => StockDetailSheet(stock: stock),
+      builder: (context) => StockDetailSheet(
+        stock: stock,
+        initialTabIndex: initialTabIndex,
+      ),
     );
   }
 

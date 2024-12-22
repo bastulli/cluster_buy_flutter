@@ -1028,21 +1028,25 @@ WatchlistStock _$WatchlistStockFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WatchlistStock {
-  String get id => throw _privateConstructorUsedError;
-  String get symbol => throw _privateConstructorUsedError;
-  String? get clusterAnalysisId => throw _privateConstructorUsedError;
-  DateTime get entryDate => throw _privateConstructorUsedError;
-  double get insiderAvgPrice => throw _privateConstructorUsedError;
-  double get currentPrice => throw _privateConstructorUsedError;
-  double get priceChangePct => throw _privateConstructorUsedError;
-  int get daysWatched => throw _privateConstructorUsedError;
-  String? get analysisReasoning => throw _privateConstructorUsedError;
-  List<String>? get keyFactors => throw _privateConstructorUsedError;
-  List<String>? get secFilingUrls => throw _privateConstructorUsedError;
-  List<String>? get newsUrls => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
-  DateTime get lastUpdated => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError; // uuid
+  String get symbol => throw _privateConstructorUsedError; // varchar
+  String? get clusterAnalysisId => throw _privateConstructorUsedError; // uuid
+  DateTime get entryDate => throw _privateConstructorUsedError; // timestamptz
+  double get insiderAvgPrice => throw _privateConstructorUsedError; // numeric
+  double get currentPrice => throw _privateConstructorUsedError; // numeric
+  double get priceChangePct => throw _privateConstructorUsedError; // numeric
+  int get daysWatched => throw _privateConstructorUsedError; // int4
+  String? get analysisReasoning => throw _privateConstructorUsedError; // text
+  List<String>? get keyFactors => throw _privateConstructorUsedError; // _text
+  List<String>? get secFilingUrls =>
+      throw _privateConstructorUsedError; // _text
+  List<String>? get newsUrls => throw _privateConstructorUsedError; // _text
+  String get status => throw _privateConstructorUsedError; // varchar
+  DateTime get lastUpdated => throw _privateConstructorUsedError; // timestamptz
+  int get avgDaysSinceLastBuy => throw _privateConstructorUsedError; // int4
+  List<String>? get tradeDates => throw _privateConstructorUsedError; // _text
   List<PricePoint> get priceHistory => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this WatchlistStock to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1075,7 +1079,10 @@ abstract class $WatchlistStockCopyWith<$Res> {
       List<String>? newsUrls,
       String status,
       DateTime lastUpdated,
-      List<PricePoint> priceHistory});
+      int avgDaysSinceLastBuy,
+      List<String>? tradeDates,
+      List<PricePoint> priceHistory,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -1107,7 +1114,10 @@ class _$WatchlistStockCopyWithImpl<$Res, $Val extends WatchlistStock>
     Object? newsUrls = freezed,
     Object? status = null,
     Object? lastUpdated = null,
+    Object? avgDaysSinceLastBuy = null,
+    Object? tradeDates = freezed,
     Object? priceHistory = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1166,10 +1176,22 @@ class _$WatchlistStockCopyWithImpl<$Res, $Val extends WatchlistStock>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      avgDaysSinceLastBuy: null == avgDaysSinceLastBuy
+          ? _value.avgDaysSinceLastBuy
+          : avgDaysSinceLastBuy // ignore: cast_nullable_to_non_nullable
+              as int,
+      tradeDates: freezed == tradeDates
+          ? _value.tradeDates
+          : tradeDates // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       priceHistory: null == priceHistory
           ? _value.priceHistory
           : priceHistory // ignore: cast_nullable_to_non_nullable
               as List<PricePoint>,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -1197,7 +1219,10 @@ abstract class _$$WatchlistStockImplCopyWith<$Res>
       List<String>? newsUrls,
       String status,
       DateTime lastUpdated,
-      List<PricePoint> priceHistory});
+      int avgDaysSinceLastBuy,
+      List<String>? tradeDates,
+      List<PricePoint> priceHistory,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -1227,7 +1252,10 @@ class __$$WatchlistStockImplCopyWithImpl<$Res>
     Object? newsUrls = freezed,
     Object? status = null,
     Object? lastUpdated = null,
+    Object? avgDaysSinceLastBuy = null,
+    Object? tradeDates = freezed,
     Object? priceHistory = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$WatchlistStockImpl(
       id: null == id
@@ -1286,17 +1314,29 @@ class __$$WatchlistStockImplCopyWithImpl<$Res>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      avgDaysSinceLastBuy: null == avgDaysSinceLastBuy
+          ? _value.avgDaysSinceLastBuy
+          : avgDaysSinceLastBuy // ignore: cast_nullable_to_non_nullable
+              as int,
+      tradeDates: freezed == tradeDates
+          ? _value._tradeDates
+          : tradeDates // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       priceHistory: null == priceHistory
           ? _value._priceHistory
           : priceHistory // ignore: cast_nullable_to_non_nullable
               as List<PricePoint>,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$WatchlistStockImpl implements _WatchlistStock {
+class _$WatchlistStockImpl extends _WatchlistStock {
   const _$WatchlistStockImpl(
       {required this.id,
       required this.symbol,
@@ -1312,34 +1352,49 @@ class _$WatchlistStockImpl implements _WatchlistStock {
       final List<String>? newsUrls,
       required this.status,
       required this.lastUpdated,
-      final List<PricePoint> priceHistory = const []})
+      required this.avgDaysSinceLastBuy,
+      final List<String>? tradeDates,
+      final List<PricePoint> priceHistory = const [],
+      this.createdAt})
       : _keyFactors = keyFactors,
         _secFilingUrls = secFilingUrls,
         _newsUrls = newsUrls,
-        _priceHistory = priceHistory;
+        _tradeDates = tradeDates,
+        _priceHistory = priceHistory,
+        super._();
 
   factory _$WatchlistStockImpl.fromJson(Map<String, dynamic> json) =>
       _$$WatchlistStockImplFromJson(json);
 
   @override
   final String id;
+// uuid
   @override
   final String symbol;
+// varchar
   @override
   final String? clusterAnalysisId;
+// uuid
   @override
   final DateTime entryDate;
+// timestamptz
   @override
   final double insiderAvgPrice;
+// numeric
   @override
   final double currentPrice;
+// numeric
   @override
   final double priceChangePct;
+// numeric
   @override
   final int daysWatched;
+// int4
   @override
   final String? analysisReasoning;
+// text
   final List<String>? _keyFactors;
+// text
   @override
   List<String>? get keyFactors {
     final value = _keyFactors;
@@ -1349,7 +1404,9 @@ class _$WatchlistStockImpl implements _WatchlistStock {
     return EqualUnmodifiableListView(value);
   }
 
+// _text
   final List<String>? _secFilingUrls;
+// _text
   @override
   List<String>? get secFilingUrls {
     final value = _secFilingUrls;
@@ -1359,7 +1416,9 @@ class _$WatchlistStockImpl implements _WatchlistStock {
     return EqualUnmodifiableListView(value);
   }
 
+// _text
   final List<String>? _newsUrls;
+// _text
   @override
   List<String>? get newsUrls {
     final value = _newsUrls;
@@ -1369,11 +1428,30 @@ class _$WatchlistStockImpl implements _WatchlistStock {
     return EqualUnmodifiableListView(value);
   }
 
+// _text
   @override
   final String status;
+// varchar
   @override
   final DateTime lastUpdated;
+// timestamptz
+  @override
+  final int avgDaysSinceLastBuy;
+// int4
+  final List<String>? _tradeDates;
+// int4
+  @override
+  List<String>? get tradeDates {
+    final value = _tradeDates;
+    if (value == null) return null;
+    if (_tradeDates is EqualUnmodifiableListView) return _tradeDates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+// _text
   final List<PricePoint> _priceHistory;
+// _text
   @override
   @JsonKey()
   List<PricePoint> get priceHistory {
@@ -1383,8 +1461,11 @@ class _$WatchlistStockImpl implements _WatchlistStock {
   }
 
   @override
+  final DateTime? createdAt;
+
+  @override
   String toString() {
-    return 'WatchlistStock(id: $id, symbol: $symbol, clusterAnalysisId: $clusterAnalysisId, entryDate: $entryDate, insiderAvgPrice: $insiderAvgPrice, currentPrice: $currentPrice, priceChangePct: $priceChangePct, daysWatched: $daysWatched, analysisReasoning: $analysisReasoning, keyFactors: $keyFactors, secFilingUrls: $secFilingUrls, newsUrls: $newsUrls, status: $status, lastUpdated: $lastUpdated, priceHistory: $priceHistory)';
+    return 'WatchlistStock(id: $id, symbol: $symbol, clusterAnalysisId: $clusterAnalysisId, entryDate: $entryDate, insiderAvgPrice: $insiderAvgPrice, currentPrice: $currentPrice, priceChangePct: $priceChangePct, daysWatched: $daysWatched, analysisReasoning: $analysisReasoning, keyFactors: $keyFactors, secFilingUrls: $secFilingUrls, newsUrls: $newsUrls, status: $status, lastUpdated: $lastUpdated, avgDaysSinceLastBuy: $avgDaysSinceLastBuy, tradeDates: $tradeDates, priceHistory: $priceHistory, createdAt: $createdAt)';
   }
 
   @override
@@ -1416,8 +1497,14 @@ class _$WatchlistStockImpl implements _WatchlistStock {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
+            (identical(other.avgDaysSinceLastBuy, avgDaysSinceLastBuy) ||
+                other.avgDaysSinceLastBuy == avgDaysSinceLastBuy) &&
             const DeepCollectionEquality()
-                .equals(other._priceHistory, _priceHistory));
+                .equals(other._tradeDates, _tradeDates) &&
+            const DeepCollectionEquality()
+                .equals(other._priceHistory, _priceHistory) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1438,7 +1525,10 @@ class _$WatchlistStockImpl implements _WatchlistStock {
       const DeepCollectionEquality().hash(_newsUrls),
       status,
       lastUpdated,
-      const DeepCollectionEquality().hash(_priceHistory));
+      avgDaysSinceLastBuy,
+      const DeepCollectionEquality().hash(_tradeDates),
+      const DeepCollectionEquality().hash(_priceHistory),
+      createdAt);
 
   /// Create a copy of WatchlistStock
   /// with the given fields replaced by the non-null parameter values.
@@ -1457,7 +1547,7 @@ class _$WatchlistStockImpl implements _WatchlistStock {
   }
 }
 
-abstract class _WatchlistStock implements WatchlistStock {
+abstract class _WatchlistStock extends WatchlistStock {
   const factory _WatchlistStock(
       {required final String id,
       required final String symbol,
@@ -1473,41 +1563,51 @@ abstract class _WatchlistStock implements WatchlistStock {
       final List<String>? newsUrls,
       required final String status,
       required final DateTime lastUpdated,
-      final List<PricePoint> priceHistory}) = _$WatchlistStockImpl;
+      required final int avgDaysSinceLastBuy,
+      final List<String>? tradeDates,
+      final List<PricePoint> priceHistory,
+      final DateTime? createdAt}) = _$WatchlistStockImpl;
+  const _WatchlistStock._() : super._();
 
   factory _WatchlistStock.fromJson(Map<String, dynamic> json) =
       _$WatchlistStockImpl.fromJson;
 
   @override
-  String get id;
+  String get id; // uuid
   @override
-  String get symbol;
+  String get symbol; // varchar
   @override
-  String? get clusterAnalysisId;
+  String? get clusterAnalysisId; // uuid
   @override
-  DateTime get entryDate;
+  DateTime get entryDate; // timestamptz
   @override
-  double get insiderAvgPrice;
+  double get insiderAvgPrice; // numeric
   @override
-  double get currentPrice;
+  double get currentPrice; // numeric
   @override
-  double get priceChangePct;
+  double get priceChangePct; // numeric
   @override
-  int get daysWatched;
+  int get daysWatched; // int4
   @override
-  String? get analysisReasoning;
+  String? get analysisReasoning; // text
   @override
-  List<String>? get keyFactors;
+  List<String>? get keyFactors; // _text
   @override
-  List<String>? get secFilingUrls;
+  List<String>? get secFilingUrls; // _text
   @override
-  List<String>? get newsUrls;
+  List<String>? get newsUrls; // _text
   @override
-  String get status;
+  String get status; // varchar
   @override
-  DateTime get lastUpdated;
+  DateTime get lastUpdated; // timestamptz
+  @override
+  int get avgDaysSinceLastBuy; // int4
+  @override
+  List<String>? get tradeDates; // _text
   @override
   List<PricePoint> get priceHistory;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of WatchlistStock
   /// with the given fields replaced by the non-null parameter values.
@@ -2166,23 +2266,25 @@ InsiderTransaction _$InsiderTransactionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$InsiderTransaction {
-  String get id => throw _privateConstructorUsedError;
-  String get symbol => throw _privateConstructorUsedError;
-  DateTime get filingDate => throw _privateConstructorUsedError;
-  DateTime get transactionDate => throw _privateConstructorUsedError;
-  String get reportingName => throw _privateConstructorUsedError;
-  String get reportingCik => throw _privateConstructorUsedError;
-  String? get companyCik => throw _privateConstructorUsedError;
-  String get transactionType => throw _privateConstructorUsedError;
-  double? get securitiesTransacted => throw _privateConstructorUsedError;
-  double? get price => throw _privateConstructorUsedError;
-  double? get totalValue => throw _privateConstructorUsedError;
-  String? get typeOfOwner => throw _privateConstructorUsedError;
-  String? get link => throw _privateConstructorUsedError;
-  String? get securityName => throw _privateConstructorUsedError;
-  String? get formType => throw _privateConstructorUsedError;
-  double? get securitiesOwned => throw _privateConstructorUsedError;
-  String? get acquisitionDisposition => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError; // uuid
+  String get symbol => throw _privateConstructorUsedError; // varcgar
+  DateTime get filingDate => throw _privateConstructorUsedError; // timestamptz
+  DateTime get transactionDate => throw _privateConstructorUsedError; // date
+  String get reportingName => throw _privateConstructorUsedError; // varchar
+  String get reportingCik => throw _privateConstructorUsedError; // varchar
+  String? get companyCik => throw _privateConstructorUsedError; // varchar
+  String get transactionType => throw _privateConstructorUsedError; // varchar
+  double? get securitiesTransacted =>
+      throw _privateConstructorUsedError; // numeric
+  double? get price => throw _privateConstructorUsedError; // numeric
+  double? get totalValue => throw _privateConstructorUsedError; // numeric
+  String? get typeOfOwner => throw _privateConstructorUsedError; // numeric
+  String? get link => throw _privateConstructorUsedError; // text
+  String? get securityName => throw _privateConstructorUsedError; // varchar
+  String? get formType => throw _privateConstructorUsedError; // varchar
+  double? get securitiesOwned => throw _privateConstructorUsedError; // numeric
+  String? get acquisitionDisposition =>
+      throw _privateConstructorUsedError; // varchar
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this InsiderTransaction to a JSON map.
@@ -2499,38 +2601,55 @@ class _$InsiderTransactionImpl implements _InsiderTransaction {
 
   @override
   final String id;
+// uuid
   @override
   final String symbol;
+// varcgar
   @override
   final DateTime filingDate;
+// timestamptz
   @override
   final DateTime transactionDate;
+// date
   @override
   final String reportingName;
+// varchar
   @override
   final String reportingCik;
+// varchar
   @override
   final String? companyCik;
+// varchar
   @override
   final String transactionType;
+// varchar
   @override
   final double? securitiesTransacted;
+// numeric
   @override
   final double? price;
+// numeric
   @override
   final double? totalValue;
+// numeric
   @override
   final String? typeOfOwner;
+// numeric
   @override
   final String? link;
+// text
   @override
   final String? securityName;
+// varchar
   @override
   final String? formType;
+// varchar
   @override
   final double? securitiesOwned;
+// numeric
   @override
   final String? acquisitionDisposition;
+// varchar
   @override
   final DateTime createdAt;
 
@@ -2643,39 +2762,39 @@ abstract class _InsiderTransaction implements InsiderTransaction {
       _$InsiderTransactionImpl.fromJson;
 
   @override
-  String get id;
+  String get id; // uuid
   @override
-  String get symbol;
+  String get symbol; // varcgar
   @override
-  DateTime get filingDate;
+  DateTime get filingDate; // timestamptz
   @override
-  DateTime get transactionDate;
+  DateTime get transactionDate; // date
   @override
-  String get reportingName;
+  String get reportingName; // varchar
   @override
-  String get reportingCik;
+  String get reportingCik; // varchar
   @override
-  String? get companyCik;
+  String? get companyCik; // varchar
   @override
-  String get transactionType;
+  String get transactionType; // varchar
   @override
-  double? get securitiesTransacted;
+  double? get securitiesTransacted; // numeric
   @override
-  double? get price;
+  double? get price; // numeric
   @override
-  double? get totalValue;
+  double? get totalValue; // numeric
   @override
-  String? get typeOfOwner;
+  String? get typeOfOwner; // numeric
   @override
-  String? get link;
+  String? get link; // text
   @override
-  String? get securityName;
+  String? get securityName; // varchar
   @override
-  String? get formType;
+  String? get formType; // varchar
   @override
-  double? get securitiesOwned;
+  double? get securitiesOwned; // numeric
   @override
-  String? get acquisitionDisposition;
+  String? get acquisitionDisposition; // varchar
   @override
   DateTime get createdAt;
 

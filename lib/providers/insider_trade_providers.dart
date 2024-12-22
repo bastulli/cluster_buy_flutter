@@ -1,7 +1,7 @@
 // lib/providers/insider_trade_providers.dart
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:collection/collection.dart';
 import '../repositories/insider_trade_repository.dart';
+import 'package:collection/collection.dart';
 import '../models/insider_trade_models.dart';
 import 'dart:math';
 
@@ -29,6 +29,7 @@ class WatchlistNotifier extends _$WatchlistNotifier {
   Future<List<WatchlistStock>> _fetchWatchlist() async {
     final repository = ref.read(insiderTradeRepositoryProvider);
     final watchlist = await repository.getWatchlist();
+
     return _sortByPerformance(watchlist);
   }
 

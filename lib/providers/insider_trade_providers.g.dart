@@ -103,7 +103,7 @@ final periodTradeStatsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef PeriodTradeStatsRef = AutoDisposeFutureProviderRef<TradeStats?>;
-String _$selectedPeriodHash() => r'9a063816b3dccd866927b69d338d1d67dd6fc83a';
+String _$selectedPeriodHash() => r'086cca0791d555ddf5f7b05968a29feebb8468ec';
 
 /// See also [SelectedPeriod].
 @ProviderFor(SelectedPeriod)

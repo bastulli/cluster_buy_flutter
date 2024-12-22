@@ -23,8 +23,6 @@ class _AnimatedFinanceBackgroundState extends State<AnimatedFinanceBackground>
   @override
   void initState() {
     super.initState();
-    // Slower overall movement to observe changes over time,
-    // but still dynamic. Increase if you want even slower movement.
     _controller = AnimationController(
       duration: const Duration(seconds: 90),
       vsync: this,
@@ -84,7 +82,6 @@ class FinanceBackgroundPainter extends CustomPainter {
     for (var i = 0; i < lineCount; i++) {
       final depthFactor = math.pow(1.0 - (i / lineCount), 2.0).toDouble();
 
-      // Closer lines are thicker and more opaque
       final strokeWidth = 1.0 * depthFactor;
       final opacity = math.max(0.35 * depthFactor, 0.08);
 
@@ -98,22 +95,17 @@ class FinanceBackgroundPainter extends CustomPainter {
       final points = <Offset>[];
       final signals = <Offset>[];
 
-      // Increase range to allow going far above and below
       final startX = -size.width;
       final endX = size.width * 2.0;
 
-      // Dramatic vertical range:
-      // For the closest line (depthFactor ~1), range is huge, nearly full screen height.
-      // For far lines (depthFactor ~0), less range.
       final baseRange = size.height * (0.8 * depthFactor + 0.1);
-      final minY = 0 - baseRange; // allow going above top
-      final maxY = size.height + baseRange; // allow going below bottom
+      final minY = 0 - baseRange;
+      final maxY = size.height + baseRange;
 
-      double currentY = size.height * 0.5; // start near center
+      double currentY = size.height * 0.5;
       double momentum = 2.0;
       double trend = 3.0;
 
-      // Larger random swings for a stock-market feel
       for (double x = startX; x <= endX; x += 12) {
         trend = trend * 0.95 + (random.nextDouble() - 0.5) * 0.1 * depthFactor;
         momentum = momentum * 0.9 +
@@ -122,14 +114,11 @@ class FinanceBackgroundPainter extends CustomPainter {
 
         currentY = (currentY + momentum).clamp(minY, maxY);
 
-        // Apply perspective shift:
         final perspectiveT = (x / vpX).clamp(0.0, 1.0);
         final px = x;
         final py = _lerpDouble(currentY, vpY, perspectiveT * 0.3)!;
         points.add(Offset(px, py));
 
-        // Add a few random "buy signals" if momentum is large
-        // Using the same lineColor, just fully opaque or slightly more visible
         if ((momentum.abs() > 10 * depthFactor) &&
             random.nextDouble() < 0.006 * depthFactor) {
           signals.add(Offset(px, py));
@@ -137,13 +126,11 @@ class FinanceBackgroundPainter extends CustomPainter {
       }
 
       path.moveTo(points[0].dx, points[0].dy);
-      // Use smoother lines, but volatility should suggest "market action"
       for (var j = 0; j < points.length - 3; j += 3) {
         final p1 = points[j];
         final p2 = points[math.min(j + 1, points.length - 1)];
         final p3 = points[math.min(j + 2, points.length - 1)];
 
-        // cubicTo for smoother curves
         path.cubicTo(
           (p1.dx + p2.dx) / 2,
           p1.dy,
@@ -154,23 +141,41 @@ class FinanceBackgroundPainter extends CustomPainter {
         );
       }
 
-      // Closer lines move faster horizontally
       final speedFactor = 0.4 + depthFactor * 0.6;
       final dx = -animation.value * size.width * speedFactor;
       canvas.save();
       canvas.translate(dx, 0);
+
+      // Create a closed path for the shaded area
+      final fillPath = Path.from(path);
+      fillPath.lineTo(points.last.dx, size.height);
+      fillPath.lineTo(points.first.dx, size.height);
+      fillPath.close();
+
+      // Fill the area under the curve with a gradient
+      final fillPaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            lineColor.withOpacity(opacity * 0.5), // More opaque at the top
+            lineColor.withOpacity(0.0), // Fully transparent at the bottom
+          ],
+          stops: const [0.0, 1.0],
+        ).createShader(Rect.fromPoints(
+            Offset(points.first.dx, 0), Offset(points.last.dx, size.height)));
+
+      canvas.drawPath(fillPath, fillPaint);
+
+      // Draw the line on top
       canvas.drawPath(path, paint);
 
-      // Draw signals as small vertical ticks to mimic markers on a chart.
-      // No color difference: just use lineColor at higher opacity.
       final signalPaint = Paint()
         ..color = lineColor.withOpacity(math.min(opacity + 0.5, 1.0))
-        ..strokeWidth = strokeWidth * 0.8 // slightly thinner ticks
+        ..strokeWidth = strokeWidth * 0.8
         ..strokeCap = StrokeCap.round;
 
       for (final signal in signals) {
-        // Small vertical line tick
-        // Height of the tick depends on depthFactor
         final tickHeight = 10.0 * depthFactor;
         canvas.drawLine(
           Offset(signal.dx, signal.dy - tickHeight / 2),

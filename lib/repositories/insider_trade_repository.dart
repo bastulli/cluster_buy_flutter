@@ -2,10 +2,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/insider_trade_models.dart';
 import '../main.dart';
-
 part 'insider_trade_repository.g.dart';
 
 @riverpod
@@ -16,7 +16,6 @@ InsiderTradeRepository insiderTradeRepository(InsiderTradeRepositoryRef ref) {
 class InsiderTradeRepository {
   Future<List<WatchlistStock>> getWatchlist() async {
     try {
-      // Get watchlist data - note we're not joining with cluster_analysis anymore
       final response = await supabase
           .from('watch_list')
           .select()
@@ -24,7 +23,6 @@ class InsiderTradeRepository {
 
       final List<WatchlistStock> stocks = [];
       for (final data in response) {
-        // Get price history for this stock
         final priceHistoryResponse = await supabase
             .from('price_history')
             .select()
@@ -41,7 +39,20 @@ class InsiderTradeRepository {
                 ))
             .toList();
 
-        stocks.add(WatchlistStock(
+        // Handle null createdAt
+        DateTime createdAt = data['created_at'] != null
+            ? DateTime.parse(data['created_at'])
+            : DateTime.now(); // Provide a default value (e.g., current time)
+
+        // Parse trade dates if available
+        List<String>? tradeDates;
+        if (data['trade_dates'] != null) {
+          tradeDates = List<String>.from(jsonDecode(data['trade_dates']));
+        }
+
+        // Create WatchlistStock instance
+        var stock = WatchlistStock(
+          createdAt: createdAt,
           id: data['id'],
           symbol: data['symbol'],
           clusterAnalysisId: data['cluster_analysis_id'],
@@ -50,8 +61,7 @@ class InsiderTradeRepository {
           currentPrice: (data['current_price'] as num).toDouble(),
           priceChangePct: (data['price_change_pct'] as num).toDouble(),
           daysWatched: data['days_watched'],
-          analysisReasoning: data['analysis_reasoning'],
-          // Arrays are directly on watch_list table
+          analysisReasoning: data['analysis_reasoning']?.toString(),
           keyFactors: (data['key_factors'] as List?)?.cast<String>() ?? [],
           secFilingUrls:
               (data['sec_filing_urls'] as List?)?.cast<String>() ?? [],
@@ -59,13 +69,17 @@ class InsiderTradeRepository {
           status: data['status'] ?? 'ACTIVE',
           lastUpdated: DateTime.parse(data['last_updated']),
           priceHistory: priceHistory,
-        ));
+          tradeDates: tradeDates,
+          avgDaysSinceLastBuy: data['avg_days_since_last_buy'],
+        );
+
+        stocks.add(stock);
       }
 
       return stocks;
     } catch (e) {
       debugPrint('Error fetching watchlist stocks: $e');
-      rethrow; // Rethrow to let caller handle specific errors
+      rethrow;
     }
   }
 
@@ -97,15 +111,14 @@ class InsiderTradeRepository {
                 totalValue: data['total_value'] != null
                     ? (data['total_value'] as num).toDouble()
                     : null,
-                typeOfOwner: data['type_of_owner'] ?? '', // Nullable
-                link: data['link'], // Nullable
-                securityName: data['security_name'], // Nullable
-                formType: data['form_type'], // Nullable
+                typeOfOwner: data['type_of_owner'] ?? '',
+                link: data['link'],
+                securityName: data['security_name'],
+                formType: data['form_type'],
                 securitiesOwned: data['securities_owned'] != null
                     ? (data['securities_owned'] as num).toDouble()
                     : null,
-                acquisitionDisposition:
-                    data['acquisition_disposition'], // Nullable
+                acquisitionDisposition: data['acquisition_disposition'],
                 createdAt: DateTime.parse(data['created_at']),
               ))
           .toList();

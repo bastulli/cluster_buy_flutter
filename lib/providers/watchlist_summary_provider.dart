@@ -1,7 +1,6 @@
 // lib/providers/watchlist_summary_provider.dart
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
-import '../models/insider_trade_models.dart';
 import 'insider_trade_providers.dart';
 
 part 'watchlist_summary_provider.g.dart';

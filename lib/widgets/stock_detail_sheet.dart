@@ -1,3 +1,4 @@
+// lib/widgets/stock_detail_sheet.dart
 import 'package:clusterbuy/models/insider_trade_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,10 +8,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 class StockDetailSheet extends ConsumerStatefulWidget {
   final WatchlistStock stock;
+  final int initialTabIndex;
 
   const StockDetailSheet({
     super.key,
     required this.stock,
+    this.initialTabIndex = 0,
   });
 
   @override
@@ -28,7 +31,8 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(
+        length: 4, vsync: this, initialIndex: widget.initialTabIndex);
   }
 
   @override
@@ -54,7 +58,7 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
           ),
           child: Column(
             children: [
-              _buildHeader(theme),
+              _buildHeader(theme, context),
               TabBar(
                 controller: _tabController,
                 tabs: const [
@@ -69,7 +73,7 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
                   controller: _tabController,
                   children: [
                     _buildAnalysisTab(scrollController),
-                    _buildOverviewTab(scrollController),
+                    _buildMetricsTab(scrollController),
                     _buildSecLinksTab(scrollController),
                     _buildNewsLinksTab(scrollController),
                   ],
@@ -82,7 +86,7 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
     );
   }
 
-  Widget _buildHeader(ThemeData theme) {
+  Widget _buildHeader(ThemeData theme, BuildContext context) {
     final isPositive = widget.stock.priceChangePct >= 0;
 
     return Container(
@@ -100,17 +104,28 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Text(
-                    widget.stock.symbol,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+              InkWell(
+                onTap: () {
+                  final symbol = widget.stock.symbol;
+                  final url = 'https://finance.yahoo.com/quote/$symbol';
+                  launchUrl(Uri.parse(url));
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      widget.stock.symbol,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline, // Add underline
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  _buildStatusChip(theme),
-                ],
+                    const SizedBox(width: 8),
+                    _buildStatusChip(theme),
+                    const SizedBox(width: 8), // Add some spacing
+                    Icon(Icons.open_in_new,
+                        size: 20, color: theme.colorScheme.primary),
+                  ],
+                ),
               ),
               IconButton(
                 icon: const Icon(Icons.close),
@@ -328,6 +343,52 @@ class _StockDetailSheetState extends ConsumerState<StockDetailSheet>
           }
         },
       ),
+    );
+  }
+
+  Widget _buildMetricsTab(ScrollController scrollController) {
+    final theme = Theme.of(context);
+
+    return ListView(
+      controller: scrollController,
+      padding: const EdgeInsets.all(16),
+      children: [
+        _buildMetricSection(
+          title: 'Key Metrics',
+          metrics: [
+            _buildMetric(
+              'Insider Avg Price',
+              currencyFormatter.format(widget.stock.insiderAvgPrice),
+              Icons.price_change,
+            ),
+            _buildMetric(
+              'Current Price',
+              currencyFormatter.format(widget.stock.currentPrice),
+              Icons.attach_money,
+            ),
+            _buildMetric(
+              'Price Change %',
+              '${widget.stock.priceChangePct.toStringAsFixed(1)}%',
+              Icons.trending_up, // You might want a different icon for down
+              color: widget.stock.priceChangePct >= 0
+                  ? theme.colorScheme.tertiary
+                  : theme.colorScheme.error,
+            ),
+            _buildMetric(
+              'Days Since Avg Purchase',
+              widget.stock.avgDaysSinceLastBuy.toString(),
+              Icons.calendar_today,
+            ),
+            _buildMetric(
+              'Days Watched',
+              widget.stock.daysWatched.toString(),
+              Icons.visibility,
+            ),
+            // Add more metrics here if needed
+          ],
+        ),
+        // You can add more sections with _buildMetricSection
+      ],
     );
   }
 

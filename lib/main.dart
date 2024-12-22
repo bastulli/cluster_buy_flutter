@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
 import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
 
@@ -16,7 +17,16 @@ void main() async {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sdXVkZW16dHp0bmNpb3Rwc29yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMwNjk0MDMsImV4cCI6MjA0ODY0NTQwM30.3Y0CZ4VzDU-JipTGECjZ0GrUbc_uBHUsdxiy2RNLzwY',
   );
 
-  runApp(const ProviderScope(child: StockAnalyzerApp()));
+  // Initialize SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(ProviderScope(
+    overrides: [
+      // Override the themeProvider to use SharedPreferences
+      sharedPreferencesProvider.overrideWithValue(prefs),
+    ],
+    child: const StockAnalyzerApp(),
+  ));
 }
 
 final supabase = Supabase.instance.client;
@@ -26,17 +36,22 @@ class StockAnalyzerApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(myThemeProvider);
+    // Use the themeMode from the provider
+    final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp(
       title: 'Cluster Buy',
-      theme: _buildTheme(isDarkMode),
+      theme: _buildTheme(Brightness.light), // Light theme
+      darkTheme: _buildTheme(Brightness.dark), // Dark theme
+      themeMode: themeMode, // Use the themeMode from the provider
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 
-  ThemeData _buildTheme(bool isDarkMode) {
+  ThemeData _buildTheme(Brightness brightness) {
+    final isDarkMode = brightness == Brightness.dark;
+
     // Get the base theme from FlexColorScheme
     final baseScheme = isDarkMode
         ? FlexScheme.jungle // Green scheme for dark mode

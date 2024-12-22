@@ -1,7 +1,9 @@
+// lib/widgets/metrics_header.dart
 import 'package:clusterbuy/providers/all_trade_stats_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/insider_trade_models.dart';
 import '../providers/insider_trade_providers.dart';
 
@@ -37,7 +39,7 @@ class MetricsHeader extends ConsumerWidget {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => _buildErrorCard(context, error),
+      error: (error, stack) => _buildErrorCard(context, error, ref),
     );
   }
 
@@ -79,7 +81,9 @@ class MetricsHeader extends ConsumerWidget {
                 const Spacer(),
                 IconButton.filledTonal(
                   icon: const Icon(Icons.refresh),
-                  onPressed: () => {},
+                  onPressed: () {
+                    ref.read(allTradeStatsProvider.notifier).refresh();
+                  },
                   tooltip: 'Refresh Data',
                 ),
               ],
@@ -443,30 +447,39 @@ class MetricsHeader extends ConsumerWidget {
         const SizedBox(height: 12),
         ...symbols.take(5).map((symbol) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      symbol['symbol'] ?? '',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
+              child: InkWell(
+                onTap: () {
+                  // Open Yahoo Finance for the symbol
+                  final symbolStr = symbol['symbol'] as String;
+                  final url = 'https://finance.yahoo.com/quote/$symbolStr';
+                  launchUrl(Uri.parse(url));
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        symbol['symbol'] ?? '',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      formatter.format(symbol['value'] ?? 0),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: color,
-                        fontWeight: FontWeight.w500,
+                      const Spacer(),
+                      Text(
+                        formatter.format(symbol['total_value'] ?? 0),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: color,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )),
@@ -562,7 +575,9 @@ class MetricsHeader extends ConsumerWidget {
               ),
             const SizedBox(height: 24),
             FilledButton.icon(
-              onPressed: () => {},
+              onPressed: () {
+                ref.read(allTradeStatsProvider.notifier).refresh();
+              },
               label: const Text('Refresh Data'),
             ),
           ],
@@ -571,7 +586,7 @@ class MetricsHeader extends ConsumerWidget {
     );
   }
 
-  Widget _buildErrorCard(BuildContext context, Object error) {
+  Widget _buildErrorCard(BuildContext context, Object error, WidgetRef ref) {
     final theme = Theme.of(context);
 
     return Card(
@@ -617,7 +632,9 @@ class MetricsHeader extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             OutlinedButton.icon(
-              onPressed: () => {},
+              onPressed: () {
+                ref.read(allTradeStatsProvider.notifier).refresh();
+              },
               icon: const Icon(Icons.refresh),
               label: const Text('Try Again'),
             ),

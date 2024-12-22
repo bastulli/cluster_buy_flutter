@@ -118,10 +118,17 @@ _$WatchlistStockImpl _$$WatchlistStockImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       status: json['status'] as String,
       lastUpdated: DateTime.parse(json['lastUpdated'] as String),
+      avgDaysSinceLastBuy: (json['avgDaysSinceLastBuy'] as num).toInt(),
+      tradeDates: (json['tradeDates'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       priceHistory: (json['priceHistory'] as List<dynamic>?)
               ?.map((e) => PricePoint.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$WatchlistStockImplToJson(
@@ -141,7 +148,10 @@ Map<String, dynamic> _$$WatchlistStockImplToJson(
       'newsUrls': instance.newsUrls,
       'status': instance.status,
       'lastUpdated': instance.lastUpdated.toIso8601String(),
+      'avgDaysSinceLastBuy': instance.avgDaysSinceLastBuy,
+      'tradeDates': instance.tradeDates,
       'priceHistory': instance.priceHistory,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 _$PricePointImpl _$$PricePointImplFromJson(Map<String, dynamic> json) =>

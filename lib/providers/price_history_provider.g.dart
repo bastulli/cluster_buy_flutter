@@ -6,7 +6,7 @@ part of 'price_history_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$priceHistoryHash() => r'5513616ab4c008ead2f526c3ea571935034db326';
+String _$priceHistoryHash() => r'50cce6864999754114220c74e2aff4c459634699';
 
 /// Copied from Dart SDK
 class _SystemHash {

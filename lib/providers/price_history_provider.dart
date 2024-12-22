@@ -16,6 +16,7 @@ List<FlSpot> priceHistory(PriceHistoryRef ref, List<PricePoint>? history) {
   return points
       .asMap()
       .entries
-      .map((e) => FlSpot(e.key.toDouble(), e.value.price))
+      .map((e) =>
+          FlSpot(e.value.date.millisecondsSinceEpoch.toDouble(), e.value.price))
       .toList();
 }

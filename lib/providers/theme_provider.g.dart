@@ -6,7 +6,23 @@ part of 'theme_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myThemeHash() => r'12f40e472c7f2461b2bfc8eaaaf379a0a7c0db28';
+String _$themeModeNotifierHash() => r'b3c589d94cc6aef5510da92fc56cc05429304128';
+
+/// See also [ThemeModeNotifier].
+@ProviderFor(ThemeModeNotifier)
+final themeModeNotifierProvider =
+    NotifierProvider<ThemeModeNotifier, ThemeMode>.internal(
+  ThemeModeNotifier.new,
+  name: r'themeModeNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$themeModeNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ThemeModeNotifier = Notifier<ThemeMode>;
+String _$myThemeHash() => r'd9ba60d49640304182f406e86ed5010ebc13605c';
 
 /// See also [MyTheme].
 @ProviderFor(MyTheme)

@@ -57,22 +57,26 @@ class TradeStats with _$TradeStats {
 
 @freezed
 class WatchlistStock with _$WatchlistStock {
+  const WatchlistStock._(); // Add a private constructor
   const factory WatchlistStock({
-    required String id,
-    required String symbol,
-    String? clusterAnalysisId,
-    required DateTime entryDate,
-    required double insiderAvgPrice,
-    required double currentPrice,
-    required double priceChangePct,
-    required int daysWatched,
-    String? analysisReasoning,
-    List<String>? keyFactors,
-    List<String>? secFilingUrls,
-    List<String>? newsUrls,
-    required String status,
-    required DateTime lastUpdated,
+    required String id, // uuid
+    required String symbol, // varchar
+    String? clusterAnalysisId, // uuid
+    required DateTime entryDate, // timestamptz
+    required double insiderAvgPrice, // numeric
+    required double currentPrice, // numeric
+    required double priceChangePct, // numeric
+    required int daysWatched, // int4
+    String? analysisReasoning, // text
+    List<String>? keyFactors, // _text
+    List<String>? secFilingUrls, // _text
+    List<String>? newsUrls, // _text
+    required String status, // varchar
+    required DateTime lastUpdated, // timestamptz
+    required int avgDaysSinceLastBuy, // int4
+    List<String>? tradeDates, // _text
     @Default([]) List<PricePoint> priceHistory,
+    DateTime? createdAt,
   }) = _WatchlistStock;
 
   factory WatchlistStock.fromJson(Map<String, dynamic> json) =>
@@ -117,24 +121,24 @@ class WatchlistHistory with _$WatchlistHistory {
 @freezed
 class InsiderTransaction with _$InsiderTransaction {
   const factory InsiderTransaction({
-    required String id,
-    required String symbol,
-    required DateTime filingDate,
-    required DateTime transactionDate,
-    required String reportingName,
-    required String reportingCik,
-    String? companyCik,
-    required String transactionType,
-    double? securitiesTransacted,
-    double? price,
-    double? totalValue,
-    String? typeOfOwner,
-    String? link,
-    String? securityName,
-    String? formType,
-    double? securitiesOwned,
-    String? acquisitionDisposition,
-    required DateTime createdAt,
+    required String id, // uuid
+    required String symbol, // varcgar
+    required DateTime filingDate, // timestamptz
+    required DateTime transactionDate, // date
+    required String reportingName, // varchar
+    required String reportingCik, // varchar
+    String? companyCik, // varchar
+    required String transactionType, // varchar
+    double? securitiesTransacted, // numeric
+    double? price, // numeric
+    double? totalValue, // numeric
+    String? typeOfOwner, // numeric
+    String? link, // text
+    String? securityName, // varchar
+    String? formType, // varchar
+    double? securitiesOwned, // numeric
+    String? acquisitionDisposition, // varchar
+    required DateTime createdAt, // timestamptz
   }) = _InsiderTransaction;
 
   factory InsiderTransaction.fromJson(Map<String, dynamic> json) =>

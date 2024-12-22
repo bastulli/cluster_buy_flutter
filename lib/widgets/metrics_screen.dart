@@ -1,6 +1,5 @@
 // lib/screens/metrics_screen.dart
 import 'package:clusterbuy/models/insider_trade_models.dart';
-import 'package:clusterbuy/providers/insider_trade_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/all_trade_stats_provider.dart';
