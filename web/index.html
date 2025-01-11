@@ -18,21 +18,56 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Cluster Buy: Track and analyze insider trading activity to identify potential investment opportunities.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="stock_monitor">
+  <meta name="apple-mobile-web-app-title" content="Cluster Buy">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="favicon.ico"/>
 
-  <title>stock_monitor</title>
+  <title>Cluster Buy</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Keywords for better SEO -->
+  <meta name="keywords" content="Cluster Buy, Insider Trading, Stock Market, Investing, Finance, Stock Analysis, SEC Filings, Stock Signals">
+ 
+
 </head>
 <body>
+  <!-- Firebase Configuration -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging.js"></script>
+  
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyARLB-ukS2NM1-0KhiV3ARy8b0Zb1sNjy4",
+      authDomain: "clusterbuy-fd475.firebaseapp.com",
+      projectId: "clusterbuy-fd475",
+      storageBucket: "clusterbuy-fd475.firebasestorage.app",
+      messagingSenderId: "896119224115",
+      appId: "1:896119224115:web:2e23653fbbc228f4e97046"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('firebase-messaging-sw.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

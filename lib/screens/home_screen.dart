@@ -6,12 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/gestures.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../models/insider_trade_models.dart';
 import '../providers/all_trade_stats_provider.dart';
 import '../providers/theme_provider.dart';
 import '../widgets/signal_card.dart';
 import '../widgets/metrics_header.dart';
+import '../services/notification_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -58,7 +59,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDarkMode = ref.watch(myThemeProvider);
+    // In HomeScreen's build method:
+    final themeMode = ref.watch(themeModeProvider);
+    final isDarkMode = themeMode == ThemeMode.dark;
 
     return Scaffold(
       body: RefreshIndicator(
@@ -142,38 +145,41 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 vertical: verticalPadding,
                 horizontal: width < 600 ? 16.0 : 24.0,
               ),
-              child: Stack(
-                children: [
-                  // Outline text
-                  Text(
-                    'CLUSTER BUY',
-                    style: GoogleFonts.roboto(
-                      textStyle: TextStyle(
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: fontSize * 0.04,
-                        height: 1.2,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 2
-                          ..color = theme.colorScheme.primary,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Stack(
+                  children: [
+                    // Outline text
+                    Text(
+                      'CLUSTER BUY',
+                      style: GoogleFonts.roboto(
+                        textStyle: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: fontSize * 0.04,
+                          height: 1.2,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 2
+                            ..color = theme.colorScheme.primary,
+                        ),
                       ),
                     ),
-                  ),
-                  // Filled text
-                  Text(
-                    'CLUSTER BUY',
-                    style: GoogleFonts.roboto(
-                      textStyle: TextStyle(
-                        color: theme.colorScheme.onPrimary,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: fontSize * 0.04,
-                        height: 1.2,
+                    // Filled text
+                    Text(
+                      'CLUSTER BUY',
+                      style: GoogleFonts.roboto(
+                        textStyle: TextStyle(
+                          color: theme.colorScheme.onPrimary,
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: fontSize * 0.04,
+                          height: 1.2,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
@@ -221,29 +227,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               IconButton(
                 icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
                 color: theme.colorScheme.onPrimary,
-                onPressed: () => ref.read(myThemeProvider.notifier).toggle(),
+                onPressed: () =>
+                    ref.read(myThemeNotifierProvider.notifier).toggle(),
               ),
-              IconButton(
-                icon: const Icon(Icons.notifications_outlined),
-                color: theme.colorScheme.onPrimary,
-                onPressed: () {
-                  // Show an alert dialog when the button is pressed
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Feature Coming Soon"),
-                        content: const Text(
-                            "This feature is currently in beta testing and will be available soon."),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text("OK"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
+              Consumer(
+                builder: (context, ref, child) {
+                  return IconButton(
+                    icon: const Icon(Icons.notifications_outlined),
+                    color: theme.colorScheme.onPrimary,
+                    onPressed: () async {
+                      final notificationService =
+                          ref.read(notificationServiceProvider);
+                      final settings = await notificationService.initialize();
+
+                      if (context.mounted && settings != null) {
+                        if (settings.authorizationStatus ==
+                            AuthorizationStatus.authorized) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Notifications enabled'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  'Please enable notifications in your browser settings'),
+                              backgroundColor: Colors.orange,
+                            ),
+                          );
+                        }
+                      }
                     },
                   );
                 },

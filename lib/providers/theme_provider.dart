@@ -1,65 +1,62 @@
-// lib/providers/theme_provider.dart
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'shared_preferences_provider.dart';
 
 part 'theme_provider.g.dart';
 
-// Create a provider for SharedPreferences
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError();
-});
-
 @Riverpod(keepAlive: true)
 class ThemeModeNotifier extends _$ThemeModeNotifier {
-  late SharedPreferences _prefs;
-
   @override
   ThemeMode build() {
-    // Initialize SharedPreferences
-    _prefs = ref.read(sharedPreferencesProvider);
-    // Get the saved theme mode from SharedPreferences or use system default
-    final savedThemeMode = _prefs.getString('themeMode');
-    switch (savedThemeMode) {
-      case 'dark':
-        return ThemeMode.dark;
-      case 'light':
-        return ThemeMode.light;
-      default:
-        return ThemeMode.system;
-    }
+    // Watch the FutureProvider and handle its state
+    final sharedPrefsAsync = ref.watch(sharedPreferencesProvider);
+
+    return sharedPrefsAsync.when(
+      data: (sharedPrefs) => _getInitialThemeMode(sharedPrefs),
+      loading: () =>
+          ThemeMode.system, // Or your preferred default while loading
+      error: (error, stack) => ThemeMode.system, // Handle errors gracefully
+    );
   }
 
-  void setThemeMode(ThemeMode themeMode) {
-    // Save the selected theme mode to SharedPreferences
-    _prefs.setString('themeMode', themeMode.toString().split('.').last);
+  ThemeMode _getInitialThemeMode(SharedPreferences prefs) {
+    final savedThemeMode = prefs.getString('themeMode');
+
+    if (savedThemeMode == 'dark') {
+      return ThemeMode.dark;
+    } else if (savedThemeMode == 'light') {
+      return ThemeMode.light;
+    }
+
+    final systemBrightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    return systemBrightness == Brightness.dark
+        ? ThemeMode.dark
+        : ThemeMode.light;
+  }
+
+  void setThemeMode(ThemeMode themeMode) async {
+    final sharedPrefs = await ref.read(sharedPreferencesProvider.future);
+    sharedPrefs.setString('themeMode', themeMode.toString().split('.').last);
     state = themeMode;
   }
 }
 
-// Convenience provider for accessing the ThemeModeNotifier
 final themeModeProvider =
     NotifierProvider<ThemeModeNotifier, ThemeMode>(ThemeModeNotifier.new);
 
-@Riverpod(keepAlive: true)
-class MyTheme extends _$MyTheme {
-  late SharedPreferences _prefs;
-
+@riverpod
+class MyThemeNotifier extends _$MyThemeNotifier {
   @override
-  bool build() {
-    // Initialize SharedPreferences
-    _prefs = ref.read(sharedPreferencesProvider);
-    // Get the saved theme preference from SharedPreferences or use a default value
-    return _prefs.getBool('isDarkMode') ?? false;
-  }
+  void build() {}
 
-  void toggle() {
-    state = !state;
-    // Save the new theme preference to SharedPreferences
-    _prefs.setBool('isDarkMode', state);
-    // Update ThemeMode based on the new state
-    ref.read(themeModeProvider.notifier).setThemeMode(
-          state ? ThemeMode.dark : ThemeMode.light,
-        );
+  void toggle() async {
+    final sharedPrefs = await ref.read(sharedPreferencesProvider.future);
+    final currentThemeMode = ref.read(themeModeProvider);
+    final newThemeMode =
+        currentThemeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+    ref.read(themeModeProvider.notifier).setThemeMode(newThemeMode);
+    sharedPrefs.setString('themeMode', newThemeMode.toString().split('.').last);
   }
 }

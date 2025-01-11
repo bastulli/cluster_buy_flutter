@@ -6,7 +6,7 @@ part of 'theme_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$themeModeNotifierHash() => r'b3c589d94cc6aef5510da92fc56cc05429304128';
+String _$themeModeNotifierHash() => r'4989c10864d9f7f716f0c7bbb8887d89bdc03549';
 
 /// See also [ThemeModeNotifier].
 @ProviderFor(ThemeModeNotifier)
@@ -22,19 +22,21 @@ final themeModeNotifierProvider =
 );
 
 typedef _$ThemeModeNotifier = Notifier<ThemeMode>;
-String _$myThemeHash() => r'd9ba60d49640304182f406e86ed5010ebc13605c';
+String _$myThemeNotifierHash() => r'685e345c70b6d76a66fd4a647e90479481daf3bc';
 
-/// See also [MyTheme].
-@ProviderFor(MyTheme)
-final myThemeProvider = NotifierProvider<MyTheme, bool>.internal(
-  MyTheme.new,
-  name: r'myThemeProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$myThemeHash,
+/// See also [MyThemeNotifier].
+@ProviderFor(MyThemeNotifier)
+final myThemeNotifierProvider =
+    AutoDisposeNotifierProvider<MyThemeNotifier, void>.internal(
+  MyThemeNotifier.new,
+  name: r'myThemeNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$myThemeNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$MyTheme = Notifier<bool>;
+typedef _$MyThemeNotifier = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

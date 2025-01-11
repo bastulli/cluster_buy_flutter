@@ -72,62 +72,53 @@ class MetricsHeader extends ConsumerWidget {
                   size: 24,
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  'Insider Trading Activity',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Text(
+                    'Insider Trading Activity',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                const Spacer(),
-                IconButton.filledTonal(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () {
-                    ref.read(allTradeStatsProvider.notifier).refresh();
-                  },
-                  tooltip: 'Refresh Data',
                 ),
               ],
             ),
             const SizedBox(height: 20),
-            SegmentedButton<String>(
-              segments: [
-                ButtonSegment(
-                  value: 'weekly',
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.view_week, size: 18),
-                      const SizedBox(width: 6),
-                      const Text('Weekly'),
-                    ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                width: 300,
+                child: SegmentedButton<String>(
+                  segments: [
+                    ButtonSegment(
+                      value: 'weekly',
+                      label: const Text('Weekly'),
+                      enabled: availablePeriods.contains('weekly'),
+                    ),
+                    ButtonSegment(
+                      value: 'monthly',
+                      label: const Text('Monthly'),
+                      enabled: availablePeriods.contains('monthly'),
+                    ),
+                  ],
+                  selected: {selectedPeriod},
+                  onSelectionChanged: (values) {
+                    if (values.first != selectedPeriod) {
+                      ref
+                          .read(selectedPeriodProvider.notifier)
+                          .setPeriod(values.first);
+                    }
+                  },
+                  style: ButtonStyle(
+                    side: WidgetStateProperty.all(BorderSide(
+                      color: theme.colorScheme.primary.withOpacity(0.2),
+                    )),
+                    fixedSize:
+                        WidgetStateProperty.all(const Size.fromHeight(40)),
+                    padding: WidgetStateProperty.all(EdgeInsets.zero),
                   ),
-                  enabled: availablePeriods.contains('weekly'),
                 ),
-                ButtonSegment(
-                  value: 'monthly',
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.calendar_month, size: 18),
-                      const SizedBox(width: 6),
-                      const Text('Monthly'),
-                    ],
-                  ),
-                  enabled: availablePeriods.contains('monthly'),
-                ),
-              ],
-              selected: {selectedPeriod},
-              onSelectionChanged: (values) {
-                if (values.first != selectedPeriod) {
-                  ref
-                      .read(selectedPeriodProvider.notifier)
-                      .setPeriod(values.first);
-                }
-              },
-              style: ButtonStyle(
-                side: WidgetStateProperty.all(BorderSide(
-                  color: theme.colorScheme.primary.withOpacity(0.2),
-                )),
               ),
             ),
           ],
@@ -578,6 +569,7 @@ class MetricsHeader extends ConsumerWidget {
               onPressed: () {
                 ref.read(allTradeStatsProvider.notifier).refresh();
               },
+              icon: const Icon(Icons.refresh, size: 18),
               label: const Text('Refresh Data'),
             ),
           ],
