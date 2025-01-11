@@ -10,6 +10,16 @@ import 'providers/theme_provider.dart';
 import 'screens/home_screen.dart';
 import 'providers/shared_preferences_provider.dart';
 import 'services/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+
+// Top-level background message handler
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print('Handling background message: ${message.messageId}');
+  // Add any background message handling logic here
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +28,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Set up background message handler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await Supabase.initialize(
     url: 'https://mluudemztztnciotpsor.supabase.co',
@@ -54,6 +67,7 @@ class StockAnalyzerApp extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp(
+      navigatorKey: navigatorKey, // Add navigator key for showing dialogs
       title: 'Cluster Buy',
       theme: _buildTheme(Brightness.light),
       darkTheme: _buildTheme(Brightness.dark),

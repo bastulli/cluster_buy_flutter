@@ -3,8 +3,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:html' as html;
+import 'package:flutter/material.dart';
 
 final notificationServiceProvider = Provider((ref) => NotificationService());
+
+// Global key for accessing navigator state
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -12,28 +17,58 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
   final supabase = Supabase.instance.client;
 
-  Future<NotificationSettings?> initialize() async {
+  Future<bool> getNotificationStatus() async {
     try {
-      // Check if permission was already granted
-      final prefs = await SharedPreferences.getInstance();
-      final isPermissionGranted =
-          prefs.getBool('notification_permission_granted') ?? false;
+      if (html.Notification.permission == 'granted') {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Error checking notification status: $e');
+      return false;
+    }
+  }
 
-      if (!isPermissionGranted) {
-        // Request permission for notifications
-        NotificationSettings settings =
-            await _firebaseMessaging.requestPermission(
+  Future<bool> toggleNotifications() async {
+    try {
+      final currentStatus = await getNotificationStatus();
+      if (currentStatus) {
+        // Can't programmatically revoke permissions, show instructions
+        return true; // Return true since notifications are enabled
+      } else {
+        // Request both FCM and browser permissions
+        final fcmSettings = await _firebaseMessaging.requestPermission(
           alert: true,
           badge: true,
           sound: true,
+          provisional: false,
         );
 
-        if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-          await prefs.setBool('notification_permission_granted', true);
+        if (fcmSettings.authorizationStatus == AuthorizationStatus.authorized) {
+          // Initialize if permissions granted
+          await initialize();
+          return true;
         }
-
-        return settings;
       }
+      return false;
+    } catch (e) {
+      print('Error toggling notifications: $e');
+      return false;
+    }
+  }
+
+  Future<NotificationSettings?> initialize() async {
+    try {
+      // Always request permission for web
+      NotificationSettings settings =
+          await _firebaseMessaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+        provisional: false,
+      );
+
+      print('User granted permission: ${settings.authorizationStatus}');
 
       // Initialize local notifications
       const initializationSettingsAndroid =
@@ -68,14 +103,26 @@ class NotificationService {
       });
 
       // Handle foreground messages
-      FirebaseMessaging.onMessage.listen((message) {
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
         print('Received foreground message: ${message.messageId}');
+
+        // For web, we need to show notification manually in foreground
+        if (message.notification != null) {
+          // Request permission again to ensure it's granted
+          final permission = await html.Notification.requestPermission();
+
+          if (permission == 'granted') {
+            // Show notification using the Web Notifications API
+            html.Notification(
+              message.notification!.title ?? 'New Message',
+              body: message.notification!.body,
+              icon: '/icons/Icon-192.png',
+            );
+          }
+        }
+
         _handleForegroundMessage(message);
       });
-
-      // Handle background/terminated messages
-      FirebaseMessaging.onBackgroundMessage(
-          _firebaseMessagingBackgroundHandler);
 
       // Handle message open
       FirebaseMessaging.onMessageOpenedApp.listen((message) {
@@ -108,36 +155,52 @@ class NotificationService {
   }
 
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
-    // Show local notification when app is in foreground
     final notification = message.notification;
-    final android = message.notification?.android;
 
     if (notification != null) {
-      await _localNotifications.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            'high_importance_channel',
-            'High Importance Notifications',
-            channelDescription:
-                'This channel is used for important notifications.',
-            importance: Importance.max,
-            priority: Priority.high,
-            icon: android?.smallIcon,
-          ),
-          iOS: const DarwinNotificationDetails(
-            presentAlert: true,
-            presentBadge: true,
-            presentSound: true,
-          ),
-        ),
-        payload: message.data.toString(),
-      );
-
-      // Store notification in Supabase if needed
+      // Store notification in Supabase
       await _storeNotification(message);
+
+      // Show dialog if we have a valid navigator context
+      if (navigatorKey.currentContext != null) {
+        showDialog(
+          context: navigatorKey.currentContext!,
+          builder: (context) => AlertDialog(
+            title: Text(notification.title ?? 'New Message'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(notification.body ?? ''),
+                if (message.data.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  const Text('Additional Information:',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  ...message.data.entries
+                      .map((entry) => Text('${entry.key}: ${entry.value}')),
+                ],
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        // Fallback to web notification if dialog can't be shown
+        final permission = await html.Notification.requestPermission();
+        if (permission == 'granted') {
+          html.Notification(
+            notification.title ?? 'New Message',
+            body: notification.body,
+            icon: '/icons/Icon-192.png',
+          );
+        }
+      }
     }
   }
 
@@ -158,12 +221,4 @@ class NotificationService {
     // Handle notification tap when app was in background
     // Navigate to appropriate screen based on message data
   }
-}
-
-// This needs to be a top-level function
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Handle background messages
-  // This function will be called when the app is in the background or terminated
-  print('Handling background message: ${message.messageId}');
 }
